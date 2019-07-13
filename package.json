@@ -22,6 +22,10 @@
     "ts-node": "7.0.1",
     "typescript": "3.2.2"
   },
+  "engines": {
+    "node": "11.3.0",
+    "yarn": "1.16.0"
+  },
   "resolutions": {
     "graphql": "14.4.2"
   }
