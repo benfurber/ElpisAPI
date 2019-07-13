@@ -5,9 +5,8 @@
     "module": "commonjs",
     "sourceMap": true,
     "rootDir": "src",
+    "skipLibCheck": true,
     "outDir": "dist",
-    "lib": [
-      "esnext", "dom"
-    ]
+    "lib": ["esnext", "dom"]
   }
 }
