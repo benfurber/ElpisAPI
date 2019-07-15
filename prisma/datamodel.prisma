@@ -6,6 +6,7 @@ type Post {
   title: String!
   content: String!
   author: User!
+  comments: [Comment]!
 }
 
 type User {
@@ -14,4 +15,13 @@ type User {
   password: String!
   name: String!
   posts: [Post!]!
+}
+
+type Comment {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  author: User!
+  content: String!
+  post: Post!
 }
