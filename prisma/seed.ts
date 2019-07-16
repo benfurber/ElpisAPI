@@ -27,7 +27,13 @@ async function main() {
           comments: {
             create: {
               author: { connect: { email: "may@elpis.app" } },
-              content: "How can I help?"
+              content: "How can I help?",
+              replies: {
+                create: {
+                  author: { connect: { email: "leia@rebels.com" } },
+                  content: "Come to Hoth!"
+                }
+              }
             }
           }
         },

@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export interface Exists {
   comment: (where?: CommentWhereInput) => Promise<boolean>;
   post: (where?: PostWhereInput) => Promise<boolean>;
+  reply: (where?: ReplyWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -76,6 +77,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => PostConnectionPromise;
+  reply: (where: ReplyWhereUniqueInput) => ReplyPromise;
+  replies: (args?: {
+    where?: ReplyWhereInput;
+    orderBy?: ReplyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Reply>;
+  repliesConnection: (args?: {
+    where?: ReplyWhereInput;
+    orderBy?: ReplyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ReplyConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserPromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -133,6 +153,22 @@ export interface Prisma {
   }) => PostPromise;
   deletePost: (where: PostWhereUniqueInput) => PostPromise;
   deleteManyPosts: (where?: PostWhereInput) => BatchPayloadPromise;
+  createReply: (data: ReplyCreateInput) => ReplyPromise;
+  updateReply: (args: {
+    data: ReplyUpdateInput;
+    where: ReplyWhereUniqueInput;
+  }) => ReplyPromise;
+  updateManyReplies: (args: {
+    data: ReplyUpdateManyMutationInput;
+    where?: ReplyWhereInput;
+  }) => BatchPayloadPromise;
+  upsertReply: (args: {
+    where: ReplyWhereUniqueInput;
+    create: ReplyCreateInput;
+    update: ReplyUpdateInput;
+  }) => ReplyPromise;
+  deleteReply: (where: ReplyWhereUniqueInput) => ReplyPromise;
+  deleteManyReplies: (where?: ReplyWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -164,6 +200,9 @@ export interface Subscription {
   post: (
     where?: PostSubscriptionWhereInput
   ) => PostSubscriptionPayloadSubscription;
+  reply: (
+    where?: ReplySubscriptionWhereInput
+  ) => ReplySubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -192,6 +231,16 @@ export type PostOrderByInput =
   | "content_DESC";
 
 export type CommentOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC"
+  | "content_ASC"
+  | "content_DESC";
+
+export type ReplyOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "createdAt_ASC"
@@ -399,12 +448,71 @@ export interface CommentWhereInput {
   content_ends_with?: String;
   content_not_ends_with?: String;
   post?: PostWhereInput;
+  replies_every?: ReplyWhereInput;
+  replies_some?: ReplyWhereInput;
+  replies_none?: ReplyWhereInput;
   AND?: CommentWhereInput[] | CommentWhereInput;
   OR?: CommentWhereInput[] | CommentWhereInput;
   NOT?: CommentWhereInput[] | CommentWhereInput;
 }
 
+export interface ReplyWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  author?: UserWhereInput;
+  content?: String;
+  content_not?: String;
+  content_in?: String[] | String;
+  content_not_in?: String[] | String;
+  content_lt?: String;
+  content_lte?: String;
+  content_gt?: String;
+  content_gte?: String;
+  content_contains?: String;
+  content_not_contains?: String;
+  content_starts_with?: String;
+  content_not_starts_with?: String;
+  content_ends_with?: String;
+  content_not_ends_with?: String;
+  comment?: CommentWhereInput;
+  AND?: ReplyWhereInput[] | ReplyWhereInput;
+  OR?: ReplyWhereInput[] | ReplyWhereInput;
+  NOT?: ReplyWhereInput[] | ReplyWhereInput;
+}
+
 export type PostWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export type ReplyWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
@@ -418,6 +526,7 @@ export interface CommentCreateInput {
   author: UserCreateOneInput;
   content: String;
   post: PostCreateOneWithoutCommentsInput;
+  replies?: ReplyCreateManyWithoutCommentInput;
 }
 
 export interface UserCreateOneInput {
@@ -455,6 +564,18 @@ export interface CommentCreateWithoutPostInput {
   id?: ID_Input;
   author: UserCreateOneInput;
   content: String;
+  replies?: ReplyCreateManyWithoutCommentInput;
+}
+
+export interface ReplyCreateManyWithoutCommentInput {
+  create?: ReplyCreateWithoutCommentInput[] | ReplyCreateWithoutCommentInput;
+  connect?: ReplyWhereUniqueInput[] | ReplyWhereUniqueInput;
+}
+
+export interface ReplyCreateWithoutCommentInput {
+  id?: ID_Input;
+  author: UserCreateOneInput;
+  content: String;
 }
 
 export interface PostCreateOneWithoutCommentsInput {
@@ -486,6 +607,7 @@ export interface CommentUpdateInput {
   author?: UserUpdateOneRequiredInput;
   content?: String;
   post?: PostUpdateOneRequiredWithoutCommentsInput;
+  replies?: ReplyUpdateManyWithoutCommentInput;
 }
 
 export interface UserUpdateOneRequiredInput {
@@ -557,6 +679,100 @@ export interface CommentUpdateWithWhereUniqueWithoutPostInput {
 
 export interface CommentUpdateWithoutPostDataInput {
   author?: UserUpdateOneRequiredInput;
+  content?: String;
+  replies?: ReplyUpdateManyWithoutCommentInput;
+}
+
+export interface ReplyUpdateManyWithoutCommentInput {
+  create?: ReplyCreateWithoutCommentInput[] | ReplyCreateWithoutCommentInput;
+  delete?: ReplyWhereUniqueInput[] | ReplyWhereUniqueInput;
+  connect?: ReplyWhereUniqueInput[] | ReplyWhereUniqueInput;
+  set?: ReplyWhereUniqueInput[] | ReplyWhereUniqueInput;
+  disconnect?: ReplyWhereUniqueInput[] | ReplyWhereUniqueInput;
+  update?:
+    | ReplyUpdateWithWhereUniqueWithoutCommentInput[]
+    | ReplyUpdateWithWhereUniqueWithoutCommentInput;
+  upsert?:
+    | ReplyUpsertWithWhereUniqueWithoutCommentInput[]
+    | ReplyUpsertWithWhereUniqueWithoutCommentInput;
+  deleteMany?: ReplyScalarWhereInput[] | ReplyScalarWhereInput;
+  updateMany?:
+    | ReplyUpdateManyWithWhereNestedInput[]
+    | ReplyUpdateManyWithWhereNestedInput;
+}
+
+export interface ReplyUpdateWithWhereUniqueWithoutCommentInput {
+  where: ReplyWhereUniqueInput;
+  data: ReplyUpdateWithoutCommentDataInput;
+}
+
+export interface ReplyUpdateWithoutCommentDataInput {
+  author?: UserUpdateOneRequiredInput;
+  content?: String;
+}
+
+export interface ReplyUpsertWithWhereUniqueWithoutCommentInput {
+  where: ReplyWhereUniqueInput;
+  update: ReplyUpdateWithoutCommentDataInput;
+  create: ReplyCreateWithoutCommentInput;
+}
+
+export interface ReplyScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  content?: String;
+  content_not?: String;
+  content_in?: String[] | String;
+  content_not_in?: String[] | String;
+  content_lt?: String;
+  content_lte?: String;
+  content_gt?: String;
+  content_gte?: String;
+  content_contains?: String;
+  content_not_contains?: String;
+  content_starts_with?: String;
+  content_not_starts_with?: String;
+  content_ends_with?: String;
+  content_not_ends_with?: String;
+  AND?: ReplyScalarWhereInput[] | ReplyScalarWhereInput;
+  OR?: ReplyScalarWhereInput[] | ReplyScalarWhereInput;
+  NOT?: ReplyScalarWhereInput[] | ReplyScalarWhereInput;
+}
+
+export interface ReplyUpdateManyWithWhereNestedInput {
+  where: ReplyScalarWhereInput;
+  data: ReplyUpdateManyDataInput;
+}
+
+export interface ReplyUpdateManyDataInput {
   content?: String;
 }
 
@@ -777,6 +993,53 @@ export interface PostUpdateManyMutationInput {
   content?: String;
 }
 
+export interface ReplyCreateInput {
+  id?: ID_Input;
+  author: UserCreateOneInput;
+  content: String;
+  comment: CommentCreateOneWithoutRepliesInput;
+}
+
+export interface CommentCreateOneWithoutRepliesInput {
+  create?: CommentCreateWithoutRepliesInput;
+  connect?: CommentWhereUniqueInput;
+}
+
+export interface CommentCreateWithoutRepliesInput {
+  id?: ID_Input;
+  author: UserCreateOneInput;
+  content: String;
+  post: PostCreateOneWithoutCommentsInput;
+}
+
+export interface ReplyUpdateInput {
+  author?: UserUpdateOneRequiredInput;
+  content?: String;
+  comment?: CommentUpdateOneRequiredWithoutRepliesInput;
+}
+
+export interface CommentUpdateOneRequiredWithoutRepliesInput {
+  create?: CommentCreateWithoutRepliesInput;
+  update?: CommentUpdateWithoutRepliesDataInput;
+  upsert?: CommentUpsertWithoutRepliesInput;
+  connect?: CommentWhereUniqueInput;
+}
+
+export interface CommentUpdateWithoutRepliesDataInput {
+  author?: UserUpdateOneRequiredInput;
+  content?: String;
+  post?: PostUpdateOneRequiredWithoutCommentsInput;
+}
+
+export interface CommentUpsertWithoutRepliesInput {
+  update: CommentUpdateWithoutRepliesDataInput;
+  create: CommentCreateWithoutRepliesInput;
+}
+
+export interface ReplyUpdateManyMutationInput {
+  content?: String;
+}
+
 export interface UserUpdateInput {
   email?: String;
   password?: String;
@@ -812,6 +1075,17 @@ export interface PostSubscriptionWhereInput {
   NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
 }
 
+export interface ReplySubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: ReplyWhereInput;
+  AND?: ReplySubscriptionWhereInput[] | ReplySubscriptionWhereInput;
+  OR?: ReplySubscriptionWhereInput[] | ReplySubscriptionWhereInput;
+  NOT?: ReplySubscriptionWhereInput[] | ReplySubscriptionWhereInput;
+}
+
 export interface UserSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
@@ -841,6 +1115,15 @@ export interface CommentPromise extends Promise<Comment>, Fragmentable {
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
   post: <T = PostPromise>() => T;
+  replies: <T = FragmentableArray<Reply>>(args?: {
+    where?: ReplyWhereInput;
+    orderBy?: ReplyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface CommentSubscription
@@ -852,6 +1135,15 @@ export interface CommentSubscription
   author: <T = UserSubscription>() => T;
   content: () => Promise<AsyncIterator<String>>;
   post: <T = PostSubscription>() => T;
+  replies: <T = Promise<AsyncIterator<ReplySubscription>>>(args?: {
+    where?: ReplyWhereInput;
+    orderBy?: ReplyOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface User {
@@ -942,6 +1234,33 @@ export interface PostSubscription
     first?: Int;
     last?: Int;
   }) => T;
+}
+
+export interface Reply {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  content: String;
+}
+
+export interface ReplyPromise extends Promise<Reply>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  author: <T = UserPromise>() => T;
+  content: () => Promise<String>;
+  comment: <T = CommentPromise>() => T;
+}
+
+export interface ReplySubscription
+  extends Promise<AsyncIterator<Reply>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  author: <T = UserSubscription>() => T;
+  content: () => Promise<AsyncIterator<String>>;
+  comment: <T = CommentSubscription>() => T;
 }
 
 export interface CommentConnection {
@@ -1071,6 +1390,60 @@ export interface AggregatePostPromise
 
 export interface AggregatePostSubscription
   extends Promise<AsyncIterator<AggregatePost>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ReplyConnection {
+  pageInfo: PageInfo;
+  edges: ReplyEdge[];
+}
+
+export interface ReplyConnectionPromise
+  extends Promise<ReplyConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ReplyEdge>>() => T;
+  aggregate: <T = AggregateReplyPromise>() => T;
+}
+
+export interface ReplyConnectionSubscription
+  extends Promise<AsyncIterator<ReplyConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ReplyEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateReplySubscription>() => T;
+}
+
+export interface ReplyEdge {
+  node: Reply;
+  cursor: String;
+}
+
+export interface ReplyEdgePromise extends Promise<ReplyEdge>, Fragmentable {
+  node: <T = ReplyPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ReplyEdgeSubscription
+  extends Promise<AsyncIterator<ReplyEdge>>,
+    Fragmentable {
+  node: <T = ReplySubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateReply {
+  count: Int;
+}
+
+export interface AggregateReplyPromise
+  extends Promise<AggregateReply>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateReplySubscription
+  extends Promise<AsyncIterator<AggregateReply>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -1251,6 +1624,56 @@ export interface PostPreviousValuesSubscription
   content: () => Promise<AsyncIterator<String>>;
 }
 
+export interface ReplySubscriptionPayload {
+  mutation: MutationType;
+  node: Reply;
+  updatedFields: String[];
+  previousValues: ReplyPreviousValues;
+}
+
+export interface ReplySubscriptionPayloadPromise
+  extends Promise<ReplySubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ReplyPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ReplyPreviousValuesPromise>() => T;
+}
+
+export interface ReplySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ReplySubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ReplySubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ReplyPreviousValuesSubscription>() => T;
+}
+
+export interface ReplyPreviousValues {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  content: String;
+}
+
+export interface ReplyPreviousValuesPromise
+  extends Promise<ReplyPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  content: () => Promise<String>;
+}
+
+export interface ReplyPreviousValuesSubscription
+  extends Promise<AsyncIterator<ReplyPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  content: () => Promise<AsyncIterator<String>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -1349,6 +1772,10 @@ export const models: Model[] = [
   },
   {
     name: "Comment",
+    embedded: false
+  },
+  {
+    name: "Reply",
     embedded: false
   }
 ];

@@ -10,6 +10,10 @@ type AggregatePost {
   count: Int!
 }
 
+type AggregateReply {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -25,6 +29,7 @@ type Comment {
   author: User!
   content: String!
   post: Post!
+  replies(where: ReplyWhereInput, orderBy: ReplyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reply!]
 }
 
 type CommentConnection {
@@ -38,6 +43,7 @@ input CommentCreateInput {
   author: UserCreateOneInput!
   content: String!
   post: PostCreateOneWithoutCommentsInput!
+  replies: ReplyCreateManyWithoutCommentInput
 }
 
 input CommentCreateManyWithoutPostInput {
@@ -45,10 +51,23 @@ input CommentCreateManyWithoutPostInput {
   connect: [CommentWhereUniqueInput!]
 }
 
+input CommentCreateOneWithoutRepliesInput {
+  create: CommentCreateWithoutRepliesInput
+  connect: CommentWhereUniqueInput
+}
+
 input CommentCreateWithoutPostInput {
   id: ID
   author: UserCreateOneInput!
   content: String!
+  replies: ReplyCreateManyWithoutCommentInput
+}
+
+input CommentCreateWithoutRepliesInput {
+  id: ID
+  author: UserCreateOneInput!
+  content: String!
+  post: PostCreateOneWithoutCommentsInput!
 }
 
 type CommentEdge {
@@ -146,6 +165,7 @@ input CommentUpdateInput {
   author: UserUpdateOneRequiredInput
   content: String
   post: PostUpdateOneRequiredWithoutCommentsInput
+  replies: ReplyUpdateManyWithoutCommentInput
 }
 
 input CommentUpdateManyDataInput {
@@ -173,14 +193,33 @@ input CommentUpdateManyWithWhereNestedInput {
   data: CommentUpdateManyDataInput!
 }
 
+input CommentUpdateOneRequiredWithoutRepliesInput {
+  create: CommentCreateWithoutRepliesInput
+  update: CommentUpdateWithoutRepliesDataInput
+  upsert: CommentUpsertWithoutRepliesInput
+  connect: CommentWhereUniqueInput
+}
+
 input CommentUpdateWithoutPostDataInput {
   author: UserUpdateOneRequiredInput
   content: String
+  replies: ReplyUpdateManyWithoutCommentInput
+}
+
+input CommentUpdateWithoutRepliesDataInput {
+  author: UserUpdateOneRequiredInput
+  content: String
+  post: PostUpdateOneRequiredWithoutCommentsInput
 }
 
 input CommentUpdateWithWhereUniqueWithoutPostInput {
   where: CommentWhereUniqueInput!
   data: CommentUpdateWithoutPostDataInput!
+}
+
+input CommentUpsertWithoutRepliesInput {
+  update: CommentUpdateWithoutRepliesDataInput!
+  create: CommentCreateWithoutRepliesInput!
 }
 
 input CommentUpsertWithWhereUniqueWithoutPostInput {
@@ -236,6 +275,9 @@ input CommentWhereInput {
   content_ends_with: String
   content_not_ends_with: String
   post: PostWhereInput
+  replies_every: ReplyWhereInput
+  replies_some: ReplyWhereInput
+  replies_none: ReplyWhereInput
   AND: [CommentWhereInput!]
   OR: [CommentWhereInput!]
   NOT: [CommentWhereInput!]
@@ -262,6 +304,12 @@ type Mutation {
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   deletePost(where: PostWhereUniqueInput!): Post
   deleteManyPosts(where: PostWhereInput): BatchPayload!
+  createReply(data: ReplyCreateInput!): Reply!
+  updateReply(data: ReplyUpdateInput!, where: ReplyWhereUniqueInput!): Reply
+  updateManyReplies(data: ReplyUpdateManyMutationInput!, where: ReplyWhereInput): BatchPayload!
+  upsertReply(where: ReplyWhereUniqueInput!, create: ReplyCreateInput!, update: ReplyUpdateInput!): Reply!
+  deleteReply(where: ReplyWhereUniqueInput!): Reply
+  deleteManyReplies(where: ReplyWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -607,15 +655,246 @@ type Query {
   post(where: PostWhereUniqueInput!): Post
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
+  reply(where: ReplyWhereUniqueInput!): Reply
+  replies(where: ReplyWhereInput, orderBy: ReplyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reply]!
+  repliesConnection(where: ReplyWhereInput, orderBy: ReplyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReplyConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
 }
 
+type Reply {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  author: User!
+  content: String!
+  comment: Comment!
+}
+
+type ReplyConnection {
+  pageInfo: PageInfo!
+  edges: [ReplyEdge]!
+  aggregate: AggregateReply!
+}
+
+input ReplyCreateInput {
+  id: ID
+  author: UserCreateOneInput!
+  content: String!
+  comment: CommentCreateOneWithoutRepliesInput!
+}
+
+input ReplyCreateManyWithoutCommentInput {
+  create: [ReplyCreateWithoutCommentInput!]
+  connect: [ReplyWhereUniqueInput!]
+}
+
+input ReplyCreateWithoutCommentInput {
+  id: ID
+  author: UserCreateOneInput!
+  content: String!
+}
+
+type ReplyEdge {
+  node: Reply!
+  cursor: String!
+}
+
+enum ReplyOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  content_ASC
+  content_DESC
+}
+
+type ReplyPreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  content: String!
+}
+
+input ReplyScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  content: String
+  content_not: String
+  content_in: [String!]
+  content_not_in: [String!]
+  content_lt: String
+  content_lte: String
+  content_gt: String
+  content_gte: String
+  content_contains: String
+  content_not_contains: String
+  content_starts_with: String
+  content_not_starts_with: String
+  content_ends_with: String
+  content_not_ends_with: String
+  AND: [ReplyScalarWhereInput!]
+  OR: [ReplyScalarWhereInput!]
+  NOT: [ReplyScalarWhereInput!]
+}
+
+type ReplySubscriptionPayload {
+  mutation: MutationType!
+  node: Reply
+  updatedFields: [String!]
+  previousValues: ReplyPreviousValues
+}
+
+input ReplySubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ReplyWhereInput
+  AND: [ReplySubscriptionWhereInput!]
+  OR: [ReplySubscriptionWhereInput!]
+  NOT: [ReplySubscriptionWhereInput!]
+}
+
+input ReplyUpdateInput {
+  author: UserUpdateOneRequiredInput
+  content: String
+  comment: CommentUpdateOneRequiredWithoutRepliesInput
+}
+
+input ReplyUpdateManyDataInput {
+  content: String
+}
+
+input ReplyUpdateManyMutationInput {
+  content: String
+}
+
+input ReplyUpdateManyWithoutCommentInput {
+  create: [ReplyCreateWithoutCommentInput!]
+  delete: [ReplyWhereUniqueInput!]
+  connect: [ReplyWhereUniqueInput!]
+  set: [ReplyWhereUniqueInput!]
+  disconnect: [ReplyWhereUniqueInput!]
+  update: [ReplyUpdateWithWhereUniqueWithoutCommentInput!]
+  upsert: [ReplyUpsertWithWhereUniqueWithoutCommentInput!]
+  deleteMany: [ReplyScalarWhereInput!]
+  updateMany: [ReplyUpdateManyWithWhereNestedInput!]
+}
+
+input ReplyUpdateManyWithWhereNestedInput {
+  where: ReplyScalarWhereInput!
+  data: ReplyUpdateManyDataInput!
+}
+
+input ReplyUpdateWithoutCommentDataInput {
+  author: UserUpdateOneRequiredInput
+  content: String
+}
+
+input ReplyUpdateWithWhereUniqueWithoutCommentInput {
+  where: ReplyWhereUniqueInput!
+  data: ReplyUpdateWithoutCommentDataInput!
+}
+
+input ReplyUpsertWithWhereUniqueWithoutCommentInput {
+  where: ReplyWhereUniqueInput!
+  update: ReplyUpdateWithoutCommentDataInput!
+  create: ReplyCreateWithoutCommentInput!
+}
+
+input ReplyWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  author: UserWhereInput
+  content: String
+  content_not: String
+  content_in: [String!]
+  content_not_in: [String!]
+  content_lt: String
+  content_lte: String
+  content_gt: String
+  content_gte: String
+  content_contains: String
+  content_not_contains: String
+  content_starts_with: String
+  content_not_starts_with: String
+  content_ends_with: String
+  content_not_ends_with: String
+  comment: CommentWhereInput
+  AND: [ReplyWhereInput!]
+  OR: [ReplyWhereInput!]
+  NOT: [ReplyWhereInput!]
+}
+
+input ReplyWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
   comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
+  reply(where: ReplySubscriptionWhereInput): ReplySubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
