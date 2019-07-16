@@ -6,6 +6,7 @@ import { post } from "./Mutation/post";
 import { User } from "./User";
 import { Post } from "./Post";
 import { Comment } from "./Comment";
+import { Reply } from "./Reply";
 
 export default {
   Query,
@@ -17,5 +18,6 @@ export default {
   Subscription,
   User,
   Post,
-  Comment
+  Comment,
+  Reply
 };

@@ -3,6 +3,7 @@ type Query {
   drafts: [Post!]!
   post(id: ID!): Post
   comment(id: ID!): Comment
+  reply(id: ID!): Reply
   me: User
 }
 
@@ -14,6 +15,8 @@ type Mutation {
   deletePost(id: ID!): Post!
   createComment(content: String!, post: ID!): Comment!
   deleteComment(id: ID!): Comment!
+  createReply(content: String!, comment: ID!): Reply!
+  deleteReply(id: ID!): Reply!
 }
 
 type Subscription {
@@ -46,4 +49,12 @@ type Comment {
   author: User!
   content: String!
   post: Post!
+  replies: [Reply!]!
+}
+
+type Reply {
+  id: ID!
+  author: User!
+  content: String!
+  comment: Comment!
 }
