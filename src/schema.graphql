@@ -1,3 +1,5 @@
+scalar DateTime
+
 type Query {
   feed: [Post!]!
   drafts: [Post!]!
@@ -37,16 +39,18 @@ type User {
 
 type Post {
   id: ID!
-  published: Boolean!
+  author: User!
+  createdAt: DateTime!
   title: String!
   content: String!
-  author: User!
   comments: [Comment!]!
+  published: Boolean!
 }
 
 type Comment {
   id: ID!
   author: User!
+  createdAt: DateTime!
   content: String!
   post: Post!
   replies: [Reply!]!
@@ -55,6 +59,7 @@ type Comment {
 type Reply {
   id: ID!
   author: User!
+  createdAt: DateTime!
   content: String!
   comment: Comment!
 }
