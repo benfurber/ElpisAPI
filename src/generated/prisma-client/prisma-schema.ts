@@ -342,6 +342,7 @@ type Post {
   published: Boolean!
   title: String!
   content: String!
+  imagePath: String
   author: User!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
 }
@@ -357,6 +358,7 @@ input PostCreateInput {
   published: Boolean
   title: String!
   content: String!
+  imagePath: String
   author: UserCreateOneWithoutPostsInput!
   comments: CommentCreateManyWithoutPostInput
 }
@@ -376,6 +378,7 @@ input PostCreateWithoutAuthorInput {
   published: Boolean
   title: String!
   content: String!
+  imagePath: String
   comments: CommentCreateManyWithoutPostInput
 }
 
@@ -384,6 +387,7 @@ input PostCreateWithoutCommentsInput {
   published: Boolean
   title: String!
   content: String!
+  imagePath: String
   author: UserCreateOneWithoutPostsInput!
 }
 
@@ -405,6 +409,8 @@ enum PostOrderByInput {
   title_DESC
   content_ASC
   content_DESC
+  imagePath_ASC
+  imagePath_DESC
 }
 
 type PostPreviousValues {
@@ -414,6 +420,7 @@ type PostPreviousValues {
   published: Boolean!
   title: String!
   content: String!
+  imagePath: String
 }
 
 input PostScalarWhereInput {
@@ -477,6 +484,20 @@ input PostScalarWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  imagePath: String
+  imagePath_not: String
+  imagePath_in: [String!]
+  imagePath_not_in: [String!]
+  imagePath_lt: String
+  imagePath_lte: String
+  imagePath_gt: String
+  imagePath_gte: String
+  imagePath_contains: String
+  imagePath_not_contains: String
+  imagePath_starts_with: String
+  imagePath_not_starts_with: String
+  imagePath_ends_with: String
+  imagePath_not_ends_with: String
   AND: [PostScalarWhereInput!]
   OR: [PostScalarWhereInput!]
   NOT: [PostScalarWhereInput!]
@@ -504,6 +525,7 @@ input PostUpdateInput {
   published: Boolean
   title: String
   content: String
+  imagePath: String
   author: UserUpdateOneRequiredWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
 }
@@ -512,12 +534,14 @@ input PostUpdateManyDataInput {
   published: Boolean
   title: String
   content: String
+  imagePath: String
 }
 
 input PostUpdateManyMutationInput {
   published: Boolean
   title: String
   content: String
+  imagePath: String
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -548,6 +572,7 @@ input PostUpdateWithoutAuthorDataInput {
   published: Boolean
   title: String
   content: String
+  imagePath: String
   comments: CommentUpdateManyWithoutPostInput
 }
 
@@ -555,6 +580,7 @@ input PostUpdateWithoutCommentsDataInput {
   published: Boolean
   title: String
   content: String
+  imagePath: String
   author: UserUpdateOneRequiredWithoutPostsInput
 }
 
@@ -635,6 +661,20 @@ input PostWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  imagePath: String
+  imagePath_not: String
+  imagePath_in: [String!]
+  imagePath_not_in: [String!]
+  imagePath_lt: String
+  imagePath_lte: String
+  imagePath_gt: String
+  imagePath_gte: String
+  imagePath_contains: String
+  imagePath_not_contains: String
+  imagePath_starts_with: String
+  imagePath_not_starts_with: String
+  imagePath_ends_with: String
+  imagePath_not_ends_with: String
   author: UserWhereInput
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
@@ -903,6 +943,7 @@ type User {
   email: String!
   password: String!
   name: String!
+  avatarPath: String
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
 }
 
@@ -917,6 +958,7 @@ input UserCreateInput {
   email: String!
   password: String!
   name: String!
+  avatarPath: String
   posts: PostCreateManyWithoutAuthorInput
 }
 
@@ -935,6 +977,7 @@ input UserCreateWithoutPostsInput {
   email: String!
   password: String!
   name: String!
+  avatarPath: String
 }
 
 type UserEdge {
@@ -951,6 +994,8 @@ enum UserOrderByInput {
   password_DESC
   name_ASC
   name_DESC
+  avatarPath_ASC
+  avatarPath_DESC
 }
 
 type UserPreviousValues {
@@ -958,6 +1003,7 @@ type UserPreviousValues {
   email: String!
   password: String!
   name: String!
+  avatarPath: String
 }
 
 type UserSubscriptionPayload {
@@ -982,6 +1028,7 @@ input UserUpdateDataInput {
   email: String
   password: String
   name: String
+  avatarPath: String
   posts: PostUpdateManyWithoutAuthorInput
 }
 
@@ -989,6 +1036,7 @@ input UserUpdateInput {
   email: String
   password: String
   name: String
+  avatarPath: String
   posts: PostUpdateManyWithoutAuthorInput
 }
 
@@ -996,6 +1044,7 @@ input UserUpdateManyMutationInput {
   email: String
   password: String
   name: String
+  avatarPath: String
 }
 
 input UserUpdateOneRequiredInput {
@@ -1016,6 +1065,7 @@ input UserUpdateWithoutPostsDataInput {
   email: String
   password: String
   name: String
+  avatarPath: String
 }
 
 input UserUpsertNestedInput {
@@ -1085,6 +1135,20 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  avatarPath: String
+  avatarPath_not: String
+  avatarPath_in: [String!]
+  avatarPath_not_in: [String!]
+  avatarPath_lt: String
+  avatarPath_lte: String
+  avatarPath_gt: String
+  avatarPath_gte: String
+  avatarPath_contains: String
+  avatarPath_not_contains: String
+  avatarPath_starts_with: String
+  avatarPath_not_starts_with: String
+  avatarPath_ends_with: String
+  avatarPath_not_ends_with: String
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput

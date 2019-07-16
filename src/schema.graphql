@@ -1,4 +1,5 @@
 scalar DateTime
+scalar URL
 
 type Query {
   feed: [Post!]!
@@ -34,6 +35,7 @@ type User {
   id: ID!
   email: String!
   name: String!
+  avatarPath: URL
   posts: [Post!]!
 }
 
@@ -45,6 +47,7 @@ type Post {
   content: String!
   comments: [Comment!]!
   published: Boolean!
+  imagePath: URL
 }
 
 type Comment {
@@ -54,6 +57,7 @@ type Comment {
   content: String!
   post: Post!
   replies: [Reply!]!
+  totalReplies: Int
 }
 
 type Reply {

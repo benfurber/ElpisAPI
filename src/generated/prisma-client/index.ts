@@ -228,7 +228,9 @@ export type PostOrderByInput =
   | "title_ASC"
   | "title_DESC"
   | "content_ASC"
-  | "content_DESC";
+  | "content_DESC"
+  | "imagePath_ASC"
+  | "imagePath_DESC";
 
 export type CommentOrderByInput =
   | "id_ASC"
@@ -258,7 +260,9 @@ export type UserOrderByInput =
   | "password_ASC"
   | "password_DESC"
   | "name_ASC"
-  | "name_DESC";
+  | "name_DESC"
+  | "avatarPath_ASC"
+  | "avatarPath_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -327,6 +331,20 @@ export interface PostWhereInput {
   content_not_starts_with?: String;
   content_ends_with?: String;
   content_not_ends_with?: String;
+  imagePath?: String;
+  imagePath_not?: String;
+  imagePath_in?: String[] | String;
+  imagePath_not_in?: String[] | String;
+  imagePath_lt?: String;
+  imagePath_lte?: String;
+  imagePath_gt?: String;
+  imagePath_gte?: String;
+  imagePath_contains?: String;
+  imagePath_not_contains?: String;
+  imagePath_starts_with?: String;
+  imagePath_not_starts_with?: String;
+  imagePath_ends_with?: String;
+  imagePath_not_ends_with?: String;
   author?: UserWhereInput;
   comments_every?: CommentWhereInput;
   comments_some?: CommentWhereInput;
@@ -393,6 +411,20 @@ export interface UserWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
+  avatarPath?: String;
+  avatarPath_not?: String;
+  avatarPath_in?: String[] | String;
+  avatarPath_not_in?: String[] | String;
+  avatarPath_lt?: String;
+  avatarPath_lte?: String;
+  avatarPath_gt?: String;
+  avatarPath_gte?: String;
+  avatarPath_contains?: String;
+  avatarPath_not_contains?: String;
+  avatarPath_starts_with?: String;
+  avatarPath_not_starts_with?: String;
+  avatarPath_ends_with?: String;
+  avatarPath_not_ends_with?: String;
   posts_every?: PostWhereInput;
   posts_some?: PostWhereInput;
   posts_none?: PostWhereInput;
@@ -539,6 +571,7 @@ export interface UserCreateInput {
   email: String;
   password: String;
   name: String;
+  avatarPath?: String;
   posts?: PostCreateManyWithoutAuthorInput;
 }
 
@@ -552,6 +585,7 @@ export interface PostCreateWithoutAuthorInput {
   published?: Boolean;
   title: String;
   content: String;
+  imagePath?: String;
   comments?: CommentCreateManyWithoutPostInput;
 }
 
@@ -588,6 +622,7 @@ export interface PostCreateWithoutCommentsInput {
   published?: Boolean;
   title: String;
   content: String;
+  imagePath?: String;
   author: UserCreateOneWithoutPostsInput;
 }
 
@@ -601,6 +636,7 @@ export interface UserCreateWithoutPostsInput {
   email: String;
   password: String;
   name: String;
+  avatarPath?: String;
 }
 
 export interface CommentUpdateInput {
@@ -621,6 +657,7 @@ export interface UserUpdateDataInput {
   email?: String;
   password?: String;
   name?: String;
+  avatarPath?: String;
   posts?: PostUpdateManyWithoutAuthorInput;
 }
 
@@ -651,6 +688,7 @@ export interface PostUpdateWithoutAuthorDataInput {
   published?: Boolean;
   title?: String;
   content?: String;
+  imagePath?: String;
   comments?: CommentUpdateManyWithoutPostInput;
 }
 
@@ -908,6 +946,20 @@ export interface PostScalarWhereInput {
   content_not_starts_with?: String;
   content_ends_with?: String;
   content_not_ends_with?: String;
+  imagePath?: String;
+  imagePath_not?: String;
+  imagePath_in?: String[] | String;
+  imagePath_not_in?: String[] | String;
+  imagePath_lt?: String;
+  imagePath_lte?: String;
+  imagePath_gt?: String;
+  imagePath_gte?: String;
+  imagePath_contains?: String;
+  imagePath_not_contains?: String;
+  imagePath_starts_with?: String;
+  imagePath_not_starts_with?: String;
+  imagePath_ends_with?: String;
+  imagePath_not_ends_with?: String;
   AND?: PostScalarWhereInput[] | PostScalarWhereInput;
   OR?: PostScalarWhereInput[] | PostScalarWhereInput;
   NOT?: PostScalarWhereInput[] | PostScalarWhereInput;
@@ -922,6 +974,7 @@ export interface PostUpdateManyDataInput {
   published?: Boolean;
   title?: String;
   content?: String;
+  imagePath?: String;
 }
 
 export interface UserUpsertNestedInput {
@@ -940,6 +993,7 @@ export interface PostUpdateWithoutCommentsDataInput {
   published?: Boolean;
   title?: String;
   content?: String;
+  imagePath?: String;
   author?: UserUpdateOneRequiredWithoutPostsInput;
 }
 
@@ -954,6 +1008,7 @@ export interface UserUpdateWithoutPostsDataInput {
   email?: String;
   password?: String;
   name?: String;
+  avatarPath?: String;
 }
 
 export interface UserUpsertWithoutPostsInput {
@@ -975,6 +1030,7 @@ export interface PostCreateInput {
   published?: Boolean;
   title: String;
   content: String;
+  imagePath?: String;
   author: UserCreateOneWithoutPostsInput;
   comments?: CommentCreateManyWithoutPostInput;
 }
@@ -983,6 +1039,7 @@ export interface PostUpdateInput {
   published?: Boolean;
   title?: String;
   content?: String;
+  imagePath?: String;
   author?: UserUpdateOneRequiredWithoutPostsInput;
   comments?: CommentUpdateManyWithoutPostInput;
 }
@@ -991,6 +1048,7 @@ export interface PostUpdateManyMutationInput {
   published?: Boolean;
   title?: String;
   content?: String;
+  imagePath?: String;
 }
 
 export interface ReplyCreateInput {
@@ -1044,6 +1102,7 @@ export interface UserUpdateInput {
   email?: String;
   password?: String;
   name?: String;
+  avatarPath?: String;
   posts?: PostUpdateManyWithoutAuthorInput;
 }
 
@@ -1051,6 +1110,7 @@ export interface UserUpdateManyMutationInput {
   email?: String;
   password?: String;
   name?: String;
+  avatarPath?: String;
 }
 
 export interface CommentSubscriptionWhereInput {
@@ -1151,6 +1211,7 @@ export interface User {
   email: String;
   password: String;
   name: String;
+  avatarPath?: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -1158,6 +1219,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   email: () => Promise<String>;
   password: () => Promise<String>;
   name: () => Promise<String>;
+  avatarPath: () => Promise<String>;
   posts: <T = FragmentableArray<Post>>(args?: {
     where?: PostWhereInput;
     orderBy?: PostOrderByInput;
@@ -1176,6 +1238,7 @@ export interface UserSubscription
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   name: () => Promise<AsyncIterator<String>>;
+  avatarPath: () => Promise<AsyncIterator<String>>;
   posts: <T = Promise<AsyncIterator<PostSubscription>>>(args?: {
     where?: PostWhereInput;
     orderBy?: PostOrderByInput;
@@ -1194,6 +1257,7 @@ export interface Post {
   published: Boolean;
   title: String;
   content: String;
+  imagePath?: String;
 }
 
 export interface PostPromise extends Promise<Post>, Fragmentable {
@@ -1203,6 +1267,7 @@ export interface PostPromise extends Promise<Post>, Fragmentable {
   published: () => Promise<Boolean>;
   title: () => Promise<String>;
   content: () => Promise<String>;
+  imagePath: () => Promise<String>;
   author: <T = UserPromise>() => T;
   comments: <T = FragmentableArray<Comment>>(args?: {
     where?: CommentWhereInput;
@@ -1224,6 +1289,7 @@ export interface PostSubscription
   published: () => Promise<AsyncIterator<Boolean>>;
   title: () => Promise<AsyncIterator<String>>;
   content: () => Promise<AsyncIterator<String>>;
+  imagePath: () => Promise<AsyncIterator<String>>;
   author: <T = UserSubscription>() => T;
   comments: <T = Promise<AsyncIterator<CommentSubscription>>>(args?: {
     where?: CommentWhereInput;
@@ -1600,6 +1666,7 @@ export interface PostPreviousValues {
   published: Boolean;
   title: String;
   content: String;
+  imagePath?: String;
 }
 
 export interface PostPreviousValuesPromise
@@ -1611,6 +1678,7 @@ export interface PostPreviousValuesPromise
   published: () => Promise<Boolean>;
   title: () => Promise<String>;
   content: () => Promise<String>;
+  imagePath: () => Promise<String>;
 }
 
 export interface PostPreviousValuesSubscription
@@ -1622,6 +1690,7 @@ export interface PostPreviousValuesSubscription
   published: () => Promise<AsyncIterator<Boolean>>;
   title: () => Promise<AsyncIterator<String>>;
   content: () => Promise<AsyncIterator<String>>;
+  imagePath: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ReplySubscriptionPayload {
@@ -1704,6 +1773,7 @@ export interface UserPreviousValues {
   email: String;
   password: String;
   name: String;
+  avatarPath?: String;
 }
 
 export interface UserPreviousValuesPromise
@@ -1713,6 +1783,7 @@ export interface UserPreviousValuesPromise
   email: () => Promise<String>;
   password: () => Promise<String>;
   name: () => Promise<String>;
+  avatarPath: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -1722,6 +1793,7 @@ export interface UserPreviousValuesSubscription
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   name: () => Promise<AsyncIterator<String>>;
+  avatarPath: () => Promise<AsyncIterator<String>>;
 }
 
 /*

@@ -5,6 +5,7 @@ type Post {
   published: Boolean! @default(value: false)
   title: String!
   content: String!
+  imagePath: String
   author: User!
   comments: [Comment]!
 }
@@ -14,6 +15,7 @@ type User {
   email: String! @unique
   password: String!
   name: String!
+  avatarPath: String
   posts: [Post!]!
 }
 
