@@ -4,6 +4,7 @@ import { auth } from "./Mutation/auth";
 import { comment } from "./Mutation/comment";
 import { post } from "./Mutation/post";
 import { reply } from "./Mutation/reply";
+import { user } from "./Mutation/user";
 import { User } from "./User";
 import { Post } from "./Post";
 import { Comment } from "./Comment";
@@ -15,7 +16,8 @@ export default {
     ...auth,
     ...comment,
     ...post,
-    ...reply
+    ...reply,
+    ...user
   },
   Subscription,
   User,
