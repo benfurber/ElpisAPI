@@ -17,6 +17,7 @@ type User {
   name: String!
   avatarPath: String
   posts: [Post!]!
+  onboarded: Boolean! @default(value: false)
 }
 
 type Comment {

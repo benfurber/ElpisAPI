@@ -39,6 +39,7 @@ type User {
   name: String!
   avatarPath: URL
   posts: [Post!]!
+  onboarded: Boolean!
 }
 
 type Post {
