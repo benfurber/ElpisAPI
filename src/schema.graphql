@@ -11,6 +11,7 @@ type Query {
 }
 
 type Mutation {
+  completeUserOnboarding: User!
   createComment(content: String!, id: ID!): Comment!
   createDraft(title: String, content: String!, imagePath: URL): Post!
   createReply(content: String!, id: ID!): Reply!

@@ -3,20 +3,6 @@ import * as jwt from "jsonwebtoken";
 import { Context, getUserId } from "../../utils";
 
 export const auth = {
-  async linkUserProfilePicture(parent, { avatarPath }, ctx: Context) {
-    const userId = getUserId(ctx);
-    const updatedUser = await ctx.prisma.updateUser({
-      where: { id: userId },
-      data: { avatarPath }
-    });
-
-    if (!updatedUser) {
-      throw new Error(`No such user found for id: ${userId}`);
-    }
-
-    return updatedUser;
-  },
-
   async login(parent, { email, password }, ctx: Context) {
     const user = await ctx.prisma.user({ email });
     if (!user) {
@@ -42,21 +28,5 @@ export const auth = {
       token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
       user
     };
-  },
-
-  async updatePassword(parent, { password }, ctx: Context) {
-    const newPassword = await bcrypt.hash(password, 10);
-    const userId = getUserId(ctx);
-
-    const updatedUser = await ctx.prisma.updateUser({
-      where: { id: userId },
-      data: { password: newPassword }
-    });
-
-    if (!updatedUser) {
-      throw new Error(`No such user found for id: ${userId}`);
-    }
-
-    return updatedUser;
   }
 };
