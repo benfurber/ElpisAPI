@@ -11,16 +11,17 @@ type Query {
 }
 
 type Mutation {
-  signup(email: String!, password: String!, name: String!): AuthPayload!
-  login(email: String!, password: String!): AuthPayload!
-  createDraft(title: String, content: String!, imagePath: URL): Post!
-  publish(id: ID!): Post!
-  deletePost(id: ID!): Post!
   createComment(content: String!, id: ID!): Comment!
-  deleteComment(id: ID!): Comment!
+  createDraft(title: String, content: String!, imagePath: URL): Post!
   createReply(content: String!, id: ID!): Reply!
+  deleteComment(id: ID!): Comment!
+  deletePost(id: ID!): Post!
   deleteReply(id: ID!): Reply!
   linkUserProfilePicture(avatarPath: URL!): User!
+  login(email: String!, password: String!): AuthPayload!
+  publish(id: ID!): Post!
+  signup(email: String!, password: String!, name: String!): AuthPayload!
+  updatePassword(password: String!): User!
 }
 
 type Subscription {

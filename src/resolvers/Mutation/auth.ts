@@ -3,24 +3,12 @@ import * as jwt from "jsonwebtoken";
 import { Context, getUserId } from "../../utils";
 
 export const auth = {
-  async signup(parent, args, ctx: Context) {
-    const password = await bcrypt.hash(args.password, 10);
-    const user = await ctx.prisma.createUser({ ...args, password });
-
-    return {
-      token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
-      user
-    };
-  },
-
-  async linkUserPicturePicture(parent, { avatarPath }, ctx: Context) {
+  async linkUserProfilePicture(parent, { avatarPath }, ctx: Context) {
     const userId = getUserId(ctx);
-    console.log({ userId });
     const updatedUser = await ctx.prisma.updateUser({
       where: { id: userId },
       data: { avatarPath }
     });
-    console.log({ updatedUser });
 
     if (!updatedUser) {
       throw new Error(`No such user found for id: ${userId}`);
@@ -44,5 +32,31 @@ export const auth = {
       token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
       user
     };
+  },
+
+  async signup(parent, args, ctx: Context) {
+    const password = await bcrypt.hash(args.password, 10);
+    const user = await ctx.prisma.createUser({ ...args, password });
+
+    return {
+      token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
+      user
+    };
+  },
+
+  async updatePassword(parent, { password }, ctx: Context) {
+    const newPassword = await bcrypt.hash(password, 10);
+    const userId = getUserId(ctx);
+
+    const updatedUser = await ctx.prisma.updateUser({
+      where: { id: userId },
+      data: { password: newPassword }
+    });
+
+    if (!updatedUser) {
+      throw new Error(`No such user found for id: ${userId}`);
+    }
+
+    return updatedUser;
   }
 };
