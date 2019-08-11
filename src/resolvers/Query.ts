@@ -2,7 +2,10 @@ import { getUserId, Context } from "../utils";
 
 export const Query = {
   feed(parent, args, ctx: Context) {
-    return ctx.prisma.posts({ where: { published: true } });
+    const where = { published: true };
+    const orderBy = "updatedAt_DESC";
+
+    return ctx.prisma.posts({ orderBy, where });
   },
 
   drafts(parent, args, ctx: Context) {
