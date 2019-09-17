@@ -8,13 +8,29 @@ You need to have the [GraphQL CLI](https://github.com/graphql-cli/graphql-cli) i
 npm install -g graphql-cli
 ```
 
-### Setup Docker
+### Setup
 
 [Download Docker](https://docs.docker.com/docker-for-mac/install/)
 
 ```sh
 # Pull down prisma's latest docker image for heroku (currently 1.34.8)
 docker pull prismagraphql/prisma:1.34.8-heroku
+
+# Run docker
+docker-compose up -d
+```
+
+```sh
+# 1. Setup packages
+yarn install
+
+# 2. Get token for the env file
+yarn prisma token
+
+# 3. (Add the token to the env file)
+
+# 4. Setup the DB
+yarn prisma deploy
 ```
 
 ## Running
