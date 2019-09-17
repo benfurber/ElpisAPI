@@ -59,3 +59,10 @@ yarn dev
 - **Realtime updates**: Support for GraphQL subscriptions
 
 Read more about the idea behind GraphQL boilerplates [here](https://blog.graph.cool/graphql-boilerplates-graphql-create-how-to-setup-a-graphql-project-6428be2f3a5).
+
+## Copyright License
+
+Copyright (C) Ben Furber - All Rights Reserved.
+Unauthorized copying of this repo, via any medium is strictly prohibited.
+Proprietary and confidential.
+Written by Ben Furber <ben@fu.rber.io>, September 2019.
