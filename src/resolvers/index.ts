@@ -5,9 +5,10 @@ import { comment } from "./Mutation/comment";
 import { post } from "./Mutation/post";
 import { reply } from "./Mutation/reply";
 import { user } from "./Mutation/user";
+import { Comment } from "./Comment";
+import { Notification } from "./Notification";
 import { User } from "./User";
 import { Post } from "./Post";
-import { Comment } from "./Comment";
 import { Reply } from "./Reply";
 
 export default {
@@ -20,8 +21,9 @@ export default {
     ...user
   },
   Subscription,
-  User,
-  Post,
   Comment,
-  Reply
+  Notification,
+  Post,
+  Reply,
+  User
 };

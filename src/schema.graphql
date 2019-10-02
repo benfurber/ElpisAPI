@@ -41,6 +41,7 @@ type User {
   avatarPath: URL
   posts: [Post!]!
   onboarded: Boolean!
+  notifications: [Notification]!
 }
 
 type Post {
@@ -70,4 +71,18 @@ type Reply {
   createdAt: DateTime!
   content: String!
   comment: Comment!
+}
+
+type NotificationContent {
+  post: Post!
+  reply: Reply
+  type: String!
+}
+
+type Notification {
+  id: ID!
+  author: User!
+  createdAt: DateTime!
+  content: NotificationContent!
+  newNotification: Boolean!
 }
