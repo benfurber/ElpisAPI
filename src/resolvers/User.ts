@@ -5,6 +5,6 @@ export const User = {
     return ctx.prisma.user({ id }).posts();
   },
   notifications: ({ id }, args, ctx: Context) => {
-    return ctx.prisma.user({ id }).notifications();
+    return ctx.prisma.user({ id }).notifications({ orderBy: "createdAt_DESC" });
   }
 };
