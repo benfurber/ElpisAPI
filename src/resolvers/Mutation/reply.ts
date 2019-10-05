@@ -1,4 +1,5 @@
 import { getUserId, Context } from "../../utils";
+import { notification } from "./Notification";
 
 export const reply = {
   async createReply(parent, { content, id }, ctx: Context, info) {
@@ -10,6 +11,9 @@ export const reply = {
       },
       comment: { connect: { id } }
     });
+
+    await createNotification({ reply, id }, ctx);
+
     return reply;
   },
 
@@ -26,3 +30,20 @@ export const reply = {
     return ctx.prisma.deleteReply({ id });
   }
 };
+
+async function createNotification({ reply, id }, ctx) {
+  const postId = await ctx.prisma
+    .comment({ id })
+    .post()
+    .id();
+  const commentAuthor = await ctx.prisma
+    .comment({ id })
+    .author()
+    .id();
+  return await notification.createNotification(
+    null,
+    { postId, replyId: reply.id, userId: commentAuthor },
+    ctx,
+    null
+  );
+}
