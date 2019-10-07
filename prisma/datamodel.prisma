@@ -18,6 +18,7 @@ type User {
   avatarPath: String
   posts: [Post!]!
   onboarded: Boolean! @default(value: false)
+  notifications: [Notification]!
 }
 
 type Comment {
@@ -37,4 +38,14 @@ type Reply {
   author: User!
   content: String!
   comment: Comment!
+}
+
+type Notification {
+  id: ID! @id
+  user: User!
+  createdAt: DateTime! @createdAt
+  post: Post!
+  reply: Reply
+  newNotification: Boolean! @default(value: true)
+  type: String!
 }

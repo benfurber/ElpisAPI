@@ -1,4 +1,5 @@
 import { getUserId, Context } from "../../utils";
+import { notification } from "./Notification";
 
 export const post = {
   async createDraft(parent, { title, content, imagePath }, ctx: Context, info) {
@@ -19,14 +20,18 @@ export const post = {
       id,
       author: { id: userId }
     });
+
     if (!postExists) {
       throw new Error(`Post not found or you're not the author`);
     }
-
-    return ctx.prisma.updatePost({
+    const updatedPost = await ctx.prisma.updatePost({
       where: { id },
       data: { published: true }
     });
+
+    await notification.createNotifications(null, { postId: id }, ctx, null);
+
+    return updatedPost;
   },
 
   async deletePost(parent, { id }, ctx: Context, info) {
