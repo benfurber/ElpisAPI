@@ -14,13 +14,13 @@ type Mutation {
   ageNotification(id: String!): Notification!
   completeUserOnboarding: User!
   createComment(content: String!, id: ID!): Comment!
-  createDraft(title: String, content: String!, imagePath: URL): Post!
   createNotification(
     postId: String!
     replyId: String
     userId: String!
   ): Notification!
   createNotifications(postId: String!, commentId: String): [Notification]!
+  createPost(title: String, content: String!, imagePath: URL): Post!
   createReply(content: String!, id: ID!): Reply!
   deleteComment(id: ID!): Comment!
   deletePost(id: ID!): Post!

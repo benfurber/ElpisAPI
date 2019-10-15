@@ -2,12 +2,15 @@ import { getUserId, Context } from "../../utils";
 import { notification } from "./Notification";
 
 export const post = {
-  async createDraft(parent, { title, content, imagePath }, ctx: Context, info) {
+  async createPost(parent, args, ctx: Context, info) {
+    const { title, content, imagePath, published } = args;
+
     const userId = getUserId(ctx);
     return ctx.prisma.createPost({
       title,
       content,
       imagePath,
+      published: published || true,
       author: {
         connect: { id: userId }
       }
