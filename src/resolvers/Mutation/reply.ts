@@ -1,5 +1,5 @@
 import { getUserId, Context } from "../../utils";
-import { notification } from "./Notification";
+import { notification } from "./notification";
 
 export const reply = {
   async createReply(parent, { content, id }, ctx: Context, info) {

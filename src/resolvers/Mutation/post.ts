@@ -1,5 +1,5 @@
 import { getUserId, Context } from "../../utils";
-import { notification } from "./Notification";
+import { notification } from "./notification";
 
 export const post = {
   async createPost(parent, args, ctx: Context, info) {
