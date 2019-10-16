@@ -5,7 +5,8 @@
     "dev": "dotenv -- nodemon -e ts,graphql -x ts-node src/index.ts",
     "debug": "dotenv -- nodemon -e ts,graphql -x ts-node --inspect src/index.ts",
     "build": "rimraf dist && tsc",
-    "test": "jest"
+    "test": "jest",
+    "heroku-postbuild": "prisma deploy"
   },
   "dependencies": {
     "bcryptjs": "2.4.3",
