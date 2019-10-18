@@ -24,6 +24,9 @@ docker-compose up -d
 # 1. Setup packages
 yarn install
 
+# 2. Create .env file at the project root folder.
+# There is a .env.sample file for reference
+
 # 2. Get token for the env file
 yarn prisma token
 
