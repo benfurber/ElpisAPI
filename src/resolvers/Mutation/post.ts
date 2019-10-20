@@ -6,7 +6,7 @@ export const post = {
     const { title, content, imagePath, published } = args;
 
     const userId = getUserId(ctx);
-    return ctx.prisma.createPost({
+    const post = ctx.prisma.createPost({
       title,
       content,
       imagePath,
@@ -15,6 +15,13 @@ export const post = {
         connect: { id: userId }
       }
     });
+
+    if (published) {
+      const postId = post.id;
+      await notification.createNotifications(null, { postId }, ctx, null);
+    }
+
+    return post;
   },
 
   async publish(parent, { id }, ctx: Context, info) {
