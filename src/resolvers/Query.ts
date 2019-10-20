@@ -27,9 +27,7 @@ export const Query = {
   },
 
   async link(parent, { url }, ctx: Context) {
-    const where = { url };
-    const links = await ctx.prisma.links({ where });
-
+    const links = await ctx.prisma.links({ where: { url } });
     if (links.length > 0) return links[0];
 
     const createdLink = await link.createLink({}, { url }, ctx, {});
