@@ -1,4 +1,4 @@
-import { getUserId, Context } from "../utils";
+import { Context, getUserId, fetchMetaData } from "../utils";
 import { link } from "./Mutation/link";
 
 export const Query = {
@@ -27,11 +27,7 @@ export const Query = {
   },
 
   async link(parent, { url }, ctx: Context) {
-    const links = await ctx.prisma.links({ where: { url } });
-    if (links.length > 0) return links[0];
-
-    const createdLink = await link.createLink({}, { url }, ctx, {});
-    return createdLink;
+    return await fetchMetaData(url);
   },
 
   post(parent, { id }, ctx: Context) {
