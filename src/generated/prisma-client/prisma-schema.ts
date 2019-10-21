@@ -6,10 +6,6 @@ export const typeDefs = /* GraphQL */ `type AggregateComment {
   count: Int!
 }
 
-type AggregateLink {
-  count: Int!
-}
-
 type AggregateNotification {
   count: Int!
 }
@@ -297,223 +293,6 @@ input CommentWhereUniqueInput {
 
 scalar DateTime
 
-type Link {
-  id: ID!
-  author: String
-  date: DateTime!
-  description: String!
-  image: String
-  publisher: String
-  title: String!
-  url: String!
-}
-
-type LinkConnection {
-  pageInfo: PageInfo!
-  edges: [LinkEdge]!
-  aggregate: AggregateLink!
-}
-
-input LinkCreateInput {
-  id: ID
-  author: String
-  date: DateTime!
-  description: String!
-  image: String
-  publisher: String
-  title: String!
-  url: String!
-}
-
-type LinkEdge {
-  node: Link!
-  cursor: String!
-}
-
-enum LinkOrderByInput {
-  id_ASC
-  id_DESC
-  author_ASC
-  author_DESC
-  date_ASC
-  date_DESC
-  description_ASC
-  description_DESC
-  image_ASC
-  image_DESC
-  publisher_ASC
-  publisher_DESC
-  title_ASC
-  title_DESC
-  url_ASC
-  url_DESC
-}
-
-type LinkPreviousValues {
-  id: ID!
-  author: String
-  date: DateTime!
-  description: String!
-  image: String
-  publisher: String
-  title: String!
-  url: String!
-}
-
-type LinkSubscriptionPayload {
-  mutation: MutationType!
-  node: Link
-  updatedFields: [String!]
-  previousValues: LinkPreviousValues
-}
-
-input LinkSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: LinkWhereInput
-  AND: [LinkSubscriptionWhereInput!]
-  OR: [LinkSubscriptionWhereInput!]
-  NOT: [LinkSubscriptionWhereInput!]
-}
-
-input LinkUpdateInput {
-  author: String
-  date: DateTime
-  description: String
-  image: String
-  publisher: String
-  title: String
-  url: String
-}
-
-input LinkUpdateManyMutationInput {
-  author: String
-  date: DateTime
-  description: String
-  image: String
-  publisher: String
-  title: String
-  url: String
-}
-
-input LinkWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  author: String
-  author_not: String
-  author_in: [String!]
-  author_not_in: [String!]
-  author_lt: String
-  author_lte: String
-  author_gt: String
-  author_gte: String
-  author_contains: String
-  author_not_contains: String
-  author_starts_with: String
-  author_not_starts_with: String
-  author_ends_with: String
-  author_not_ends_with: String
-  date: DateTime
-  date_not: DateTime
-  date_in: [DateTime!]
-  date_not_in: [DateTime!]
-  date_lt: DateTime
-  date_lte: DateTime
-  date_gt: DateTime
-  date_gte: DateTime
-  description: String
-  description_not: String
-  description_in: [String!]
-  description_not_in: [String!]
-  description_lt: String
-  description_lte: String
-  description_gt: String
-  description_gte: String
-  description_contains: String
-  description_not_contains: String
-  description_starts_with: String
-  description_not_starts_with: String
-  description_ends_with: String
-  description_not_ends_with: String
-  image: String
-  image_not: String
-  image_in: [String!]
-  image_not_in: [String!]
-  image_lt: String
-  image_lte: String
-  image_gt: String
-  image_gte: String
-  image_contains: String
-  image_not_contains: String
-  image_starts_with: String
-  image_not_starts_with: String
-  image_ends_with: String
-  image_not_ends_with: String
-  publisher: String
-  publisher_not: String
-  publisher_in: [String!]
-  publisher_not_in: [String!]
-  publisher_lt: String
-  publisher_lte: String
-  publisher_gt: String
-  publisher_gte: String
-  publisher_contains: String
-  publisher_not_contains: String
-  publisher_starts_with: String
-  publisher_not_starts_with: String
-  publisher_ends_with: String
-  publisher_not_ends_with: String
-  title: String
-  title_not: String
-  title_in: [String!]
-  title_not_in: [String!]
-  title_lt: String
-  title_lte: String
-  title_gt: String
-  title_gte: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
-  AND: [LinkWhereInput!]
-  OR: [LinkWhereInput!]
-  NOT: [LinkWhereInput!]
-}
-
-input LinkWhereUniqueInput {
-  id: ID
-}
-
 scalar Long
 
 type Mutation {
@@ -523,12 +302,6 @@ type Mutation {
   upsertComment(where: CommentWhereUniqueInput!, create: CommentCreateInput!, update: CommentUpdateInput!): Comment!
   deleteComment(where: CommentWhereUniqueInput!): Comment
   deleteManyComments(where: CommentWhereInput): BatchPayload!
-  createLink(data: LinkCreateInput!): Link!
-  updateLink(data: LinkUpdateInput!, where: LinkWhereUniqueInput!): Link
-  updateManyLinks(data: LinkUpdateManyMutationInput!, where: LinkWhereInput): BatchPayload!
-  upsertLink(where: LinkWhereUniqueInput!, create: LinkCreateInput!, update: LinkUpdateInput!): Link!
-  deleteLink(where: LinkWhereUniqueInput!): Link
-  deleteManyLinks(where: LinkWhereInput): BatchPayload!
   createNotification(data: NotificationCreateInput!): Notification!
   updateNotification(data: NotificationUpdateInput!, where: NotificationWhereUniqueInput!): Notification
   updateManyNotifications(data: NotificationUpdateManyMutationInput!, where: NotificationWhereInput): BatchPayload!
@@ -1182,9 +955,6 @@ type Query {
   comment(where: CommentWhereUniqueInput!): Comment
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
   commentsConnection(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
-  link(where: LinkWhereUniqueInput!): Link
-  links(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Link]!
-  linksConnection(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LinkConnection!
   notification(where: NotificationWhereUniqueInput!): Notification
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification]!
   notificationsConnection(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NotificationConnection!
@@ -1207,6 +977,7 @@ type Reply {
   author: User!
   content: String!
   comment: Comment!
+  link: String
 }
 
 type ReplyConnection {
@@ -1220,6 +991,7 @@ input ReplyCreateInput {
   author: UserCreateOneInput!
   content: String!
   comment: CommentCreateOneWithoutRepliesInput!
+  link: String
 }
 
 input ReplyCreateManyWithoutCommentInput {
@@ -1236,6 +1008,7 @@ input ReplyCreateWithoutCommentInput {
   id: ID
   author: UserCreateOneInput!
   content: String!
+  link: String
 }
 
 type ReplyEdge {
@@ -1252,6 +1025,8 @@ enum ReplyOrderByInput {
   updatedAt_DESC
   content_ASC
   content_DESC
+  link_ASC
+  link_DESC
 }
 
 type ReplyPreviousValues {
@@ -1259,6 +1034,7 @@ type ReplyPreviousValues {
   createdAt: DateTime!
   updatedAt: DateTime!
   content: String!
+  link: String
 }
 
 input ReplyScalarWhereInput {
@@ -1306,6 +1082,20 @@ input ReplyScalarWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  link: String
+  link_not: String
+  link_in: [String!]
+  link_not_in: [String!]
+  link_lt: String
+  link_lte: String
+  link_gt: String
+  link_gte: String
+  link_contains: String
+  link_not_contains: String
+  link_starts_with: String
+  link_not_starts_with: String
+  link_ends_with: String
+  link_not_ends_with: String
   AND: [ReplyScalarWhereInput!]
   OR: [ReplyScalarWhereInput!]
   NOT: [ReplyScalarWhereInput!]
@@ -1333,20 +1123,24 @@ input ReplyUpdateDataInput {
   author: UserUpdateOneRequiredInput
   content: String
   comment: CommentUpdateOneRequiredWithoutRepliesInput
+  link: String
 }
 
 input ReplyUpdateInput {
   author: UserUpdateOneRequiredInput
   content: String
   comment: CommentUpdateOneRequiredWithoutRepliesInput
+  link: String
 }
 
 input ReplyUpdateManyDataInput {
   content: String
+  link: String
 }
 
 input ReplyUpdateManyMutationInput {
   content: String
+  link: String
 }
 
 input ReplyUpdateManyWithoutCommentInput {
@@ -1378,6 +1172,7 @@ input ReplyUpdateOneInput {
 input ReplyUpdateWithoutCommentDataInput {
   author: UserUpdateOneRequiredInput
   content: String
+  link: String
 }
 
 input ReplyUpdateWithWhereUniqueWithoutCommentInput {
@@ -1443,6 +1238,20 @@ input ReplyWhereInput {
   content_ends_with: String
   content_not_ends_with: String
   comment: CommentWhereInput
+  link: String
+  link_not: String
+  link_in: [String!]
+  link_not_in: [String!]
+  link_lt: String
+  link_lte: String
+  link_gt: String
+  link_gte: String
+  link_contains: String
+  link_not_contains: String
+  link_starts_with: String
+  link_not_starts_with: String
+  link_ends_with: String
+  link_not_ends_with: String
   AND: [ReplyWhereInput!]
   OR: [ReplyWhereInput!]
   NOT: [ReplyWhereInput!]
@@ -1454,7 +1263,6 @@ input ReplyWhereUniqueInput {
 
 type Subscription {
   comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
-  link(where: LinkSubscriptionWhereInput): LinkSubscriptionPayload
   notification(where: NotificationSubscriptionWhereInput): NotificationSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   reply(where: ReplySubscriptionWhereInput): ReplySubscriptionPayload

@@ -17,7 +17,6 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   comment: (where?: CommentWhereInput) => Promise<boolean>;
-  link: (where?: LinkWhereInput) => Promise<boolean>;
   notification: (where?: NotificationWhereInput) => Promise<boolean>;
   post: (where?: PostWhereInput) => Promise<boolean>;
   reply: (where?: ReplyWhereInput) => Promise<boolean>;
@@ -62,25 +61,6 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => CommentConnectionPromise;
-  link: (where: LinkWhereUniqueInput) => LinkNullablePromise;
-  links: (args?: {
-    where?: LinkWhereInput;
-    orderBy?: LinkOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Link>;
-  linksConnection: (args?: {
-    where?: LinkWhereInput;
-    orderBy?: LinkOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => LinkConnectionPromise;
   notification: (
     where: NotificationWhereUniqueInput
   ) => NotificationNullablePromise;
@@ -181,22 +161,6 @@ export interface Prisma {
   }) => CommentPromise;
   deleteComment: (where: CommentWhereUniqueInput) => CommentPromise;
   deleteManyComments: (where?: CommentWhereInput) => BatchPayloadPromise;
-  createLink: (data: LinkCreateInput) => LinkPromise;
-  updateLink: (args: {
-    data: LinkUpdateInput;
-    where: LinkWhereUniqueInput;
-  }) => LinkPromise;
-  updateManyLinks: (args: {
-    data: LinkUpdateManyMutationInput;
-    where?: LinkWhereInput;
-  }) => BatchPayloadPromise;
-  upsertLink: (args: {
-    where: LinkWhereUniqueInput;
-    create: LinkCreateInput;
-    update: LinkUpdateInput;
-  }) => LinkPromise;
-  deleteLink: (where: LinkWhereUniqueInput) => LinkPromise;
-  deleteManyLinks: (where?: LinkWhereInput) => BatchPayloadPromise;
   createNotification: (data: NotificationCreateInput) => NotificationPromise;
   updateNotification: (args: {
     data: NotificationUpdateInput;
@@ -277,9 +241,6 @@ export interface Subscription {
   comment: (
     where?: CommentSubscriptionWhereInput
   ) => CommentSubscriptionPayloadSubscription;
-  link: (
-    where?: LinkSubscriptionWhereInput
-  ) => LinkSubscriptionPayloadSubscription;
   notification: (
     where?: NotificationSubscriptionWhereInput
   ) => NotificationSubscriptionPayloadSubscription;
@@ -346,25 +307,9 @@ export type ReplyOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC"
   | "content_ASC"
-  | "content_DESC";
-
-export type LinkOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "author_ASC"
-  | "author_DESC"
-  | "date_ASC"
-  | "date_DESC"
-  | "description_ASC"
-  | "description_DESC"
-  | "image_ASC"
-  | "image_DESC"
-  | "publisher_ASC"
-  | "publisher_DESC"
-  | "title_ASC"
-  | "title_DESC"
-  | "url_ASC"
-  | "url_DESC";
+  | "content_DESC"
+  | "link_ASC"
+  | "link_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -648,6 +593,20 @@ export interface ReplyWhereInput {
   content_ends_with?: Maybe<String>;
   content_not_ends_with?: Maybe<String>;
   comment?: Maybe<CommentWhereInput>;
+  link?: Maybe<String>;
+  link_not?: Maybe<String>;
+  link_in?: Maybe<String[] | String>;
+  link_not_in?: Maybe<String[] | String>;
+  link_lt?: Maybe<String>;
+  link_lte?: Maybe<String>;
+  link_gt?: Maybe<String>;
+  link_gte?: Maybe<String>;
+  link_contains?: Maybe<String>;
+  link_not_contains?: Maybe<String>;
+  link_starts_with?: Maybe<String>;
+  link_not_starts_with?: Maybe<String>;
+  link_ends_with?: Maybe<String>;
+  link_not_ends_with?: Maybe<String>;
   AND?: Maybe<ReplyWhereInput[] | ReplyWhereInput>;
   OR?: Maybe<ReplyWhereInput[] | ReplyWhereInput>;
   NOT?: Maybe<ReplyWhereInput[] | ReplyWhereInput>;
@@ -706,122 +665,6 @@ export interface CommentWhereInput {
   AND?: Maybe<CommentWhereInput[] | CommentWhereInput>;
   OR?: Maybe<CommentWhereInput[] | CommentWhereInput>;
   NOT?: Maybe<CommentWhereInput[] | CommentWhereInput>;
-}
-
-export type LinkWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface LinkWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  author?: Maybe<String>;
-  author_not?: Maybe<String>;
-  author_in?: Maybe<String[] | String>;
-  author_not_in?: Maybe<String[] | String>;
-  author_lt?: Maybe<String>;
-  author_lte?: Maybe<String>;
-  author_gt?: Maybe<String>;
-  author_gte?: Maybe<String>;
-  author_contains?: Maybe<String>;
-  author_not_contains?: Maybe<String>;
-  author_starts_with?: Maybe<String>;
-  author_not_starts_with?: Maybe<String>;
-  author_ends_with?: Maybe<String>;
-  author_not_ends_with?: Maybe<String>;
-  date?: Maybe<DateTimeInput>;
-  date_not?: Maybe<DateTimeInput>;
-  date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  date_lt?: Maybe<DateTimeInput>;
-  date_lte?: Maybe<DateTimeInput>;
-  date_gt?: Maybe<DateTimeInput>;
-  date_gte?: Maybe<DateTimeInput>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  image?: Maybe<String>;
-  image_not?: Maybe<String>;
-  image_in?: Maybe<String[] | String>;
-  image_not_in?: Maybe<String[] | String>;
-  image_lt?: Maybe<String>;
-  image_lte?: Maybe<String>;
-  image_gt?: Maybe<String>;
-  image_gte?: Maybe<String>;
-  image_contains?: Maybe<String>;
-  image_not_contains?: Maybe<String>;
-  image_starts_with?: Maybe<String>;
-  image_not_starts_with?: Maybe<String>;
-  image_ends_with?: Maybe<String>;
-  image_not_ends_with?: Maybe<String>;
-  publisher?: Maybe<String>;
-  publisher_not?: Maybe<String>;
-  publisher_in?: Maybe<String[] | String>;
-  publisher_not_in?: Maybe<String[] | String>;
-  publisher_lt?: Maybe<String>;
-  publisher_lte?: Maybe<String>;
-  publisher_gt?: Maybe<String>;
-  publisher_gte?: Maybe<String>;
-  publisher_contains?: Maybe<String>;
-  publisher_not_contains?: Maybe<String>;
-  publisher_starts_with?: Maybe<String>;
-  publisher_not_starts_with?: Maybe<String>;
-  publisher_ends_with?: Maybe<String>;
-  publisher_not_ends_with?: Maybe<String>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
-  url?: Maybe<String>;
-  url_not?: Maybe<String>;
-  url_in?: Maybe<String[] | String>;
-  url_not_in?: Maybe<String[] | String>;
-  url_lt?: Maybe<String>;
-  url_lte?: Maybe<String>;
-  url_gt?: Maybe<String>;
-  url_gte?: Maybe<String>;
-  url_contains?: Maybe<String>;
-  url_not_contains?: Maybe<String>;
-  url_starts_with?: Maybe<String>;
-  url_not_starts_with?: Maybe<String>;
-  url_ends_with?: Maybe<String>;
-  url_not_ends_with?: Maybe<String>;
-  AND?: Maybe<LinkWhereInput[] | LinkWhereInput>;
-  OR?: Maybe<LinkWhereInput[] | LinkWhereInput>;
-  NOT?: Maybe<LinkWhereInput[] | LinkWhereInput>;
 }
 
 export type NotificationWhereUniqueInput = AtLeastOne<{
@@ -904,6 +747,7 @@ export interface ReplyCreateWithoutCommentInput {
   id?: Maybe<ID_Input>;
   author: UserCreateOneInput;
   content: String;
+  link?: Maybe<String>;
 }
 
 export interface NotificationCreateManyWithoutUserInput {
@@ -963,6 +807,7 @@ export interface ReplyCreateInput {
   author: UserCreateOneInput;
   content: String;
   comment: CommentCreateOneWithoutRepliesInput;
+  link?: Maybe<String>;
 }
 
 export interface CommentCreateOneWithoutRepliesInput {
@@ -1112,6 +957,7 @@ export interface ReplyUpdateWithWhereUniqueWithoutCommentInput {
 export interface ReplyUpdateWithoutCommentDataInput {
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
+  link?: Maybe<String>;
 }
 
 export interface ReplyUpsertWithWhereUniqueWithoutCommentInput {
@@ -1165,6 +1011,20 @@ export interface ReplyScalarWhereInput {
   content_not_starts_with?: Maybe<String>;
   content_ends_with?: Maybe<String>;
   content_not_ends_with?: Maybe<String>;
+  link?: Maybe<String>;
+  link_not?: Maybe<String>;
+  link_in?: Maybe<String[] | String>;
+  link_not_in?: Maybe<String[] | String>;
+  link_lt?: Maybe<String>;
+  link_lte?: Maybe<String>;
+  link_gt?: Maybe<String>;
+  link_gte?: Maybe<String>;
+  link_contains?: Maybe<String>;
+  link_not_contains?: Maybe<String>;
+  link_starts_with?: Maybe<String>;
+  link_not_starts_with?: Maybe<String>;
+  link_ends_with?: Maybe<String>;
+  link_not_ends_with?: Maybe<String>;
   AND?: Maybe<ReplyScalarWhereInput[] | ReplyScalarWhereInput>;
   OR?: Maybe<ReplyScalarWhereInput[] | ReplyScalarWhereInput>;
   NOT?: Maybe<ReplyScalarWhereInput[] | ReplyScalarWhereInput>;
@@ -1177,6 +1037,7 @@ export interface ReplyUpdateManyWithWhereNestedInput {
 
 export interface ReplyUpdateManyDataInput {
   content?: Maybe<String>;
+  link?: Maybe<String>;
 }
 
 export interface CommentUpsertWithWhereUniqueWithoutPostInput {
@@ -1438,6 +1299,7 @@ export interface ReplyUpdateDataInput {
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   comment?: Maybe<CommentUpdateOneRequiredWithoutRepliesInput>;
+  link?: Maybe<String>;
 }
 
 export interface CommentUpdateOneRequiredWithoutRepliesInput {
@@ -1552,37 +1414,6 @@ export interface CommentUpdateManyMutationInput {
   content?: Maybe<String>;
 }
 
-export interface LinkCreateInput {
-  id?: Maybe<ID_Input>;
-  author?: Maybe<String>;
-  date: DateTimeInput;
-  description: String;
-  image?: Maybe<String>;
-  publisher?: Maybe<String>;
-  title: String;
-  url: String;
-}
-
-export interface LinkUpdateInput {
-  author?: Maybe<String>;
-  date?: Maybe<DateTimeInput>;
-  description?: Maybe<String>;
-  image?: Maybe<String>;
-  publisher?: Maybe<String>;
-  title?: Maybe<String>;
-  url?: Maybe<String>;
-}
-
-export interface LinkUpdateManyMutationInput {
-  author?: Maybe<String>;
-  date?: Maybe<DateTimeInput>;
-  description?: Maybe<String>;
-  image?: Maybe<String>;
-  publisher?: Maybe<String>;
-  title?: Maybe<String>;
-  url?: Maybe<String>;
-}
-
 export interface NotificationCreateInput {
   id?: Maybe<ID_Input>;
   user: UserCreateOneWithoutNotificationsInput;
@@ -1661,10 +1492,12 @@ export interface ReplyUpdateInput {
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   comment?: Maybe<CommentUpdateOneRequiredWithoutRepliesInput>;
+  link?: Maybe<String>;
 }
 
 export interface ReplyUpdateManyMutationInput {
   content?: Maybe<String>;
+  link?: Maybe<String>;
 }
 
 export interface UserUpdateInput {
@@ -1694,17 +1527,6 @@ export interface CommentSubscriptionWhereInput {
   AND?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
   OR?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
   NOT?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
-}
-
-export interface LinkSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<LinkWhereInput>;
-  AND?: Maybe<LinkSubscriptionWhereInput[] | LinkSubscriptionWhereInput>;
-  OR?: Maybe<LinkSubscriptionWhereInput[] | LinkSubscriptionWhereInput>;
-  NOT?: Maybe<LinkSubscriptionWhereInput[] | LinkSubscriptionWhereInput>;
 }
 
 export interface NotificationSubscriptionWhereInput {
@@ -2042,6 +1864,7 @@ export interface Reply {
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
   content: String;
+  link?: String;
 }
 
 export interface ReplyPromise extends Promise<Reply>, Fragmentable {
@@ -2051,6 +1874,7 @@ export interface ReplyPromise extends Promise<Reply>, Fragmentable {
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
   comment: <T = CommentPromise>() => T;
+  link: () => Promise<String>;
 }
 
 export interface ReplySubscription
@@ -2062,6 +1886,7 @@ export interface ReplySubscription
   author: <T = UserSubscription>() => T;
   content: () => Promise<AsyncIterator<String>>;
   comment: <T = CommentSubscription>() => T;
+  link: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ReplyNullablePromise
@@ -2073,6 +1898,7 @@ export interface ReplyNullablePromise
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
   comment: <T = CommentPromise>() => T;
+  link: () => Promise<String>;
 }
 
 export interface CommentConnection {
@@ -2148,108 +1974,6 @@ export interface AggregateCommentPromise
 
 export interface AggregateCommentSubscription
   extends Promise<AsyncIterator<AggregateComment>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Link {
-  id: ID_Output;
-  author?: String;
-  date: DateTimeOutput;
-  description: String;
-  image?: String;
-  publisher?: String;
-  title: String;
-  url: String;
-}
-
-export interface LinkPromise extends Promise<Link>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  author: () => Promise<String>;
-  date: () => Promise<DateTimeOutput>;
-  description: () => Promise<String>;
-  image: () => Promise<String>;
-  publisher: () => Promise<String>;
-  title: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface LinkSubscription
-  extends Promise<AsyncIterator<Link>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  author: () => Promise<AsyncIterator<String>>;
-  date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  description: () => Promise<AsyncIterator<String>>;
-  image: () => Promise<AsyncIterator<String>>;
-  publisher: () => Promise<AsyncIterator<String>>;
-  title: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
-export interface LinkNullablePromise
-  extends Promise<Link | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  author: () => Promise<String>;
-  date: () => Promise<DateTimeOutput>;
-  description: () => Promise<String>;
-  image: () => Promise<String>;
-  publisher: () => Promise<String>;
-  title: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface LinkConnection {
-  pageInfo: PageInfo;
-  edges: LinkEdge[];
-}
-
-export interface LinkConnectionPromise
-  extends Promise<LinkConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<LinkEdge>>() => T;
-  aggregate: <T = AggregateLinkPromise>() => T;
-}
-
-export interface LinkConnectionSubscription
-  extends Promise<AsyncIterator<LinkConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<LinkEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateLinkSubscription>() => T;
-}
-
-export interface LinkEdge {
-  node: Link;
-  cursor: String;
-}
-
-export interface LinkEdgePromise extends Promise<LinkEdge>, Fragmentable {
-  node: <T = LinkPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface LinkEdgeSubscription
-  extends Promise<AsyncIterator<LinkEdge>>,
-    Fragmentable {
-  node: <T = LinkSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateLink {
-  count: Int;
-}
-
-export interface AggregateLinkPromise
-  extends Promise<AggregateLink>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateLinkSubscription
-  extends Promise<AsyncIterator<AggregateLink>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -2538,68 +2262,6 @@ export interface CommentPreviousValuesSubscription
   content: () => Promise<AsyncIterator<String>>;
 }
 
-export interface LinkSubscriptionPayload {
-  mutation: MutationType;
-  node: Link;
-  updatedFields: String[];
-  previousValues: LinkPreviousValues;
-}
-
-export interface LinkSubscriptionPayloadPromise
-  extends Promise<LinkSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = LinkPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = LinkPreviousValuesPromise>() => T;
-}
-
-export interface LinkSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<LinkSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = LinkSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = LinkPreviousValuesSubscription>() => T;
-}
-
-export interface LinkPreviousValues {
-  id: ID_Output;
-  author?: String;
-  date: DateTimeOutput;
-  description: String;
-  image?: String;
-  publisher?: String;
-  title: String;
-  url: String;
-}
-
-export interface LinkPreviousValuesPromise
-  extends Promise<LinkPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  author: () => Promise<String>;
-  date: () => Promise<DateTimeOutput>;
-  description: () => Promise<String>;
-  image: () => Promise<String>;
-  publisher: () => Promise<String>;
-  title: () => Promise<String>;
-  url: () => Promise<String>;
-}
-
-export interface LinkPreviousValuesSubscription
-  extends Promise<AsyncIterator<LinkPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  author: () => Promise<AsyncIterator<String>>;
-  date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  description: () => Promise<AsyncIterator<String>>;
-  image: () => Promise<AsyncIterator<String>>;
-  publisher: () => Promise<AsyncIterator<String>>;
-  title: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-}
-
 export interface NotificationSubscriptionPayload {
   mutation: MutationType;
   node: Notification;
@@ -2739,6 +2401,7 @@ export interface ReplyPreviousValues {
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
   content: String;
+  link?: String;
 }
 
 export interface ReplyPreviousValuesPromise
@@ -2748,6 +2411,7 @@ export interface ReplyPreviousValuesPromise
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   content: () => Promise<String>;
+  link: () => Promise<String>;
 }
 
 export interface ReplyPreviousValuesSubscription
@@ -2757,6 +2421,7 @@ export interface ReplyPreviousValuesSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   content: () => Promise<AsyncIterator<String>>;
+  link: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -2871,10 +2536,6 @@ export const models: Model[] = [
   },
   {
     name: "Notification",
-    embedded: false
-  },
-  {
-    name: "Link",
     embedded: false
   }
 ];
