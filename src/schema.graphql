@@ -8,12 +8,14 @@ type Query {
   comment(id: ID!): Comment
   reply(id: ID!): Reply
   me: User
+  link(url: URL): Link
 }
 
 type Mutation {
   ageNotification(id: String!): Notification!
   completeUserOnboarding: User!
   createComment(content: String!, id: ID!): Comment!
+  createLink(url: URL!): Link!
   createNotification(
     postId: String!
     replyId: String
@@ -93,4 +95,15 @@ type Notification {
   createdAt: DateTime!
   content: NotificationContent!
   newNotification: Boolean!
+}
+
+type Link {
+  id: ID!
+  author: String
+  date: DateTime!
+  description: String!
+  image: URL
+  publisher: String
+  title: String!
+  url: URL!
 }

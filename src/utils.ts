@@ -31,3 +31,22 @@ export async function notificationsExist(postId, ctx) {
   });
   return notifications.length > 0;
 }
+
+export async function fetchMetaData(url: string) {
+  const metascraper = require("metascraper")([
+    require("metascraper-author")(),
+    require("metascraper-date")(),
+    require("metascraper-description")(),
+    require("metascraper-image")(),
+    require("metascraper-publisher")(),
+    require("metascraper-title")(),
+    require("metascraper-url")()
+  ]);
+
+  const got = require("got");
+
+  const { body: html } = await got(url);
+  const metadata = await metascraper({ html, url });
+
+  return metadata;
+}

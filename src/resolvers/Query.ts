@@ -1,4 +1,5 @@
 import { getUserId, Context } from "../utils";
+import { link } from "./Mutation/link";
 
 export const Query = {
   feed(parent, args, ctx: Context) {
@@ -23,6 +24,14 @@ export const Query = {
 
   comment(parent, { id }, ctx: Context) {
     return ctx.prisma.comment({ id });
+  },
+
+  async link(parent, { url }, ctx: Context) {
+    const links = await ctx.prisma.links({ where: { url } });
+    if (links.length > 0) return links[0];
+
+    const createdLink = await link.createLink({}, { url }, ctx, {});
+    return createdLink;
   },
 
   post(parent, { id }, ctx: Context) {

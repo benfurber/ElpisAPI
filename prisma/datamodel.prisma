@@ -49,3 +49,14 @@ type Notification {
   newNotification: Boolean! @default(value: true)
   type: String!
 }
+
+type Link {
+  id: ID! @id
+  author: String
+  date: DateTime!
+  description: String!
+  image: String
+  publisher: String
+  title: String!
+  url: String!
+}
