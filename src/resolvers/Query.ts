@@ -1,5 +1,4 @@
 import { Context, getUserId, fetchMetaData } from "../utils";
-import { link } from "./Mutation/link";
 
 export const Query = {
   feed(parent, args, ctx: Context) {

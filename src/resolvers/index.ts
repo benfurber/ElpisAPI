@@ -2,7 +2,6 @@ import { Query } from "./Query";
 import { Subscription } from "./Subscription";
 import { auth } from "./Mutation/auth";
 import { comment } from "./Mutation/comment";
-import { link } from "./Mutation/link";
 import { notification } from "./Mutation/notification";
 import { post } from "./Mutation/post";
 import { reply } from "./Mutation/reply";
@@ -19,7 +18,6 @@ export default {
   Mutation: {
     ...auth,
     ...comment,
-    ...link,
     ...notification,
     ...post,
     ...reply,
