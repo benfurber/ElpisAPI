@@ -47,6 +47,7 @@ export async function fetchMetaData(url: string) {
 
   const { body: html } = await got(url);
   const metadata = await metascraper({ html, url });
+  metadata.id = hashCode(metadata.url);
 
   return metadata;
 }
@@ -74,4 +75,11 @@ function validURL(url: string) {
   ); // fragment locator
 
   return !!pattern.test(url);
+}
+
+function hashCode(string: string) {
+  return Array.from(string).reduce(
+    (s, c) => (Math.imul(31, s) + c.charCodeAt(0)) | 0,
+    0
+  );
 }
