@@ -7,8 +7,7 @@ export const Reply = {
   comment: ({ id }, args, ctx: Context) => {
     return ctx.prisma.reply({ id }).comment();
   },
-  link: async ({ id }, args, ctx: Context) => {
-    const link = await ctx.prisma.reply({ id }).link();
-    return fetchMetaData(link);
+  link: ({ id }, args, ctx: Context) => {
+    return ctx.prisma.reply({ id }).link();
   }
 };

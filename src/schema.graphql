@@ -80,7 +80,7 @@ type Reply {
   createdAt: DateTime!
   content: String!
   comment: Comment!
-  link: Link
+  link: URL
 }
 
 type NotificationContent {
