@@ -15,7 +15,6 @@ type Mutation {
   ageNotification(id: String!): Notification!
   completeUserOnboarding: User!
   createComment(content: String!, id: ID!): Comment!
-  createLink(url: URL!): Link!
   createNotification(
     postId: String!
     replyId: String
@@ -81,6 +80,7 @@ type Reply {
   createdAt: DateTime!
   content: String!
   comment: Comment!
+  link: Link
 }
 
 type NotificationContent {
