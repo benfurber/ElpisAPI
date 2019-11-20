@@ -3,14 +3,15 @@ import { notification } from "./notification";
 
 export const post = {
   async createPost(parent, args, ctx: Context, info) {
-    const { title, content, imagePath, published } = args;
+    const { title, content, imagePath } = args;
+    const published = args.published || true;
 
     const userId = getUserId(ctx);
-    const post = ctx.prisma.createPost({
+    const post = await ctx.prisma.createPost({
       title,
       content,
       imagePath,
-      published: published || true,
+      published,
       author: {
         connect: { id: userId }
       }
