@@ -1,6 +1,5 @@
 import { GraphQLServer } from "graphql-yoga";
-
-if (process.env.NODE_ENV !== "production") require("dotenv").config();
+require("./utils/dotenv");
 
 import { prisma } from "./generated/prisma-client";
 import resolvers from "./resolvers";
