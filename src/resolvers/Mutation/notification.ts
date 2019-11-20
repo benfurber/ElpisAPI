@@ -1,4 +1,4 @@
-import { Context, notificationsExist } from "../../utils";
+import { Context, notificationsExist, notificationService } from "../../utils";
 
 export const notification = {
   async createNotification(parent, args, ctx: Context, info) {
@@ -11,6 +11,8 @@ export const notification = {
       newNotification: true,
       type: replyId ? "comment" : "post"
     });
+
+    createPushNotification(userId);
     return notification;
   },
 
@@ -27,7 +29,7 @@ export const notification = {
       users,
       args,
       ctx,
-      this.createNotification
+      notification.createNotification
     );
 
     if (!notifications) {
@@ -65,4 +67,17 @@ async function notificationPerUser(users, args, ctx, createNotification) {
 
     return notification;
   });
+}
+
+function createPushNotification(userId) {
+  const notification = {
+    contents: {
+      en: "New post"
+    },
+    headings: {
+      en: "Deets"
+    },
+    users: [userId]
+  };
+  return notificationService.sendNotification(notification);
 }
