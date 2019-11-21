@@ -1,11 +1,8 @@
-var OneSignal = require("onesignal-node");
+const OneSignal = require("onesignal-node");
 require("./dotenv");
 
 const { ONE_SIGNAL_APP_AUTH_KEY, ONE_SIGNAL_APP_ID } = process.env;
-
-const client = new OneSignal.Client({
-  app: { appAuthKey: ONE_SIGNAL_APP_AUTH_KEY, appId: ONE_SIGNAL_APP_ID }
-});
+import { NotificationDetails } from "../types";
 
 const NOTIFICATION_CONSTANTS = {
   ios_badgeType: "Increase",
@@ -15,11 +12,11 @@ const NOTIFICATION_CONSTANTS = {
 class NotificationService {
   client: any;
 
-  constructor() {
+  constructor(client) {
     this.client = client;
   }
 
-  createNotification(notificationDetails) {
+  createNotification(notificationDetails: NotificationDetails) {
     notificationDetails.include_external_user_ids = notificationDetails.users;
     const notification = new OneSignal.Notification({
       ...notificationDetails,
@@ -29,7 +26,7 @@ class NotificationService {
     return notification;
   }
 
-  sendNotification(notificationDetails) {
+  sendNotification(notificationDetails: NotificationDetails) {
     const notification = this.createNotification(notificationDetails);
     this.client
       .sendNotification(notification)
@@ -42,6 +39,9 @@ class NotificationService {
   }
 }
 
-const notificationService = new NotificationService();
+const client = new OneSignal.Client({
+  app: { appAuthKey: ONE_SIGNAL_APP_AUTH_KEY, appId: ONE_SIGNAL_APP_ID }
+});
+const notificationService = new NotificationService(client);
 
 export { notificationService };
