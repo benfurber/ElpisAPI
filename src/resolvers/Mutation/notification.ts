@@ -1,3 +1,5 @@
+import { labels } from "../../labels";
+import { NotificationDetails } from "../../types";
 import { Context, notificationsExist, notificationService } from "../../utils";
 
 export const notification = {
@@ -12,7 +14,11 @@ export const notification = {
       type: replyId ? "comment" : "post"
     });
 
-    createPushNotification(userId);
+    createPushNotification(userId, ctx, {
+      type: notification.type,
+      author: "Ben",
+      contentId: replyId ? replyId : postId
+    });
     return notification;
   },
 
@@ -69,15 +75,42 @@ async function notificationPerUser(users, args, ctx, createNotification) {
   });
 }
 
-function createPushNotification(userId) {
-  const notification = {
+async function createPushNotification(userId, ctx, details) {
+  const notification: NotificationDetails = await pushNotificationFactory(
+    userId,
+    ctx,
+    details
+  );
+  if (notification) {
+    return notificationService.sendNotification(notification);
+  }
+}
+
+const pushNotificationFactory = async (
+  userId,
+  ctx: Context,
+  details
+): Promise<NotificationDetails> => {
+  const { author, contentId, type } = details;
+  const { published, leftAComment } = labels.notifications;
+
+  if (type === "comment") {
+    const { content } = await ctx.prisma.reply({ id: contentId }).comment();
+    return pushNotificationFormat(content, `${author} ${leftAComment}`, userId);
+  }
+
+  const { title } = await ctx.prisma.post({ id: contentId });
+  return pushNotificationFormat(title, `${author} ${published}`, userId);
+};
+
+function pushNotificationFormat(content, heading, userId): NotificationDetails {
+  return {
     contents: {
-      en: "New post"
+      en: content
     },
     headings: {
-      en: "Deets"
+      en: heading
     },
     users: [userId]
   };
-  return notificationService.sendNotification(notification);
 }
