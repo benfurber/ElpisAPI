@@ -95,16 +95,36 @@ const pushNotificationFactory = async (
   if (type === "comment") {
     const { content } = await ctx.prisma.reply({ id: contentId });
     const { name } = await ctx.prisma.reply({ id: contentId }).author();
-    return pushNotificationFormat(content, `${name} ${leftAComment}`, userId);
+    const { id } = await ctx.prisma
+      .reply({ id: contentId })
+      .comment()
+      .post();
+    return pushNotificationFormat({
+      content,
+      heading: `${name} ${leftAComment}`,
+      postId: id,
+      userId
+    });
   }
 
   const { title } = await ctx.prisma.post({ id: contentId });
   const { name } = await ctx.prisma.post({ id: contentId }).author();
-  return pushNotificationFormat(title, `${name} ${published}`, userId);
+  return pushNotificationFormat({
+    content: title,
+    heading: `${name} ${published}`,
+    postId: contentId,
+    userId
+  });
 };
 
-function pushNotificationFormat(content, heading, userId): NotificationDetails {
+function pushNotificationFormat({
+  content,
+  heading,
+  postId,
+  userId
+}): NotificationDetails {
   return {
+    app_url: `elpis://notification/post/${postId}`,
     contents: {
       en: content
     },

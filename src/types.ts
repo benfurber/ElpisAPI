@@ -1,4 +1,5 @@
 export type NotificationDetails = {
+  app_url: string;
   contents: {
     en: string;
   };
