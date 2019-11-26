@@ -357,10 +357,20 @@ type NotificationConnection {
 input NotificationCreateInput {
   id: ID
   user: UserCreateOneWithoutNotificationsInput!
-  post: PostCreateOneInput!
-  reply: ReplyCreateOneInput
+  post: PostCreateOneWithoutNotificationsInput!
+  reply: ReplyCreateOneWithoutNotificationsInput
   newNotification: Boolean
   type: String!
+}
+
+input NotificationCreateManyWithoutPostInput {
+  create: [NotificationCreateWithoutPostInput!]
+  connect: [NotificationWhereUniqueInput!]
+}
+
+input NotificationCreateManyWithoutReplyInput {
+  create: [NotificationCreateWithoutReplyInput!]
+  connect: [NotificationWhereUniqueInput!]
 }
 
 input NotificationCreateManyWithoutUserInput {
@@ -368,10 +378,26 @@ input NotificationCreateManyWithoutUserInput {
   connect: [NotificationWhereUniqueInput!]
 }
 
+input NotificationCreateWithoutPostInput {
+  id: ID
+  user: UserCreateOneWithoutNotificationsInput!
+  reply: ReplyCreateOneWithoutNotificationsInput
+  newNotification: Boolean
+  type: String!
+}
+
+input NotificationCreateWithoutReplyInput {
+  id: ID
+  user: UserCreateOneWithoutNotificationsInput!
+  post: PostCreateOneWithoutNotificationsInput!
+  newNotification: Boolean
+  type: String!
+}
+
 input NotificationCreateWithoutUserInput {
   id: ID
-  post: PostCreateOneInput!
-  reply: ReplyCreateOneInput
+  post: PostCreateOneWithoutNotificationsInput!
+  reply: ReplyCreateOneWithoutNotificationsInput
   newNotification: Boolean
   type: String!
 }
@@ -463,8 +489,8 @@ input NotificationSubscriptionWhereInput {
 
 input NotificationUpdateInput {
   user: UserUpdateOneRequiredWithoutNotificationsInput
-  post: PostUpdateOneRequiredInput
-  reply: ReplyUpdateOneInput
+  post: PostUpdateOneRequiredWithoutNotificationsInput
+  reply: ReplyUpdateOneWithoutNotificationsInput
   newNotification: Boolean
   type: String
 }
@@ -477,6 +503,30 @@ input NotificationUpdateManyDataInput {
 input NotificationUpdateManyMutationInput {
   newNotification: Boolean
   type: String
+}
+
+input NotificationUpdateManyWithoutPostInput {
+  create: [NotificationCreateWithoutPostInput!]
+  delete: [NotificationWhereUniqueInput!]
+  connect: [NotificationWhereUniqueInput!]
+  set: [NotificationWhereUniqueInput!]
+  disconnect: [NotificationWhereUniqueInput!]
+  update: [NotificationUpdateWithWhereUniqueWithoutPostInput!]
+  upsert: [NotificationUpsertWithWhereUniqueWithoutPostInput!]
+  deleteMany: [NotificationScalarWhereInput!]
+  updateMany: [NotificationUpdateManyWithWhereNestedInput!]
+}
+
+input NotificationUpdateManyWithoutReplyInput {
+  create: [NotificationCreateWithoutReplyInput!]
+  delete: [NotificationWhereUniqueInput!]
+  connect: [NotificationWhereUniqueInput!]
+  set: [NotificationWhereUniqueInput!]
+  disconnect: [NotificationWhereUniqueInput!]
+  update: [NotificationUpdateWithWhereUniqueWithoutReplyInput!]
+  upsert: [NotificationUpsertWithWhereUniqueWithoutReplyInput!]
+  deleteMany: [NotificationScalarWhereInput!]
+  updateMany: [NotificationUpdateManyWithWhereNestedInput!]
 }
 
 input NotificationUpdateManyWithoutUserInput {
@@ -496,16 +546,52 @@ input NotificationUpdateManyWithWhereNestedInput {
   data: NotificationUpdateManyDataInput!
 }
 
-input NotificationUpdateWithoutUserDataInput {
-  post: PostUpdateOneRequiredInput
-  reply: ReplyUpdateOneInput
+input NotificationUpdateWithoutPostDataInput {
+  user: UserUpdateOneRequiredWithoutNotificationsInput
+  reply: ReplyUpdateOneWithoutNotificationsInput
   newNotification: Boolean
   type: String
+}
+
+input NotificationUpdateWithoutReplyDataInput {
+  user: UserUpdateOneRequiredWithoutNotificationsInput
+  post: PostUpdateOneRequiredWithoutNotificationsInput
+  newNotification: Boolean
+  type: String
+}
+
+input NotificationUpdateWithoutUserDataInput {
+  post: PostUpdateOneRequiredWithoutNotificationsInput
+  reply: ReplyUpdateOneWithoutNotificationsInput
+  newNotification: Boolean
+  type: String
+}
+
+input NotificationUpdateWithWhereUniqueWithoutPostInput {
+  where: NotificationWhereUniqueInput!
+  data: NotificationUpdateWithoutPostDataInput!
+}
+
+input NotificationUpdateWithWhereUniqueWithoutReplyInput {
+  where: NotificationWhereUniqueInput!
+  data: NotificationUpdateWithoutReplyDataInput!
 }
 
 input NotificationUpdateWithWhereUniqueWithoutUserInput {
   where: NotificationWhereUniqueInput!
   data: NotificationUpdateWithoutUserDataInput!
+}
+
+input NotificationUpsertWithWhereUniqueWithoutPostInput {
+  where: NotificationWhereUniqueInput!
+  update: NotificationUpdateWithoutPostDataInput!
+  create: NotificationCreateWithoutPostInput!
+}
+
+input NotificationUpsertWithWhereUniqueWithoutReplyInput {
+  where: NotificationWhereUniqueInput!
+  update: NotificationUpdateWithoutReplyDataInput!
+  create: NotificationCreateWithoutReplyInput!
 }
 
 input NotificationUpsertWithWhereUniqueWithoutUserInput {
@@ -582,6 +668,7 @@ type Post {
   imagePath: String
   author: User!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
+  notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
 }
 
 type PostConnection {
@@ -598,6 +685,7 @@ input PostCreateInput {
   imagePath: String
   author: UserCreateOneWithoutPostsInput!
   comments: CommentCreateManyWithoutPostInput
+  notifications: NotificationCreateManyWithoutPostInput
 }
 
 input PostCreateManyWithoutAuthorInput {
@@ -605,13 +693,13 @@ input PostCreateManyWithoutAuthorInput {
   connect: [PostWhereUniqueInput!]
 }
 
-input PostCreateOneInput {
-  create: PostCreateInput
+input PostCreateOneWithoutCommentsInput {
+  create: PostCreateWithoutCommentsInput
   connect: PostWhereUniqueInput
 }
 
-input PostCreateOneWithoutCommentsInput {
-  create: PostCreateWithoutCommentsInput
+input PostCreateOneWithoutNotificationsInput {
+  create: PostCreateWithoutNotificationsInput
   connect: PostWhereUniqueInput
 }
 
@@ -622,6 +710,7 @@ input PostCreateWithoutAuthorInput {
   content: String!
   imagePath: String
   comments: CommentCreateManyWithoutPostInput
+  notifications: NotificationCreateManyWithoutPostInput
 }
 
 input PostCreateWithoutCommentsInput {
@@ -631,6 +720,17 @@ input PostCreateWithoutCommentsInput {
   content: String!
   imagePath: String
   author: UserCreateOneWithoutPostsInput!
+  notifications: NotificationCreateManyWithoutPostInput
+}
+
+input PostCreateWithoutNotificationsInput {
+  id: ID
+  published: Boolean
+  title: String
+  content: String!
+  imagePath: String
+  author: UserCreateOneWithoutPostsInput!
+  comments: CommentCreateManyWithoutPostInput
 }
 
 type PostEdge {
@@ -763,15 +863,6 @@ input PostSubscriptionWhereInput {
   NOT: [PostSubscriptionWhereInput!]
 }
 
-input PostUpdateDataInput {
-  published: Boolean
-  title: String
-  content: String
-  imagePath: String
-  author: UserUpdateOneRequiredWithoutPostsInput
-  comments: CommentUpdateManyWithoutPostInput
-}
-
 input PostUpdateInput {
   published: Boolean
   title: String
@@ -779,6 +870,7 @@ input PostUpdateInput {
   imagePath: String
   author: UserUpdateOneRequiredWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
+  notifications: NotificationUpdateManyWithoutPostInput
 }
 
 input PostUpdateManyDataInput {
@@ -812,17 +904,17 @@ input PostUpdateManyWithWhereNestedInput {
   data: PostUpdateManyDataInput!
 }
 
-input PostUpdateOneRequiredInput {
-  create: PostCreateInput
-  update: PostUpdateDataInput
-  upsert: PostUpsertNestedInput
-  connect: PostWhereUniqueInput
-}
-
 input PostUpdateOneRequiredWithoutCommentsInput {
   create: PostCreateWithoutCommentsInput
   update: PostUpdateWithoutCommentsDataInput
   upsert: PostUpsertWithoutCommentsInput
+  connect: PostWhereUniqueInput
+}
+
+input PostUpdateOneRequiredWithoutNotificationsInput {
+  create: PostCreateWithoutNotificationsInput
+  update: PostUpdateWithoutNotificationsDataInput
+  upsert: PostUpsertWithoutNotificationsInput
   connect: PostWhereUniqueInput
 }
 
@@ -832,6 +924,7 @@ input PostUpdateWithoutAuthorDataInput {
   content: String
   imagePath: String
   comments: CommentUpdateManyWithoutPostInput
+  notifications: NotificationUpdateManyWithoutPostInput
 }
 
 input PostUpdateWithoutCommentsDataInput {
@@ -840,6 +933,16 @@ input PostUpdateWithoutCommentsDataInput {
   content: String
   imagePath: String
   author: UserUpdateOneRequiredWithoutPostsInput
+  notifications: NotificationUpdateManyWithoutPostInput
+}
+
+input PostUpdateWithoutNotificationsDataInput {
+  published: Boolean
+  title: String
+  content: String
+  imagePath: String
+  author: UserUpdateOneRequiredWithoutPostsInput
+  comments: CommentUpdateManyWithoutPostInput
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -847,14 +950,14 @@ input PostUpdateWithWhereUniqueWithoutAuthorInput {
   data: PostUpdateWithoutAuthorDataInput!
 }
 
-input PostUpsertNestedInput {
-  update: PostUpdateDataInput!
-  create: PostCreateInput!
-}
-
 input PostUpsertWithoutCommentsInput {
   update: PostUpdateWithoutCommentsDataInput!
   create: PostCreateWithoutCommentsInput!
+}
+
+input PostUpsertWithoutNotificationsInput {
+  update: PostUpdateWithoutNotificationsDataInput!
+  create: PostCreateWithoutNotificationsInput!
 }
 
 input PostUpsertWithWhereUniqueWithoutAuthorInput {
@@ -942,6 +1045,9 @@ input PostWhereInput {
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
   comments_none: CommentWhereInput
+  notifications_every: NotificationWhereInput
+  notifications_some: NotificationWhereInput
+  notifications_none: NotificationWhereInput
   AND: [PostWhereInput!]
   OR: [PostWhereInput!]
   NOT: [PostWhereInput!]
@@ -978,6 +1084,7 @@ type Reply {
   content: String!
   comment: Comment!
   link: String
+  notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
 }
 
 type ReplyConnection {
@@ -992,6 +1099,7 @@ input ReplyCreateInput {
   content: String!
   comment: CommentCreateOneWithoutRepliesInput!
   link: String
+  notifications: NotificationCreateManyWithoutReplyInput
 }
 
 input ReplyCreateManyWithoutCommentInput {
@@ -999,8 +1107,8 @@ input ReplyCreateManyWithoutCommentInput {
   connect: [ReplyWhereUniqueInput!]
 }
 
-input ReplyCreateOneInput {
-  create: ReplyCreateInput
+input ReplyCreateOneWithoutNotificationsInput {
+  create: ReplyCreateWithoutNotificationsInput
   connect: ReplyWhereUniqueInput
 }
 
@@ -1008,6 +1116,15 @@ input ReplyCreateWithoutCommentInput {
   id: ID
   author: UserCreateOneInput!
   content: String!
+  link: String
+  notifications: NotificationCreateManyWithoutReplyInput
+}
+
+input ReplyCreateWithoutNotificationsInput {
+  id: ID
+  author: UserCreateOneInput!
+  content: String!
+  comment: CommentCreateOneWithoutRepliesInput!
   link: String
 }
 
@@ -1119,18 +1236,12 @@ input ReplySubscriptionWhereInput {
   NOT: [ReplySubscriptionWhereInput!]
 }
 
-input ReplyUpdateDataInput {
-  author: UserUpdateOneRequiredInput
-  content: String
-  comment: CommentUpdateOneRequiredWithoutRepliesInput
-  link: String
-}
-
 input ReplyUpdateInput {
   author: UserUpdateOneRequiredInput
   content: String
   comment: CommentUpdateOneRequiredWithoutRepliesInput
   link: String
+  notifications: NotificationUpdateManyWithoutReplyInput
 }
 
 input ReplyUpdateManyDataInput {
@@ -1160,10 +1271,10 @@ input ReplyUpdateManyWithWhereNestedInput {
   data: ReplyUpdateManyDataInput!
 }
 
-input ReplyUpdateOneInput {
-  create: ReplyCreateInput
-  update: ReplyUpdateDataInput
-  upsert: ReplyUpsertNestedInput
+input ReplyUpdateOneWithoutNotificationsInput {
+  create: ReplyCreateWithoutNotificationsInput
+  update: ReplyUpdateWithoutNotificationsDataInput
+  upsert: ReplyUpsertWithoutNotificationsInput
   delete: Boolean
   disconnect: Boolean
   connect: ReplyWhereUniqueInput
@@ -1173,6 +1284,14 @@ input ReplyUpdateWithoutCommentDataInput {
   author: UserUpdateOneRequiredInput
   content: String
   link: String
+  notifications: NotificationUpdateManyWithoutReplyInput
+}
+
+input ReplyUpdateWithoutNotificationsDataInput {
+  author: UserUpdateOneRequiredInput
+  content: String
+  comment: CommentUpdateOneRequiredWithoutRepliesInput
+  link: String
 }
 
 input ReplyUpdateWithWhereUniqueWithoutCommentInput {
@@ -1180,9 +1299,9 @@ input ReplyUpdateWithWhereUniqueWithoutCommentInput {
   data: ReplyUpdateWithoutCommentDataInput!
 }
 
-input ReplyUpsertNestedInput {
-  update: ReplyUpdateDataInput!
-  create: ReplyCreateInput!
+input ReplyUpsertWithoutNotificationsInput {
+  update: ReplyUpdateWithoutNotificationsDataInput!
+  create: ReplyCreateWithoutNotificationsInput!
 }
 
 input ReplyUpsertWithWhereUniqueWithoutCommentInput {
@@ -1252,6 +1371,9 @@ input ReplyWhereInput {
   link_not_starts_with: String
   link_ends_with: String
   link_not_ends_with: String
+  notifications_every: NotificationWhereInput
+  notifications_some: NotificationWhereInput
+  notifications_none: NotificationWhereInput
   AND: [ReplyWhereInput!]
   OR: [ReplyWhereInput!]
   NOT: [ReplyWhereInput!]
