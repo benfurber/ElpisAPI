@@ -410,6 +410,9 @@ export interface PostWhereInput {
   comments_every?: Maybe<CommentWhereInput>;
   comments_some?: Maybe<CommentWhereInput>;
   comments_none?: Maybe<CommentWhereInput>;
+  notifications_every?: Maybe<NotificationWhereInput>;
+  notifications_some?: Maybe<NotificationWhereInput>;
+  notifications_none?: Maybe<NotificationWhereInput>;
   AND?: Maybe<PostWhereInput[] | PostWhereInput>;
   OR?: Maybe<PostWhereInput[] | PostWhereInput>;
   NOT?: Maybe<PostWhereInput[] | PostWhereInput>;
@@ -607,6 +610,9 @@ export interface ReplyWhereInput {
   link_not_starts_with?: Maybe<String>;
   link_ends_with?: Maybe<String>;
   link_not_ends_with?: Maybe<String>;
+  notifications_every?: Maybe<NotificationWhereInput>;
+  notifications_some?: Maybe<NotificationWhereInput>;
+  notifications_none?: Maybe<NotificationWhereInput>;
   AND?: Maybe<ReplyWhereInput[] | ReplyWhereInput>;
   OR?: Maybe<ReplyWhereInput[] | ReplyWhereInput>;
   NOT?: Maybe<ReplyWhereInput[] | ReplyWhereInput>;
@@ -720,6 +726,7 @@ export interface PostCreateWithoutAuthorInput {
   content: String;
   imagePath?: Maybe<String>;
   comments?: Maybe<CommentCreateManyWithoutPostInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutPostInput>;
 }
 
 export interface CommentCreateManyWithoutPostInput {
@@ -748,31 +755,47 @@ export interface ReplyCreateWithoutCommentInput {
   author: UserCreateOneInput;
   content: String;
   link?: Maybe<String>;
+  notifications?: Maybe<NotificationCreateManyWithoutReplyInput>;
 }
 
-export interface NotificationCreateManyWithoutUserInput {
+export interface NotificationCreateManyWithoutReplyInput {
   create?: Maybe<
-    NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
+    NotificationCreateWithoutReplyInput[] | NotificationCreateWithoutReplyInput
   >;
   connect?: Maybe<
     NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
   >;
 }
 
-export interface NotificationCreateWithoutUserInput {
+export interface NotificationCreateWithoutReplyInput {
   id?: Maybe<ID_Input>;
-  post: PostCreateOneInput;
-  reply?: Maybe<ReplyCreateOneInput>;
+  user: UserCreateOneWithoutNotificationsInput;
+  post: PostCreateOneWithoutNotificationsInput;
   newNotification?: Maybe<Boolean>;
   type: String;
 }
 
-export interface PostCreateOneInput {
-  create?: Maybe<PostCreateInput>;
+export interface UserCreateOneWithoutNotificationsInput {
+  create?: Maybe<UserCreateWithoutNotificationsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutNotificationsInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  password: String;
+  name: String;
+  avatarPath?: Maybe<String>;
+  posts?: Maybe<PostCreateManyWithoutAuthorInput>;
+  onboarded?: Maybe<Boolean>;
+}
+
+export interface PostCreateOneWithoutNotificationsInput {
+  create?: Maybe<PostCreateWithoutNotificationsInput>;
   connect?: Maybe<PostWhereUniqueInput>;
 }
 
-export interface PostCreateInput {
+export interface PostCreateWithoutNotificationsInput {
   id?: Maybe<ID_Input>;
   published?: Maybe<Boolean>;
   title?: Maybe<String>;
@@ -797,12 +820,29 @@ export interface UserCreateWithoutPostsInput {
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
 
-export interface ReplyCreateOneInput {
-  create?: Maybe<ReplyCreateInput>;
+export interface NotificationCreateManyWithoutUserInput {
+  create?: Maybe<
+    NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
+  >;
+  connect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+}
+
+export interface NotificationCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  post: PostCreateOneWithoutNotificationsInput;
+  reply?: Maybe<ReplyCreateOneWithoutNotificationsInput>;
+  newNotification?: Maybe<Boolean>;
+  type: String;
+}
+
+export interface ReplyCreateOneWithoutNotificationsInput {
+  create?: Maybe<ReplyCreateWithoutNotificationsInput>;
   connect?: Maybe<ReplyWhereUniqueInput>;
 }
 
-export interface ReplyCreateInput {
+export interface ReplyCreateWithoutNotificationsInput {
   id?: Maybe<ID_Input>;
   author: UserCreateOneInput;
   content: String;
@@ -834,6 +874,24 @@ export interface PostCreateWithoutCommentsInput {
   content: String;
   imagePath?: Maybe<String>;
   author: UserCreateOneWithoutPostsInput;
+  notifications?: Maybe<NotificationCreateManyWithoutPostInput>;
+}
+
+export interface NotificationCreateManyWithoutPostInput {
+  create?: Maybe<
+    NotificationCreateWithoutPostInput[] | NotificationCreateWithoutPostInput
+  >;
+  connect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+}
+
+export interface NotificationCreateWithoutPostInput {
+  id?: Maybe<ID_Input>;
+  user: UserCreateOneWithoutNotificationsInput;
+  reply?: Maybe<ReplyCreateOneWithoutNotificationsInput>;
+  newNotification?: Maybe<Boolean>;
+  type: String;
 }
 
 export interface CommentUpdateInput {
@@ -891,6 +949,7 @@ export interface PostUpdateWithoutAuthorDataInput {
   content?: Maybe<String>;
   imagePath?: Maybe<String>;
   comments?: Maybe<CommentUpdateManyWithoutPostInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutPostInput>;
 }
 
 export interface CommentUpdateManyWithoutPostInput {
@@ -958,6 +1017,325 @@ export interface ReplyUpdateWithoutCommentDataInput {
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   link?: Maybe<String>;
+  notifications?: Maybe<NotificationUpdateManyWithoutReplyInput>;
+}
+
+export interface NotificationUpdateManyWithoutReplyInput {
+  create?: Maybe<
+    NotificationCreateWithoutReplyInput[] | NotificationCreateWithoutReplyInput
+  >;
+  delete?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
+  connect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+  set?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
+  disconnect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+  update?: Maybe<
+    | NotificationUpdateWithWhereUniqueWithoutReplyInput[]
+    | NotificationUpdateWithWhereUniqueWithoutReplyInput
+  >;
+  upsert?: Maybe<
+    | NotificationUpsertWithWhereUniqueWithoutReplyInput[]
+    | NotificationUpsertWithWhereUniqueWithoutReplyInput
+  >;
+  deleteMany?: Maybe<
+    NotificationScalarWhereInput[] | NotificationScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | NotificationUpdateManyWithWhereNestedInput[]
+    | NotificationUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface NotificationUpdateWithWhereUniqueWithoutReplyInput {
+  where: NotificationWhereUniqueInput;
+  data: NotificationUpdateWithoutReplyDataInput;
+}
+
+export interface NotificationUpdateWithoutReplyDataInput {
+  user?: Maybe<UserUpdateOneRequiredWithoutNotificationsInput>;
+  post?: Maybe<PostUpdateOneRequiredWithoutNotificationsInput>;
+  newNotification?: Maybe<Boolean>;
+  type?: Maybe<String>;
+}
+
+export interface UserUpdateOneRequiredWithoutNotificationsInput {
+  create?: Maybe<UserCreateWithoutNotificationsInput>;
+  update?: Maybe<UserUpdateWithoutNotificationsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutNotificationsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutNotificationsDataInput {
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  name?: Maybe<String>;
+  avatarPath?: Maybe<String>;
+  posts?: Maybe<PostUpdateManyWithoutAuthorInput>;
+  onboarded?: Maybe<Boolean>;
+}
+
+export interface UserUpsertWithoutNotificationsInput {
+  update: UserUpdateWithoutNotificationsDataInput;
+  create: UserCreateWithoutNotificationsInput;
+}
+
+export interface PostUpdateOneRequiredWithoutNotificationsInput {
+  create?: Maybe<PostCreateWithoutNotificationsInput>;
+  update?: Maybe<PostUpdateWithoutNotificationsDataInput>;
+  upsert?: Maybe<PostUpsertWithoutNotificationsInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
+}
+
+export interface PostUpdateWithoutNotificationsDataInput {
+  published?: Maybe<Boolean>;
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  imagePath?: Maybe<String>;
+  author?: Maybe<UserUpdateOneRequiredWithoutPostsInput>;
+  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutPostsInput {
+  create?: Maybe<UserCreateWithoutPostsInput>;
+  update?: Maybe<UserUpdateWithoutPostsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutPostsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutPostsDataInput {
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  name?: Maybe<String>;
+  avatarPath?: Maybe<String>;
+  onboarded?: Maybe<Boolean>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
+}
+
+export interface NotificationUpdateManyWithoutUserInput {
+  create?: Maybe<
+    NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
+  >;
+  delete?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
+  connect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+  set?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
+  disconnect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+  update?: Maybe<
+    | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    | NotificationUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    | NotificationUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<
+    NotificationScalarWhereInput[] | NotificationScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | NotificationUpdateManyWithWhereNestedInput[]
+    | NotificationUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface NotificationUpdateWithWhereUniqueWithoutUserInput {
+  where: NotificationWhereUniqueInput;
+  data: NotificationUpdateWithoutUserDataInput;
+}
+
+export interface NotificationUpdateWithoutUserDataInput {
+  post?: Maybe<PostUpdateOneRequiredWithoutNotificationsInput>;
+  reply?: Maybe<ReplyUpdateOneWithoutNotificationsInput>;
+  newNotification?: Maybe<Boolean>;
+  type?: Maybe<String>;
+}
+
+export interface ReplyUpdateOneWithoutNotificationsInput {
+  create?: Maybe<ReplyCreateWithoutNotificationsInput>;
+  update?: Maybe<ReplyUpdateWithoutNotificationsDataInput>;
+  upsert?: Maybe<ReplyUpsertWithoutNotificationsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<ReplyWhereUniqueInput>;
+}
+
+export interface ReplyUpdateWithoutNotificationsDataInput {
+  author?: Maybe<UserUpdateOneRequiredInput>;
+  content?: Maybe<String>;
+  comment?: Maybe<CommentUpdateOneRequiredWithoutRepliesInput>;
+  link?: Maybe<String>;
+}
+
+export interface CommentUpdateOneRequiredWithoutRepliesInput {
+  create?: Maybe<CommentCreateWithoutRepliesInput>;
+  update?: Maybe<CommentUpdateWithoutRepliesDataInput>;
+  upsert?: Maybe<CommentUpsertWithoutRepliesInput>;
+  connect?: Maybe<CommentWhereUniqueInput>;
+}
+
+export interface CommentUpdateWithoutRepliesDataInput {
+  author?: Maybe<UserUpdateOneRequiredInput>;
+  content?: Maybe<String>;
+  post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
+}
+
+export interface PostUpdateOneRequiredWithoutCommentsInput {
+  create?: Maybe<PostCreateWithoutCommentsInput>;
+  update?: Maybe<PostUpdateWithoutCommentsDataInput>;
+  upsert?: Maybe<PostUpsertWithoutCommentsInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
+}
+
+export interface PostUpdateWithoutCommentsDataInput {
+  published?: Maybe<Boolean>;
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  imagePath?: Maybe<String>;
+  author?: Maybe<UserUpdateOneRequiredWithoutPostsInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutPostInput>;
+}
+
+export interface NotificationUpdateManyWithoutPostInput {
+  create?: Maybe<
+    NotificationCreateWithoutPostInput[] | NotificationCreateWithoutPostInput
+  >;
+  delete?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
+  connect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+  set?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
+  disconnect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+  update?: Maybe<
+    | NotificationUpdateWithWhereUniqueWithoutPostInput[]
+    | NotificationUpdateWithWhereUniqueWithoutPostInput
+  >;
+  upsert?: Maybe<
+    | NotificationUpsertWithWhereUniqueWithoutPostInput[]
+    | NotificationUpsertWithWhereUniqueWithoutPostInput
+  >;
+  deleteMany?: Maybe<
+    NotificationScalarWhereInput[] | NotificationScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | NotificationUpdateManyWithWhereNestedInput[]
+    | NotificationUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface NotificationUpdateWithWhereUniqueWithoutPostInput {
+  where: NotificationWhereUniqueInput;
+  data: NotificationUpdateWithoutPostDataInput;
+}
+
+export interface NotificationUpdateWithoutPostDataInput {
+  user?: Maybe<UserUpdateOneRequiredWithoutNotificationsInput>;
+  reply?: Maybe<ReplyUpdateOneWithoutNotificationsInput>;
+  newNotification?: Maybe<Boolean>;
+  type?: Maybe<String>;
+}
+
+export interface NotificationUpsertWithWhereUniqueWithoutPostInput {
+  where: NotificationWhereUniqueInput;
+  update: NotificationUpdateWithoutPostDataInput;
+  create: NotificationCreateWithoutPostInput;
+}
+
+export interface NotificationScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  newNotification?: Maybe<Boolean>;
+  newNotification_not?: Maybe<Boolean>;
+  type?: Maybe<String>;
+  type_not?: Maybe<String>;
+  type_in?: Maybe<String[] | String>;
+  type_not_in?: Maybe<String[] | String>;
+  type_lt?: Maybe<String>;
+  type_lte?: Maybe<String>;
+  type_gt?: Maybe<String>;
+  type_gte?: Maybe<String>;
+  type_contains?: Maybe<String>;
+  type_not_contains?: Maybe<String>;
+  type_starts_with?: Maybe<String>;
+  type_not_starts_with?: Maybe<String>;
+  type_ends_with?: Maybe<String>;
+  type_not_ends_with?: Maybe<String>;
+  AND?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
+  OR?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
+  NOT?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
+}
+
+export interface NotificationUpdateManyWithWhereNestedInput {
+  where: NotificationScalarWhereInput;
+  data: NotificationUpdateManyDataInput;
+}
+
+export interface NotificationUpdateManyDataInput {
+  newNotification?: Maybe<Boolean>;
+  type?: Maybe<String>;
+}
+
+export interface PostUpsertWithoutCommentsInput {
+  update: PostUpdateWithoutCommentsDataInput;
+  create: PostCreateWithoutCommentsInput;
+}
+
+export interface CommentUpsertWithoutRepliesInput {
+  update: CommentUpdateWithoutRepliesDataInput;
+  create: CommentCreateWithoutRepliesInput;
+}
+
+export interface ReplyUpsertWithoutNotificationsInput {
+  update: ReplyUpdateWithoutNotificationsDataInput;
+  create: ReplyCreateWithoutNotificationsInput;
+}
+
+export interface NotificationUpsertWithWhereUniqueWithoutUserInput {
+  where: NotificationWhereUniqueInput;
+  update: NotificationUpdateWithoutUserDataInput;
+  create: NotificationCreateWithoutUserInput;
+}
+
+export interface UserUpsertWithoutPostsInput {
+  update: UserUpdateWithoutPostsDataInput;
+  create: UserCreateWithoutPostsInput;
+}
+
+export interface PostUpsertWithoutNotificationsInput {
+  update: PostUpdateWithoutNotificationsDataInput;
+  create: PostCreateWithoutNotificationsInput;
+}
+
+export interface NotificationUpsertWithWhereUniqueWithoutReplyInput {
+  where: NotificationWhereUniqueInput;
+  update: NotificationUpdateWithoutReplyDataInput;
+  create: NotificationCreateWithoutReplyInput;
 }
 
 export interface ReplyUpsertWithWhereUniqueWithoutCommentInput {
@@ -1203,208 +1581,6 @@ export interface PostUpdateManyDataInput {
   imagePath?: Maybe<String>;
 }
 
-export interface NotificationUpdateManyWithoutUserInput {
-  create?: Maybe<
-    NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
-  >;
-  delete?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
-  connect?: Maybe<
-    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
-  >;
-  set?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
-  disconnect?: Maybe<
-    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
-  >;
-  update?: Maybe<
-    | NotificationUpdateWithWhereUniqueWithoutUserInput[]
-    | NotificationUpdateWithWhereUniqueWithoutUserInput
-  >;
-  upsert?: Maybe<
-    | NotificationUpsertWithWhereUniqueWithoutUserInput[]
-    | NotificationUpsertWithWhereUniqueWithoutUserInput
-  >;
-  deleteMany?: Maybe<
-    NotificationScalarWhereInput[] | NotificationScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | NotificationUpdateManyWithWhereNestedInput[]
-    | NotificationUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface NotificationUpdateWithWhereUniqueWithoutUserInput {
-  where: NotificationWhereUniqueInput;
-  data: NotificationUpdateWithoutUserDataInput;
-}
-
-export interface NotificationUpdateWithoutUserDataInput {
-  post?: Maybe<PostUpdateOneRequiredInput>;
-  reply?: Maybe<ReplyUpdateOneInput>;
-  newNotification?: Maybe<Boolean>;
-  type?: Maybe<String>;
-}
-
-export interface PostUpdateOneRequiredInput {
-  create?: Maybe<PostCreateInput>;
-  update?: Maybe<PostUpdateDataInput>;
-  upsert?: Maybe<PostUpsertNestedInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
-}
-
-export interface PostUpdateDataInput {
-  published?: Maybe<Boolean>;
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  imagePath?: Maybe<String>;
-  author?: Maybe<UserUpdateOneRequiredWithoutPostsInput>;
-  comments?: Maybe<CommentUpdateManyWithoutPostInput>;
-}
-
-export interface UserUpdateOneRequiredWithoutPostsInput {
-  create?: Maybe<UserCreateWithoutPostsInput>;
-  update?: Maybe<UserUpdateWithoutPostsDataInput>;
-  upsert?: Maybe<UserUpsertWithoutPostsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserUpdateWithoutPostsDataInput {
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  name?: Maybe<String>;
-  avatarPath?: Maybe<String>;
-  onboarded?: Maybe<Boolean>;
-  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
-}
-
-export interface UserUpsertWithoutPostsInput {
-  update: UserUpdateWithoutPostsDataInput;
-  create: UserCreateWithoutPostsInput;
-}
-
-export interface PostUpsertNestedInput {
-  update: PostUpdateDataInput;
-  create: PostCreateInput;
-}
-
-export interface ReplyUpdateOneInput {
-  create?: Maybe<ReplyCreateInput>;
-  update?: Maybe<ReplyUpdateDataInput>;
-  upsert?: Maybe<ReplyUpsertNestedInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<ReplyWhereUniqueInput>;
-}
-
-export interface ReplyUpdateDataInput {
-  author?: Maybe<UserUpdateOneRequiredInput>;
-  content?: Maybe<String>;
-  comment?: Maybe<CommentUpdateOneRequiredWithoutRepliesInput>;
-  link?: Maybe<String>;
-}
-
-export interface CommentUpdateOneRequiredWithoutRepliesInput {
-  create?: Maybe<CommentCreateWithoutRepliesInput>;
-  update?: Maybe<CommentUpdateWithoutRepliesDataInput>;
-  upsert?: Maybe<CommentUpsertWithoutRepliesInput>;
-  connect?: Maybe<CommentWhereUniqueInput>;
-}
-
-export interface CommentUpdateWithoutRepliesDataInput {
-  author?: Maybe<UserUpdateOneRequiredInput>;
-  content?: Maybe<String>;
-  post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
-}
-
-export interface PostUpdateOneRequiredWithoutCommentsInput {
-  create?: Maybe<PostCreateWithoutCommentsInput>;
-  update?: Maybe<PostUpdateWithoutCommentsDataInput>;
-  upsert?: Maybe<PostUpsertWithoutCommentsInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
-}
-
-export interface PostUpdateWithoutCommentsDataInput {
-  published?: Maybe<Boolean>;
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  imagePath?: Maybe<String>;
-  author?: Maybe<UserUpdateOneRequiredWithoutPostsInput>;
-}
-
-export interface PostUpsertWithoutCommentsInput {
-  update: PostUpdateWithoutCommentsDataInput;
-  create: PostCreateWithoutCommentsInput;
-}
-
-export interface CommentUpsertWithoutRepliesInput {
-  update: CommentUpdateWithoutRepliesDataInput;
-  create: CommentCreateWithoutRepliesInput;
-}
-
-export interface ReplyUpsertNestedInput {
-  update: ReplyUpdateDataInput;
-  create: ReplyCreateInput;
-}
-
-export interface NotificationUpsertWithWhereUniqueWithoutUserInput {
-  where: NotificationWhereUniqueInput;
-  update: NotificationUpdateWithoutUserDataInput;
-  create: NotificationCreateWithoutUserInput;
-}
-
-export interface NotificationScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  newNotification?: Maybe<Boolean>;
-  newNotification_not?: Maybe<Boolean>;
-  type?: Maybe<String>;
-  type_not?: Maybe<String>;
-  type_in?: Maybe<String[] | String>;
-  type_not_in?: Maybe<String[] | String>;
-  type_lt?: Maybe<String>;
-  type_lte?: Maybe<String>;
-  type_gt?: Maybe<String>;
-  type_gte?: Maybe<String>;
-  type_contains?: Maybe<String>;
-  type_not_contains?: Maybe<String>;
-  type_starts_with?: Maybe<String>;
-  type_not_starts_with?: Maybe<String>;
-  type_ends_with?: Maybe<String>;
-  type_not_ends_with?: Maybe<String>;
-  AND?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
-  OR?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
-  NOT?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
-}
-
-export interface NotificationUpdateManyWithWhereNestedInput {
-  where: NotificationScalarWhereInput;
-  data: NotificationUpdateManyDataInput;
-}
-
-export interface NotificationUpdateManyDataInput {
-  newNotification?: Maybe<Boolean>;
-  type?: Maybe<String>;
-}
-
 export interface UserUpsertNestedInput {
   update: UserUpdateDataInput;
   create: UserCreateInput;
@@ -1417,59 +1593,34 @@ export interface CommentUpdateManyMutationInput {
 export interface NotificationCreateInput {
   id?: Maybe<ID_Input>;
   user: UserCreateOneWithoutNotificationsInput;
-  post: PostCreateOneInput;
-  reply?: Maybe<ReplyCreateOneInput>;
+  post: PostCreateOneWithoutNotificationsInput;
+  reply?: Maybe<ReplyCreateOneWithoutNotificationsInput>;
   newNotification?: Maybe<Boolean>;
   type: String;
 }
 
-export interface UserCreateOneWithoutNotificationsInput {
-  create?: Maybe<UserCreateWithoutNotificationsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserCreateWithoutNotificationsInput {
-  id?: Maybe<ID_Input>;
-  email: String;
-  password: String;
-  name: String;
-  avatarPath?: Maybe<String>;
-  posts?: Maybe<PostCreateManyWithoutAuthorInput>;
-  onboarded?: Maybe<Boolean>;
-}
-
 export interface NotificationUpdateInput {
   user?: Maybe<UserUpdateOneRequiredWithoutNotificationsInput>;
-  post?: Maybe<PostUpdateOneRequiredInput>;
-  reply?: Maybe<ReplyUpdateOneInput>;
+  post?: Maybe<PostUpdateOneRequiredWithoutNotificationsInput>;
+  reply?: Maybe<ReplyUpdateOneWithoutNotificationsInput>;
   newNotification?: Maybe<Boolean>;
   type?: Maybe<String>;
-}
-
-export interface UserUpdateOneRequiredWithoutNotificationsInput {
-  create?: Maybe<UserCreateWithoutNotificationsInput>;
-  update?: Maybe<UserUpdateWithoutNotificationsDataInput>;
-  upsert?: Maybe<UserUpsertWithoutNotificationsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserUpdateWithoutNotificationsDataInput {
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  name?: Maybe<String>;
-  avatarPath?: Maybe<String>;
-  posts?: Maybe<PostUpdateManyWithoutAuthorInput>;
-  onboarded?: Maybe<Boolean>;
-}
-
-export interface UserUpsertWithoutNotificationsInput {
-  update: UserUpdateWithoutNotificationsDataInput;
-  create: UserCreateWithoutNotificationsInput;
 }
 
 export interface NotificationUpdateManyMutationInput {
   newNotification?: Maybe<Boolean>;
   type?: Maybe<String>;
+}
+
+export interface PostCreateInput {
+  id?: Maybe<ID_Input>;
+  published?: Maybe<Boolean>;
+  title?: Maybe<String>;
+  content: String;
+  imagePath?: Maybe<String>;
+  author: UserCreateOneWithoutPostsInput;
+  comments?: Maybe<CommentCreateManyWithoutPostInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutPostInput>;
 }
 
 export interface PostUpdateInput {
@@ -1479,6 +1630,7 @@ export interface PostUpdateInput {
   imagePath?: Maybe<String>;
   author?: Maybe<UserUpdateOneRequiredWithoutPostsInput>;
   comments?: Maybe<CommentUpdateManyWithoutPostInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutPostInput>;
 }
 
 export interface PostUpdateManyMutationInput {
@@ -1488,11 +1640,21 @@ export interface PostUpdateManyMutationInput {
   imagePath?: Maybe<String>;
 }
 
+export interface ReplyCreateInput {
+  id?: Maybe<ID_Input>;
+  author: UserCreateOneInput;
+  content: String;
+  comment: CommentCreateOneWithoutRepliesInput;
+  link?: Maybe<String>;
+  notifications?: Maybe<NotificationCreateManyWithoutReplyInput>;
+}
+
 export interface ReplyUpdateInput {
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   comment?: Maybe<CommentUpdateOneRequiredWithoutRepliesInput>;
   link?: Maybe<String>;
+  notifications?: Maybe<NotificationUpdateManyWithoutReplyInput>;
 }
 
 export interface ReplyUpdateManyMutationInput {
@@ -1770,6 +1932,15 @@ export interface PostPromise extends Promise<Post>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  notifications: <T = FragmentableArray<Notification>>(args?: {
+    where?: NotificationWhereInput;
+    orderBy?: NotificationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface PostSubscription
@@ -1792,6 +1963,15 @@ export interface PostSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  notifications: <T = Promise<AsyncIterator<NotificationSubscription>>>(args?: {
+    where?: NotificationWhereInput;
+    orderBy?: NotificationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface PostNullablePromise
@@ -1808,6 +1988,15 @@ export interface PostNullablePromise
   comments: <T = FragmentableArray<Comment>>(args?: {
     where?: CommentWhereInput;
     orderBy?: CommentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  notifications: <T = FragmentableArray<Notification>>(args?: {
+    where?: NotificationWhereInput;
+    orderBy?: NotificationOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1875,6 +2064,15 @@ export interface ReplyPromise extends Promise<Reply>, Fragmentable {
   content: () => Promise<String>;
   comment: <T = CommentPromise>() => T;
   link: () => Promise<String>;
+  notifications: <T = FragmentableArray<Notification>>(args?: {
+    where?: NotificationWhereInput;
+    orderBy?: NotificationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface ReplySubscription
@@ -1887,6 +2085,15 @@ export interface ReplySubscription
   content: () => Promise<AsyncIterator<String>>;
   comment: <T = CommentSubscription>() => T;
   link: () => Promise<AsyncIterator<String>>;
+  notifications: <T = Promise<AsyncIterator<NotificationSubscription>>>(args?: {
+    where?: NotificationWhereInput;
+    orderBy?: NotificationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface ReplyNullablePromise
@@ -1899,6 +2106,15 @@ export interface ReplyNullablePromise
   content: () => Promise<String>;
   comment: <T = CommentPromise>() => T;
   link: () => Promise<String>;
+  notifications: <T = FragmentableArray<Notification>>(args?: {
+    where?: NotificationWhereInput;
+    orderBy?: NotificationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface CommentConnection {

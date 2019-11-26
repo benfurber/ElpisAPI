@@ -6,8 +6,9 @@ type Post {
   title: String
   content: String!
   imagePath: String
-  author: User!
-  comments: [Comment]!
+  author: User! @relation(name: "PostsForUser", onDelete: SET_NULL)
+  comments: [Comment]! @relations(name: "CommentsForPost", onDelete: CASCADE)
+  notifications: [Notification!]! @relation(name: "NotificationsForPost", onDelete: CASCADE)
 }
 
 type User {
@@ -16,9 +17,9 @@ type User {
   password: String!
   name: String!
   avatarPath: String
-  posts: [Post!]!
+  posts: [Post!]! @relation(name: "PostsForUser", onDelete: CASCADE)
   onboarded: Boolean! @default(value: false)
-  notifications: [Notification]!
+  notifications: [Notification]! @relation(name: "NotificationsForUser", onDelete: CASCADE)
 }
 
 type Comment {
@@ -27,8 +28,8 @@ type Comment {
   updatedAt: DateTime! @updatedAt
   author: User!
   content: String!
-  post: Post!
-  replies: [Reply]!
+  post: Post! @relations(name: "CommentsForPost", onDelete: SET_NULL)
+  replies: [Reply]! @relations(name: "RepliesForComment", onDelete: CASCADE)
 }
 
 type Reply {
@@ -37,16 +38,17 @@ type Reply {
   updatedAt: DateTime! @updatedAt
   author: User!
   content: String!
-  comment: Comment!
+  comment: Comment! @relations(name: "RepliesForComment", onDelete: SET_NULL)
   link: String
+  notifications: [Notification!]! @relations(name: "NotificationsForReply", onDelete: CASCADE)
 }
 
 type Notification {
   id: ID! @id
-  user: User!
+  user: User! @relation(name: "NotificationsForUser", onDelete: SET_NULL)
   createdAt: DateTime! @createdAt
-  post: Post!
-  reply: Reply
+  post: Post! @relation(name: "NotificationsForPost", onDelete: SET_NULL)
+  reply: Reply @relations(name: "NotificationsForReply", onDelete: SET_NULL)
   newNotification: Boolean! @default(value: true)
   type: String!
 }
