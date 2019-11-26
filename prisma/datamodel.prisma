@@ -7,7 +7,7 @@ type Post {
   content: String!
   imagePath: String
   author: User! @relation(name: "PostsForUser", onDelete: SET_NULL)
-  comments: [Comment]!
+  comments: [Comment]! @relations(name: "CommentsForPost", onDelete: CASCADE)
   notifications: [Notification!]! @relation(name: "NotificationsForPost", onDelete: CASCADE)
 }
 
@@ -28,7 +28,7 @@ type Comment {
   updatedAt: DateTime! @updatedAt
   author: User!
   content: String!
-  post: Post!
+  post: Post! @relations(name: "CommentsForPost", onDelete: SET_NULL)
   replies: [Reply]! @relations(name: "RepliesForComment", onDelete: CASCADE)
 }
 
