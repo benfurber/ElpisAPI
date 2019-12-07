@@ -31,7 +31,7 @@ class NotificationService {
     this.client
       .sendNotification(notification)
       .then(function(response) {
-        console.log(response.data, response.httpResponse.statusCode);
+        console.log(response.data);
       })
       .catch(err => {
         console.log(err);
