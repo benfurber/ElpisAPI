@@ -1,6 +1,7 @@
-import { labels } from "../../labels";
-import { NotificationDetails } from "../../types";
-import { Context, notificationsExist, notificationService } from "../../utils";
+import { PushNotification } from "../../models";
+import { Context, notificationsExist } from "../../utils";
+
+const pushNotification = new PushNotification();
 
 export const notification = {
   async createNotification(parent, args, ctx: Context, info) {
@@ -14,7 +15,7 @@ export const notification = {
       type: replyId ? "comment" : "post"
     });
 
-    createPushNotification(ctx, {
+    pushNotification.create(ctx, {
       contentId: replyId ? replyId : postId,
       type: notification.type,
       userId
@@ -31,7 +32,7 @@ export const notification = {
     }
 
     const users = await ctx.prisma.users();
-    const notifications = await notificationPerUser(
+    const notifications = await pushNotification.perUser(
       users,
       args,
       ctx,
@@ -58,79 +59,3 @@ export const notification = {
     return agedNotification;
   }
 };
-
-async function notificationPerUser(users, args, ctx, createNotification) {
-  const { postId, replyId } = args;
-
-  return users.map(async user => {
-    const userId = user.id;
-    const notification = await createNotification(
-      null,
-      { userId, postId, replyId },
-      ctx,
-      null
-    );
-
-    return notification;
-  });
-}
-
-async function createPushNotification(ctx, details) {
-  const notification: NotificationDetails = await pushNotificationFactory(
-    ctx,
-    details
-  );
-  if (notification) {
-    return notificationService.sendNotification(notification);
-  }
-}
-
-const pushNotificationFactory = async (
-  ctx: Context,
-  details
-): Promise<NotificationDetails> => {
-  const { contentId, type, userId } = details;
-  const { published, leftAComment } = labels.notifications;
-
-  if (type === "comment") {
-    const { content } = await ctx.prisma.reply({ id: contentId });
-    const { name } = await ctx.prisma.reply({ id: contentId }).author();
-    const { id } = await ctx.prisma
-      .reply({ id: contentId })
-      .comment()
-      .post();
-    return pushNotificationFormat({
-      content,
-      heading: `${name} ${leftAComment}`,
-      postId: id,
-      userId
-    });
-  }
-
-  const { title } = await ctx.prisma.post({ id: contentId });
-  const { name } = await ctx.prisma.post({ id: contentId }).author();
-  return pushNotificationFormat({
-    content: title,
-    heading: `${name} ${published}`,
-    postId: contentId,
-    userId
-  });
-};
-
-function pushNotificationFormat({
-  content,
-  heading,
-  postId,
-  userId
-}): NotificationDetails {
-  return {
-    app_url: `elpis://notification/post/${postId}`,
-    contents: {
-      en: content
-    },
-    headings: {
-      en: heading
-    },
-    users: [userId]
-  };
-}
