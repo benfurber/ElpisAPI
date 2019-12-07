@@ -1,6 +1,7 @@
-import { PushNotification } from "../../models";
+import { Notification, PushNotification } from "../../models";
 import { Context, notificationsExist, notificationService } from "../../utils";
 
+const notificationClass = new Notification();
 const pushNotification = new PushNotification(notificationService);
 
 export const notification = {
@@ -32,7 +33,7 @@ export const notification = {
     }
 
     const users = await ctx.prisma.users();
-    const notifications = await pushNotification.perUser(
+    const notifications = await notificationClass.perUser(
       users,
       args,
       ctx,
