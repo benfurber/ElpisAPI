@@ -1,12 +1,20 @@
 import { labels } from "../labels";
 import { NotificationDetails } from "../types";
-import { Context, notificationService } from "../utils";
+import { Context } from "../utils";
 
 class PushNotification {
+  service: {
+    sendNotification;
+  };
+
+  constructor(service) {
+    this.service = service;
+  }
+
   async create(ctx, details) {
     const notification: NotificationDetails = await this.factory(ctx, details);
     if (notification) {
-      return notificationService.sendNotification(notification);
+      return this.service.sendNotification(notification);
     }
   }
 

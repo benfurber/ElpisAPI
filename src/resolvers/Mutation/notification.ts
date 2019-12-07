@@ -1,7 +1,7 @@
 import { PushNotification } from "../../models";
-import { Context, notificationsExist } from "../../utils";
+import { Context, notificationsExist, notificationService } from "../../utils";
 
-const pushNotification = new PushNotification();
+const pushNotification = new PushNotification(notificationService);
 
 export const notification = {
   async createNotification(parent, args, ctx: Context, info) {
