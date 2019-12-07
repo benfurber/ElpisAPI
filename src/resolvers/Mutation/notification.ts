@@ -1,4 +1,8 @@
-import { Context, notificationsExist } from "../../utils";
+import { Notification, PushNotification } from "../../models";
+import { Context, notificationService } from "../../utils";
+
+const notificationClass = new Notification();
+const pushNotification = new PushNotification(notificationService);
 
 export const notification = {
   async createNotification(parent, args, ctx: Context, info) {
@@ -11,23 +15,29 @@ export const notification = {
       newNotification: true,
       type: replyId ? "comment" : "post"
     });
+
+    pushNotification.create(ctx, {
+      contentId: replyId ? replyId : postId,
+      type: notification.type,
+      userId
+    });
     return notification;
   },
 
   async createNotifications(parent, args, ctx: Context, info) {
     const { postId } = args;
 
-    const alreadyExist = await notificationsExist(postId, ctx);
+    const alreadyExist = await notificationClass.exists(postId, ctx);
     if (alreadyExist) {
       console.log(`Notifications already exist for post: ${postId}`);
     }
 
     const users = await ctx.prisma.users();
-    const notifications = await notificationPerUser(
+    const notifications = await notificationClass.perUser(
       users,
       args,
       ctx,
-      this.createNotification
+      notification.createNotification
     );
 
     if (!notifications) {
@@ -50,19 +60,3 @@ export const notification = {
     return agedNotification;
   }
 };
-
-async function notificationPerUser(users, args, ctx, createNotification) {
-  const { postId, replyId } = args;
-
-  return users.map(async user => {
-    const userId = user.id;
-    const notification = await createNotification(
-      null,
-      { userId, postId, replyId },
-      ctx,
-      null
-    );
-
-    return notification;
-  });
-}
