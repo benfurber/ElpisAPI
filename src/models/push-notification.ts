@@ -11,7 +11,7 @@ class PushNotification {
     this.service = service;
   }
 
-  async create(ctx, details) {
+  async create(ctx: Context, details) {
     const notification: NotificationDetails = await this.factory(ctx, details);
     if (notification) {
       return this.service.sendNotification(notification);
@@ -60,7 +60,7 @@ class PushNotification {
     };
   }
 
-  async perUser(users, args, ctx, createNotification) {
+  async perUser(users, args, ctx: Context, createNotification) {
     const { postId, replyId } = args;
 
     return users.map(async user => {
