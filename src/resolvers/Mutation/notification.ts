@@ -1,5 +1,5 @@
 import { Notification, PushNotification } from "../../models";
-import { Context, notificationsExist, notificationService } from "../../utils";
+import { Context, notificationService } from "../../utils";
 
 const notificationClass = new Notification();
 const pushNotification = new PushNotification(notificationService);
@@ -27,7 +27,7 @@ export const notification = {
   async createNotifications(parent, args, ctx: Context, info) {
     const { postId } = args;
 
-    const alreadyExist = await notificationsExist(postId, ctx);
+    const alreadyExist = await notificationClass.exists(postId, ctx);
     if (alreadyExist) {
       console.log(`Notifications already exist for post: ${postId}`);
     }
