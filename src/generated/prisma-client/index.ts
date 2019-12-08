@@ -287,7 +287,9 @@ export type CommentOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC"
   | "content_ASC"
-  | "content_DESC";
+  | "content_DESC"
+  | "title_ASC"
+  | "title_DESC";
 
 export type NotificationOrderByInput =
   | "id_ASC"
@@ -668,6 +670,20 @@ export interface CommentWhereInput {
   replies_every?: Maybe<ReplyWhereInput>;
   replies_some?: Maybe<ReplyWhereInput>;
   replies_none?: Maybe<ReplyWhereInput>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
   AND?: Maybe<CommentWhereInput[] | CommentWhereInput>;
   OR?: Maybe<CommentWhereInput[] | CommentWhereInput>;
   NOT?: Maybe<CommentWhereInput[] | CommentWhereInput>;
@@ -696,6 +712,7 @@ export interface CommentCreateInput {
   content: String;
   post: PostCreateOneWithoutCommentsInput;
   replies?: Maybe<ReplyCreateManyWithoutCommentInput>;
+  title?: Maybe<String>;
 }
 
 export interface UserCreateOneInput {
@@ -741,6 +758,7 @@ export interface CommentCreateWithoutPostInput {
   author: UserCreateOneInput;
   content: String;
   replies?: Maybe<ReplyCreateManyWithoutCommentInput>;
+  title?: Maybe<String>;
 }
 
 export interface ReplyCreateManyWithoutCommentInput {
@@ -860,6 +878,7 @@ export interface CommentCreateWithoutRepliesInput {
   author: UserCreateOneInput;
   content: String;
   post: PostCreateOneWithoutCommentsInput;
+  title?: Maybe<String>;
 }
 
 export interface PostCreateOneWithoutCommentsInput {
@@ -899,6 +918,7 @@ export interface CommentUpdateInput {
   content?: Maybe<String>;
   post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
   replies?: Maybe<ReplyUpdateManyWithoutCommentInput>;
+  title?: Maybe<String>;
 }
 
 export interface UserUpdateOneRequiredInput {
@@ -984,6 +1004,7 @@ export interface CommentUpdateWithoutPostDataInput {
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   replies?: Maybe<ReplyUpdateManyWithoutCommentInput>;
+  title?: Maybe<String>;
 }
 
 export interface ReplyUpdateManyWithoutCommentInput {
@@ -1182,6 +1203,7 @@ export interface CommentUpdateWithoutRepliesDataInput {
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
+  title?: Maybe<String>;
 }
 
 export interface PostUpdateOneRequiredWithoutCommentsInput {
@@ -1469,6 +1491,20 @@ export interface CommentScalarWhereInput {
   content_not_starts_with?: Maybe<String>;
   content_ends_with?: Maybe<String>;
   content_not_ends_with?: Maybe<String>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
   AND?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
   OR?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
   NOT?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
@@ -1481,6 +1517,7 @@ export interface CommentUpdateManyWithWhereNestedInput {
 
 export interface CommentUpdateManyDataInput {
   content?: Maybe<String>;
+  title?: Maybe<String>;
 }
 
 export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
@@ -1588,6 +1625,7 @@ export interface UserUpsertNestedInput {
 
 export interface CommentUpdateManyMutationInput {
   content?: Maybe<String>;
+  title?: Maybe<String>;
 }
 
 export interface NotificationCreateInput {
@@ -1750,6 +1788,7 @@ export interface Comment {
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
   content: String;
+  title?: String;
 }
 
 export interface CommentPromise extends Promise<Comment>, Fragmentable {
@@ -1768,6 +1807,7 @@ export interface CommentPromise extends Promise<Comment>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  title: () => Promise<String>;
 }
 
 export interface CommentSubscription
@@ -1788,6 +1828,7 @@ export interface CommentSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  title: () => Promise<AsyncIterator<String>>;
 }
 
 export interface CommentNullablePromise
@@ -1808,6 +1849,7 @@ export interface CommentNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  title: () => Promise<String>;
 }
 
 export interface User {
@@ -2458,6 +2500,7 @@ export interface CommentPreviousValues {
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
   content: String;
+  title?: String;
 }
 
 export interface CommentPreviousValuesPromise
@@ -2467,6 +2510,7 @@ export interface CommentPreviousValuesPromise
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   content: () => Promise<String>;
+  title: () => Promise<String>;
 }
 
 export interface CommentPreviousValuesSubscription
@@ -2476,6 +2520,7 @@ export interface CommentPreviousValuesSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   content: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
 }
 
 export interface NotificationSubscriptionPayload {

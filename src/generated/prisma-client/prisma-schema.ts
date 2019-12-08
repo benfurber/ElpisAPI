@@ -34,6 +34,7 @@ type Comment {
   content: String!
   post: Post!
   replies(where: ReplyWhereInput, orderBy: ReplyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reply!]
+  title: String
 }
 
 type CommentConnection {
@@ -48,6 +49,7 @@ input CommentCreateInput {
   content: String!
   post: PostCreateOneWithoutCommentsInput!
   replies: ReplyCreateManyWithoutCommentInput
+  title: String
 }
 
 input CommentCreateManyWithoutPostInput {
@@ -65,6 +67,7 @@ input CommentCreateWithoutPostInput {
   author: UserCreateOneInput!
   content: String!
   replies: ReplyCreateManyWithoutCommentInput
+  title: String
 }
 
 input CommentCreateWithoutRepliesInput {
@@ -72,6 +75,7 @@ input CommentCreateWithoutRepliesInput {
   author: UserCreateOneInput!
   content: String!
   post: PostCreateOneWithoutCommentsInput!
+  title: String
 }
 
 type CommentEdge {
@@ -88,6 +92,8 @@ enum CommentOrderByInput {
   updatedAt_DESC
   content_ASC
   content_DESC
+  title_ASC
+  title_DESC
 }
 
 type CommentPreviousValues {
@@ -95,6 +101,7 @@ type CommentPreviousValues {
   createdAt: DateTime!
   updatedAt: DateTime!
   content: String!
+  title: String
 }
 
 input CommentScalarWhereInput {
@@ -142,6 +149,20 @@ input CommentScalarWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
   AND: [CommentScalarWhereInput!]
   OR: [CommentScalarWhereInput!]
   NOT: [CommentScalarWhereInput!]
@@ -170,14 +191,17 @@ input CommentUpdateInput {
   content: String
   post: PostUpdateOneRequiredWithoutCommentsInput
   replies: ReplyUpdateManyWithoutCommentInput
+  title: String
 }
 
 input CommentUpdateManyDataInput {
   content: String
+  title: String
 }
 
 input CommentUpdateManyMutationInput {
   content: String
+  title: String
 }
 
 input CommentUpdateManyWithoutPostInput {
@@ -208,12 +232,14 @@ input CommentUpdateWithoutPostDataInput {
   author: UserUpdateOneRequiredInput
   content: String
   replies: ReplyUpdateManyWithoutCommentInput
+  title: String
 }
 
 input CommentUpdateWithoutRepliesDataInput {
   author: UserUpdateOneRequiredInput
   content: String
   post: PostUpdateOneRequiredWithoutCommentsInput
+  title: String
 }
 
 input CommentUpdateWithWhereUniqueWithoutPostInput {
@@ -282,6 +308,20 @@ input CommentWhereInput {
   replies_every: ReplyWhereInput
   replies_some: ReplyWhereInput
   replies_none: ReplyWhereInput
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
   AND: [CommentWhereInput!]
   OR: [CommentWhereInput!]
   NOT: [CommentWhereInput!]
