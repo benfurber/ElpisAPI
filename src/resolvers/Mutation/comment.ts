@@ -1,14 +1,15 @@
 import { getUserId, Context } from "../../utils";
 
 export const comment = {
-  async createComment(parent, { content, id }, ctx: Context, info) {
+  async createComment(parent, { content, title, id }, ctx: Context, info) {
     const userId = getUserId(ctx);
     const comment = await ctx.prisma.createComment({
-      content,
       author: {
         connect: { id: userId }
       },
-      post: { connect: { id } }
+      content,
+      post: { connect: { id } },
+      title
     });
     return comment;
   },
