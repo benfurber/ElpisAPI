@@ -14,7 +14,7 @@ type Query {
 type Mutation {
   ageNotification(id: String!): Notification!
   completeUserOnboarding: User!
-  createComment(content: String!, id: ID!): Comment!
+  createComment(content: String!, id: ID!, title: String): Comment!
   createNotification(
     postId: String!
     replyId: String
@@ -72,6 +72,7 @@ type Comment {
   post: Post!
   replies: [Reply!]!
   totalReplies: Int
+  title: String
 }
 
 type Reply {
