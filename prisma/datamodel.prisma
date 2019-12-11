@@ -30,6 +30,7 @@ type Comment {
   content: String!
   post: Post! @relations(name: "CommentsForPost", onDelete: SET_NULL)
   replies: [Reply]! @relations(name: "RepliesForComment", onDelete: CASCADE)
+  title: String
 }
 
 type Reply {
