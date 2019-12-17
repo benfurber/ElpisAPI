@@ -9,15 +9,26 @@ const NOTIFICATION_CONSTANTS = {
   ios_badgeCount: 1
 };
 
-class NotificationService {
+interface CreateNotificationService {
+  createNotification(notification: NotificationDetails): any;
+}
+
+interface SendNotificationService {
+  sendNotification(notification: NotificationDetails): any;
+}
+
+class NotificationService implements CreateNotificationService, SendNotificationService {
+
   client: any;
 
-  constructor(client) {
+  constructor(client: any) {
     this.client = client;
   }
 
   createNotification(notificationDetails: NotificationDetails) {
+
     notificationDetails.include_external_user_ids = notificationDetails.users;
+
     const notification = new OneSignal.Notification({
       ...notificationDetails,
       ...NOTIFICATION_CONSTANTS
@@ -30,10 +41,10 @@ class NotificationService {
     const notification = this.createNotification(notificationDetails);
     this.client
       .sendNotification(notification)
-      .then(function(response) {
+      .then((response: any) => {
         console.log(response.data);
       })
-      .catch(err => {
+      .catch((err: any) => {
         console.log(err);
       });
   }
@@ -44,4 +55,4 @@ const client = new OneSignal.Client({
 });
 const notificationService = new NotificationService(client);
 
-export { notificationService };
+export { notificationService, CreateNotificationService, SendNotificationService };

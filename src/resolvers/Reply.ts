@@ -1,13 +1,16 @@
-import { Context, fetchMetaData } from "../utils";
+import { Context } from "../utils";
 
 export const Reply = {
-  author: ({ id }, args, ctx: Context) => {
+
+  author: ({ id }, args: any, ctx: Context) => {
     return ctx.prisma.reply({ id }).author();
   },
-  comment: ({ id }, args, ctx: Context) => {
+
+  comment: ({ id }, args: any, ctx: Context) => {
     return ctx.prisma.reply({ id }).comment();
   },
-  link: ({ id }, args, ctx: Context) => {
+
+  link: ({ id }, args: any, ctx: Context) => {
     return ctx.prisma.reply({ id }).link();
   }
 };

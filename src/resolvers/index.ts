@@ -1,13 +1,8 @@
 import { Query } from "./Query";
+import { Mutation } from "./Mutation";
 import { Subscription } from "./Subscription";
-import { auth } from "./Mutation/auth";
-import { comment } from "./Mutation/comment";
-import { notification } from "./Mutation/notification";
-import { post } from "./Mutation/post";
-import { reply } from "./Mutation/reply";
-import { user } from "./Mutation/user";
-import { Comment } from "./Comment";
 import { Notification } from "./Notification";
+import { Comment } from "./Comment";
 import { User } from "./User";
 import { Link } from "./Link";
 import { Post } from "./Post";
@@ -15,17 +10,10 @@ import { Reply } from "./Reply";
 
 export default {
   Query,
-  Mutation: {
-    ...auth,
-    ...comment,
-    ...notification,
-    ...post,
-    ...reply,
-    ...user
-  },
+  Mutation,
   Subscription,
-  Comment,
   Notification,
+  Comment,
   Link,
   Post,
   Reply,

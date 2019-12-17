@@ -1,13 +1,13 @@
 import { labels } from "../labels";
 import { NotificationDetails } from "../types";
 import { Context } from "../utils";
+import { SendNotificationService } from "../service/notification-service";
 
 class PushNotification {
-  service: {
-    sendNotification;
-  };
 
-  constructor(service) {
+  service: SendNotificationService;
+
+  constructor(service: SendNotificationService) {
     this.service = service;
   }
 
@@ -61,4 +61,4 @@ class PushNotification {
   }
 }
 
-export { PushNotification };
+export { SendNotificationService, PushNotification };

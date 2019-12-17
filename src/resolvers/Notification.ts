@@ -1,7 +1,8 @@
 import { Context } from "../utils";
 
 export const Notification = {
-  content: ({ id }, args, ctx: Context) => {
+
+  content: ({ id }, args: any, ctx: Context) => {
     const content = {
       post: ctx.prisma.notification({ id }).post(),
       reply: ctx.prisma.notification({ id }).reply(),
@@ -9,4 +10,5 @@ export const Notification = {
     };
     return content;
   }
+
 };

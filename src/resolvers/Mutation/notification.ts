@@ -1,11 +1,12 @@
-import { Notification, PushNotification } from "../../models";
-import { Context, notificationService } from "../../utils";
+import { Context } from "../../utils";
+import { Notification, PushNotification } from "../../model";
+import { notificationService } from "../../service/notification-service";
 
 const notificationClass = new Notification();
 const pushNotification = new PushNotification(notificationService);
 
 export const notification = {
-  async createNotification(parent, args, ctx: Context, info) {
+  async createNotification(parent: any, args: any, ctx: Context, info: any) {
     const { postId, replyId, userId } = args;
 
     const notification = await ctx.prisma.createNotification({
@@ -24,7 +25,7 @@ export const notification = {
     return notification;
   },
 
-  async createNotifications(parent, args, ctx: Context, info) {
+  async createNotifications(parent: any, args: any, ctx: Context, info: any) {
     const { postId } = args;
 
     const alreadyExist = await notificationClass.exists(postId, ctx);
@@ -47,7 +48,7 @@ export const notification = {
     return notifications;
   },
 
-  async ageNotification(parent, { id }, ctx: Context, info) {
+  async ageNotification(parent: any, { id }, ctx: Context, info: any) {
     const agedNotification = await ctx.prisma.updateNotification({
       where: { id },
       data: { newNotification: false }
