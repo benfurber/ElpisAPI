@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "bcryptjs": "2.4.3",
+    "get-urls": "^9.2.0",
     "graphql": "^14.4.2",
     "graphql-yoga": "1.18.0",
     "jsonwebtoken": "8.5.1",

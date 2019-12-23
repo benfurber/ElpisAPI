@@ -1,24 +1,15 @@
-function validURL(url: string) {
-  var pattern = new RegExp(
-    "^(https?:\\/\\/)?" + // protocol
-    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-      "(\\#[-a-z\\d_]*)?$",
-    "i"
-  ); // fragment locator
+import * as getUrls from "get-urls";
 
-  return !!pattern.test(url);
-}
-
-export function findUrlInContent(content: string) {
+export function findUrlInContent(content: string): string | false {
   if (typeof content !== "string") {
     return false;
   }
 
-  const words = content.split(" ");
+  const urls = Array.from(getUrls(content));
 
-  const url = words.find(word => validURL(word));
-  return url;
+  if (urls.length === 0) {
+    return false;
+  }
+
+  return urls[0];
 }
