@@ -101,8 +101,8 @@ type Notification {
 type Link {
   id: ID!
   author: String
-  date: DateTime!
-  description: String!
+  date: DateTime
+  description: String
   image: URL
   publisher: String
   title: String!
