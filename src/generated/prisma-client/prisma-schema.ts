@@ -703,6 +703,7 @@ type Post {
   createdAt: DateTime!
   updatedAt: DateTime!
   published: Boolean!
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String
@@ -720,6 +721,7 @@ type PostConnection {
 input PostCreateInput {
   id: ID
   published: Boolean
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String
@@ -746,6 +748,7 @@ input PostCreateOneWithoutNotificationsInput {
 input PostCreateWithoutAuthorInput {
   id: ID
   published: Boolean
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String
@@ -756,6 +759,7 @@ input PostCreateWithoutAuthorInput {
 input PostCreateWithoutCommentsInput {
   id: ID
   published: Boolean
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String
@@ -766,6 +770,7 @@ input PostCreateWithoutCommentsInput {
 input PostCreateWithoutNotificationsInput {
   id: ID
   published: Boolean
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String
@@ -787,6 +792,8 @@ enum PostOrderByInput {
   updatedAt_DESC
   published_ASC
   published_DESC
+  publishedAt_ASC
+  publishedAt_DESC
   title_ASC
   title_DESC
   content_ASC
@@ -800,6 +807,7 @@ type PostPreviousValues {
   createdAt: DateTime!
   updatedAt: DateTime!
   published: Boolean!
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String
@@ -838,6 +846,14 @@ input PostScalarWhereInput {
   updatedAt_gte: DateTime
   published: Boolean
   published_not: Boolean
+  publishedAt: DateTime
+  publishedAt_not: DateTime
+  publishedAt_in: [DateTime!]
+  publishedAt_not_in: [DateTime!]
+  publishedAt_lt: DateTime
+  publishedAt_lte: DateTime
+  publishedAt_gt: DateTime
+  publishedAt_gte: DateTime
   title: String
   title_not: String
   title_in: [String!]
@@ -905,6 +921,7 @@ input PostSubscriptionWhereInput {
 
 input PostUpdateInput {
   published: Boolean
+  publishedAt: DateTime
   title: String
   content: String
   imagePath: String
@@ -915,6 +932,7 @@ input PostUpdateInput {
 
 input PostUpdateManyDataInput {
   published: Boolean
+  publishedAt: DateTime
   title: String
   content: String
   imagePath: String
@@ -922,6 +940,7 @@ input PostUpdateManyDataInput {
 
 input PostUpdateManyMutationInput {
   published: Boolean
+  publishedAt: DateTime
   title: String
   content: String
   imagePath: String
@@ -960,6 +979,7 @@ input PostUpdateOneRequiredWithoutNotificationsInput {
 
 input PostUpdateWithoutAuthorDataInput {
   published: Boolean
+  publishedAt: DateTime
   title: String
   content: String
   imagePath: String
@@ -969,6 +989,7 @@ input PostUpdateWithoutAuthorDataInput {
 
 input PostUpdateWithoutCommentsDataInput {
   published: Boolean
+  publishedAt: DateTime
   title: String
   content: String
   imagePath: String
@@ -978,6 +999,7 @@ input PostUpdateWithoutCommentsDataInput {
 
 input PostUpdateWithoutNotificationsDataInput {
   published: Boolean
+  publishedAt: DateTime
   title: String
   content: String
   imagePath: String
@@ -1039,6 +1061,14 @@ input PostWhereInput {
   updatedAt_gte: DateTime
   published: Boolean
   published_not: Boolean
+  publishedAt: DateTime
+  publishedAt_not: DateTime
+  publishedAt_in: [DateTime!]
+  publishedAt_not_in: [DateTime!]
+  publishedAt_lt: DateTime
+  publishedAt_lte: DateTime
+  publishedAt_gt: DateTime
+  publishedAt_gte: DateTime
   title: String
   title_not: String
   title_in: [String!]

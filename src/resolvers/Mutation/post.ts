@@ -1,10 +1,15 @@
+import * as moment from "moment";
+
 import { getUserId, Context } from "../../utils";
 import { notification } from "./notification";
+
+const dateNow = moment().format();
 
 export const post = {
   async createPost(parent, args, ctx: Context, info) {
     const { title, content, imagePath } = args;
     const published = args.published || true;
+    const publishedAt = args.publishedAt || dateNow;
 
     const userId = getUserId(ctx);
     const post = await ctx.prisma.createPost({
@@ -12,6 +17,7 @@ export const post = {
       content,
       imagePath,
       published,
+      publishedAt,
       author: {
         connect: { id: userId }
       }

@@ -3,6 +3,7 @@ type Post {
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   published: Boolean! @default(value: false)
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String

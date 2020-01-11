@@ -21,7 +21,12 @@ type Mutation {
     userId: String!
   ): Notification!
   createNotifications(postId: String!, commentId: String): [Notification]!
-  createPost(title: String, content: String!, imagePath: URL): Post!
+  createPost(
+    title: String
+    content: String!
+    imagePath: URL
+    publishedAt: DateTime
+  ): Post!
   createReply(content: String!, id: ID!): Reply!
   deleteComment(id: ID!): Comment!
   deletePost(id: ID!): Post!
@@ -61,6 +66,7 @@ type Post {
   content: String!
   comments: [Comment!]!
   published: Boolean!
+  publishedAt: DateTime!
   imagePath: URL
 }
 

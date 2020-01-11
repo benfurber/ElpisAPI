@@ -272,6 +272,8 @@ export type PostOrderByInput =
   | "updatedAt_DESC"
   | "published_ASC"
   | "published_DESC"
+  | "publishedAt_ASC"
+  | "publishedAt_DESC"
   | "title_ASC"
   | "title_DESC"
   | "content_ASC"
@@ -366,6 +368,14 @@ export interface PostWhereInput {
   updatedAt_gte?: Maybe<DateTimeInput>;
   published?: Maybe<Boolean>;
   published_not?: Maybe<Boolean>;
+  publishedAt?: Maybe<DateTimeInput>;
+  publishedAt_not?: Maybe<DateTimeInput>;
+  publishedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_lt?: Maybe<DateTimeInput>;
+  publishedAt_lte?: Maybe<DateTimeInput>;
+  publishedAt_gt?: Maybe<DateTimeInput>;
+  publishedAt_gte?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
   title_not?: Maybe<String>;
   title_in?: Maybe<String[] | String>;
@@ -739,6 +749,7 @@ export interface PostCreateManyWithoutAuthorInput {
 export interface PostCreateWithoutAuthorInput {
   id?: Maybe<ID_Input>;
   published?: Maybe<Boolean>;
+  publishedAt: DateTimeInput;
   title?: Maybe<String>;
   content: String;
   imagePath?: Maybe<String>;
@@ -816,6 +827,7 @@ export interface PostCreateOneWithoutNotificationsInput {
 export interface PostCreateWithoutNotificationsInput {
   id?: Maybe<ID_Input>;
   published?: Maybe<Boolean>;
+  publishedAt: DateTimeInput;
   title?: Maybe<String>;
   content: String;
   imagePath?: Maybe<String>;
@@ -889,6 +901,7 @@ export interface PostCreateOneWithoutCommentsInput {
 export interface PostCreateWithoutCommentsInput {
   id?: Maybe<ID_Input>;
   published?: Maybe<Boolean>;
+  publishedAt: DateTimeInput;
   title?: Maybe<String>;
   content: String;
   imagePath?: Maybe<String>;
@@ -965,6 +978,7 @@ export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
 
 export interface PostUpdateWithoutAuthorDataInput {
   published?: Maybe<Boolean>;
+  publishedAt?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
   content?: Maybe<String>;
   imagePath?: Maybe<String>;
@@ -1112,6 +1126,7 @@ export interface PostUpdateOneRequiredWithoutNotificationsInput {
 
 export interface PostUpdateWithoutNotificationsDataInput {
   published?: Maybe<Boolean>;
+  publishedAt?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
   content?: Maybe<String>;
   imagePath?: Maybe<String>;
@@ -1215,6 +1230,7 @@ export interface PostUpdateOneRequiredWithoutCommentsInput {
 
 export interface PostUpdateWithoutCommentsDataInput {
   published?: Maybe<Boolean>;
+  publishedAt?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
   content?: Maybe<String>;
   imagePath?: Maybe<String>;
@@ -1559,6 +1575,14 @@ export interface PostScalarWhereInput {
   updatedAt_gte?: Maybe<DateTimeInput>;
   published?: Maybe<Boolean>;
   published_not?: Maybe<Boolean>;
+  publishedAt?: Maybe<DateTimeInput>;
+  publishedAt_not?: Maybe<DateTimeInput>;
+  publishedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_lt?: Maybe<DateTimeInput>;
+  publishedAt_lte?: Maybe<DateTimeInput>;
+  publishedAt_gt?: Maybe<DateTimeInput>;
+  publishedAt_gte?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
   title_not?: Maybe<String>;
   title_in?: Maybe<String[] | String>;
@@ -1613,6 +1637,7 @@ export interface PostUpdateManyWithWhereNestedInput {
 
 export interface PostUpdateManyDataInput {
   published?: Maybe<Boolean>;
+  publishedAt?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
   content?: Maybe<String>;
   imagePath?: Maybe<String>;
@@ -1653,6 +1678,7 @@ export interface NotificationUpdateManyMutationInput {
 export interface PostCreateInput {
   id?: Maybe<ID_Input>;
   published?: Maybe<Boolean>;
+  publishedAt: DateTimeInput;
   title?: Maybe<String>;
   content: String;
   imagePath?: Maybe<String>;
@@ -1663,6 +1689,7 @@ export interface PostCreateInput {
 
 export interface PostUpdateInput {
   published?: Maybe<Boolean>;
+  publishedAt?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
   content?: Maybe<String>;
   imagePath?: Maybe<String>;
@@ -1673,6 +1700,7 @@ export interface PostUpdateInput {
 
 export interface PostUpdateManyMutationInput {
   published?: Maybe<Boolean>;
+  publishedAt?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
   content?: Maybe<String>;
   imagePath?: Maybe<String>;
@@ -1951,6 +1979,7 @@ export interface Post {
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
   published: Boolean;
+  publishedAt: DateTimeOutput;
   title?: String;
   content: String;
   imagePath?: String;
@@ -1961,6 +1990,7 @@ export interface PostPromise extends Promise<Post>, Fragmentable {
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   published: () => Promise<Boolean>;
+  publishedAt: () => Promise<DateTimeOutput>;
   title: () => Promise<String>;
   content: () => Promise<String>;
   imagePath: () => Promise<String>;
@@ -1992,6 +2022,7 @@ export interface PostSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   published: () => Promise<AsyncIterator<Boolean>>;
+  publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   title: () => Promise<AsyncIterator<String>>;
   content: () => Promise<AsyncIterator<String>>;
   imagePath: () => Promise<AsyncIterator<String>>;
@@ -2023,6 +2054,7 @@ export interface PostNullablePromise
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   published: () => Promise<Boolean>;
+  publishedAt: () => Promise<DateTimeOutput>;
   title: () => Promise<String>;
   content: () => Promise<String>;
   imagePath: () => Promise<String>;
@@ -2603,6 +2635,7 @@ export interface PostPreviousValues {
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
   published: Boolean;
+  publishedAt: DateTimeOutput;
   title?: String;
   content: String;
   imagePath?: String;
@@ -2615,6 +2648,7 @@ export interface PostPreviousValuesPromise
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   published: () => Promise<Boolean>;
+  publishedAt: () => Promise<DateTimeOutput>;
   title: () => Promise<String>;
   content: () => Promise<String>;
   imagePath: () => Promise<String>;
@@ -2627,6 +2661,7 @@ export interface PostPreviousValuesSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   published: () => Promise<AsyncIterator<Boolean>>;
+  publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   title: () => Promise<AsyncIterator<String>>;
   content: () => Promise<AsyncIterator<String>>;
   imagePath: () => Promise<AsyncIterator<String>>;
