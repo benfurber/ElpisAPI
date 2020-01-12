@@ -14,7 +14,12 @@ type Query {
 type Mutation {
   ageNotification(id: String!): Notification!
   completeUserOnboarding: User!
-  createComment(content: String!, id: ID!, title: String): Comment!
+  createComment(
+    content: String!
+    id: ID!
+    title: String
+    publishedAt: DateTime
+  ): Comment!
   createNotification(
     postId: String!
     replyId: String
@@ -27,7 +32,7 @@ type Mutation {
     imagePath: URL
     publishedAt: DateTime
   ): Post!
-  createReply(content: String!, id: ID!): Reply!
+  createReply(content: String!, id: ID!, publishedAt: DateTime): Reply!
   deleteComment(id: ID!): Comment!
   deletePost(id: ID!): Post!
   deleteReply(id: ID!): Reply!
@@ -74,6 +79,7 @@ type Comment {
   id: ID!
   author: User!
   createdAt: DateTime!
+  publishedAt: DateTime!
   content: String!
   post: Post!
   replies: [Reply!]!
@@ -85,6 +91,7 @@ type Reply {
   id: ID!
   author: User!
   createdAt: DateTime!
+  publishedAt: DateTime!
   content: String!
   comment: Comment!
   link: URL

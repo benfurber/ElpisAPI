@@ -288,6 +288,8 @@ export type CommentOrderByInput =
   | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC"
+  | "publishedAt_ASC"
+  | "publishedAt_DESC"
   | "content_ASC"
   | "content_DESC"
   | "title_ASC"
@@ -310,6 +312,8 @@ export type ReplyOrderByInput =
   | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC"
+  | "publishedAt_ASC"
+  | "publishedAt_DESC"
   | "content_ASC"
   | "content_DESC"
   | "link_ASC"
@@ -592,6 +596,14 @@ export interface ReplyWhereInput {
   updatedAt_lte?: Maybe<DateTimeInput>;
   updatedAt_gt?: Maybe<DateTimeInput>;
   updatedAt_gte?: Maybe<DateTimeInput>;
+  publishedAt?: Maybe<DateTimeInput>;
+  publishedAt_not?: Maybe<DateTimeInput>;
+  publishedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_lt?: Maybe<DateTimeInput>;
+  publishedAt_lte?: Maybe<DateTimeInput>;
+  publishedAt_gt?: Maybe<DateTimeInput>;
+  publishedAt_gte?: Maybe<DateTimeInput>;
   author?: Maybe<UserWhereInput>;
   content?: Maybe<String>;
   content_not?: Maybe<String>;
@@ -661,6 +673,14 @@ export interface CommentWhereInput {
   updatedAt_lte?: Maybe<DateTimeInput>;
   updatedAt_gt?: Maybe<DateTimeInput>;
   updatedAt_gte?: Maybe<DateTimeInput>;
+  publishedAt?: Maybe<DateTimeInput>;
+  publishedAt_not?: Maybe<DateTimeInput>;
+  publishedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_lt?: Maybe<DateTimeInput>;
+  publishedAt_lte?: Maybe<DateTimeInput>;
+  publishedAt_gt?: Maybe<DateTimeInput>;
+  publishedAt_gte?: Maybe<DateTimeInput>;
   author?: Maybe<UserWhereInput>;
   content?: Maybe<String>;
   content_not?: Maybe<String>;
@@ -718,6 +738,7 @@ export type UserWhereUniqueInput = AtLeastOne<{
 
 export interface CommentCreateInput {
   id?: Maybe<ID_Input>;
+  publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
   post: PostCreateOneWithoutCommentsInput;
@@ -766,6 +787,7 @@ export interface CommentCreateManyWithoutPostInput {
 
 export interface CommentCreateWithoutPostInput {
   id?: Maybe<ID_Input>;
+  publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
   replies?: Maybe<ReplyCreateManyWithoutCommentInput>;
@@ -781,6 +803,7 @@ export interface ReplyCreateManyWithoutCommentInput {
 
 export interface ReplyCreateWithoutCommentInput {
   id?: Maybe<ID_Input>;
+  publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
   link?: Maybe<String>;
@@ -874,6 +897,7 @@ export interface ReplyCreateOneWithoutNotificationsInput {
 
 export interface ReplyCreateWithoutNotificationsInput {
   id?: Maybe<ID_Input>;
+  publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
   comment: CommentCreateOneWithoutRepliesInput;
@@ -887,6 +911,7 @@ export interface CommentCreateOneWithoutRepliesInput {
 
 export interface CommentCreateWithoutRepliesInput {
   id?: Maybe<ID_Input>;
+  publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
   post: PostCreateOneWithoutCommentsInput;
@@ -927,6 +952,7 @@ export interface NotificationCreateWithoutPostInput {
 }
 
 export interface CommentUpdateInput {
+  publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
@@ -1015,6 +1041,7 @@ export interface CommentUpdateWithWhereUniqueWithoutPostInput {
 }
 
 export interface CommentUpdateWithoutPostDataInput {
+  publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   replies?: Maybe<ReplyUpdateManyWithoutCommentInput>;
@@ -1049,6 +1076,7 @@ export interface ReplyUpdateWithWhereUniqueWithoutCommentInput {
 }
 
 export interface ReplyUpdateWithoutCommentDataInput {
+  publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   link?: Maybe<String>;
@@ -1201,6 +1229,7 @@ export interface ReplyUpdateOneWithoutNotificationsInput {
 }
 
 export interface ReplyUpdateWithoutNotificationsDataInput {
+  publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   comment?: Maybe<CommentUpdateOneRequiredWithoutRepliesInput>;
@@ -1215,6 +1244,7 @@ export interface CommentUpdateOneRequiredWithoutRepliesInput {
 }
 
 export interface CommentUpdateWithoutRepliesDataInput {
+  publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
@@ -1413,6 +1443,14 @@ export interface ReplyScalarWhereInput {
   updatedAt_lte?: Maybe<DateTimeInput>;
   updatedAt_gt?: Maybe<DateTimeInput>;
   updatedAt_gte?: Maybe<DateTimeInput>;
+  publishedAt?: Maybe<DateTimeInput>;
+  publishedAt_not?: Maybe<DateTimeInput>;
+  publishedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_lt?: Maybe<DateTimeInput>;
+  publishedAt_lte?: Maybe<DateTimeInput>;
+  publishedAt_gt?: Maybe<DateTimeInput>;
+  publishedAt_gte?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
   content_not?: Maybe<String>;
   content_in?: Maybe<String[] | String>;
@@ -1452,6 +1490,7 @@ export interface ReplyUpdateManyWithWhereNestedInput {
 }
 
 export interface ReplyUpdateManyDataInput {
+  publishedAt?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
   link?: Maybe<String>;
 }
@@ -1493,6 +1532,14 @@ export interface CommentScalarWhereInput {
   updatedAt_lte?: Maybe<DateTimeInput>;
   updatedAt_gt?: Maybe<DateTimeInput>;
   updatedAt_gte?: Maybe<DateTimeInput>;
+  publishedAt?: Maybe<DateTimeInput>;
+  publishedAt_not?: Maybe<DateTimeInput>;
+  publishedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_lt?: Maybe<DateTimeInput>;
+  publishedAt_lte?: Maybe<DateTimeInput>;
+  publishedAt_gt?: Maybe<DateTimeInput>;
+  publishedAt_gte?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
   content_not?: Maybe<String>;
   content_in?: Maybe<String[] | String>;
@@ -1532,6 +1579,7 @@ export interface CommentUpdateManyWithWhereNestedInput {
 }
 
 export interface CommentUpdateManyDataInput {
+  publishedAt?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
   title?: Maybe<String>;
 }
@@ -1649,6 +1697,7 @@ export interface UserUpsertNestedInput {
 }
 
 export interface CommentUpdateManyMutationInput {
+  publishedAt?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
   title?: Maybe<String>;
 }
@@ -1708,6 +1757,7 @@ export interface PostUpdateManyMutationInput {
 
 export interface ReplyCreateInput {
   id?: Maybe<ID_Input>;
+  publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
   comment: CommentCreateOneWithoutRepliesInput;
@@ -1716,6 +1766,7 @@ export interface ReplyCreateInput {
 }
 
 export interface ReplyUpdateInput {
+  publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   comment?: Maybe<CommentUpdateOneRequiredWithoutRepliesInput>;
@@ -1724,6 +1775,7 @@ export interface ReplyUpdateInput {
 }
 
 export interface ReplyUpdateManyMutationInput {
+  publishedAt?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
   link?: Maybe<String>;
 }
@@ -1815,6 +1867,7 @@ export interface Comment {
   id: ID_Output;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
+  publishedAt: DateTimeOutput;
   content: String;
   title?: String;
 }
@@ -1823,6 +1876,7 @@ export interface CommentPromise extends Promise<Comment>, Fragmentable {
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  publishedAt: () => Promise<DateTimeOutput>;
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
   post: <T = PostPromise>() => T;
@@ -1844,6 +1898,7 @@ export interface CommentSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   author: <T = UserSubscription>() => T;
   content: () => Promise<AsyncIterator<String>>;
   post: <T = PostSubscription>() => T;
@@ -1865,6 +1920,7 @@ export interface CommentNullablePromise
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  publishedAt: () => Promise<DateTimeOutput>;
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
   post: <T = PostPromise>() => T;
@@ -2126,6 +2182,7 @@ export interface Reply {
   id: ID_Output;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
+  publishedAt: DateTimeOutput;
   content: String;
   link?: String;
 }
@@ -2134,6 +2191,7 @@ export interface ReplyPromise extends Promise<Reply>, Fragmentable {
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  publishedAt: () => Promise<DateTimeOutput>;
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
   comment: <T = CommentPromise>() => T;
@@ -2155,6 +2213,7 @@ export interface ReplySubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   author: <T = UserSubscription>() => T;
   content: () => Promise<AsyncIterator<String>>;
   comment: <T = CommentSubscription>() => T;
@@ -2176,6 +2235,7 @@ export interface ReplyNullablePromise
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  publishedAt: () => Promise<DateTimeOutput>;
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
   comment: <T = CommentPromise>() => T;
@@ -2531,6 +2591,7 @@ export interface CommentPreviousValues {
   id: ID_Output;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
+  publishedAt: DateTimeOutput;
   content: String;
   title?: String;
 }
@@ -2541,6 +2602,7 @@ export interface CommentPreviousValuesPromise
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  publishedAt: () => Promise<DateTimeOutput>;
   content: () => Promise<String>;
   title: () => Promise<String>;
 }
@@ -2551,6 +2613,7 @@ export interface CommentPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   content: () => Promise<AsyncIterator<String>>;
   title: () => Promise<AsyncIterator<String>>;
 }
@@ -2696,6 +2759,7 @@ export interface ReplyPreviousValues {
   id: ID_Output;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
+  publishedAt: DateTimeOutput;
   content: String;
   link?: String;
 }
@@ -2706,6 +2770,7 @@ export interface ReplyPreviousValuesPromise
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  publishedAt: () => Promise<DateTimeOutput>;
   content: () => Promise<String>;
   link: () => Promise<String>;
 }
@@ -2716,6 +2781,7 @@ export interface ReplyPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   content: () => Promise<AsyncIterator<String>>;
   link: () => Promise<AsyncIterator<String>>;
 }
