@@ -30,6 +30,7 @@ type Comment {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
+  publishedAt: DateTime!
   author: User!
   content: String!
   post: Post!
@@ -45,6 +46,7 @@ type CommentConnection {
 
 input CommentCreateInput {
   id: ID
+  publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
   post: PostCreateOneWithoutCommentsInput!
@@ -64,6 +66,7 @@ input CommentCreateOneWithoutRepliesInput {
 
 input CommentCreateWithoutPostInput {
   id: ID
+  publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
   replies: ReplyCreateManyWithoutCommentInput
@@ -72,6 +75,7 @@ input CommentCreateWithoutPostInput {
 
 input CommentCreateWithoutRepliesInput {
   id: ID
+  publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
   post: PostCreateOneWithoutCommentsInput!
@@ -90,6 +94,8 @@ enum CommentOrderByInput {
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  publishedAt_ASC
+  publishedAt_DESC
   content_ASC
   content_DESC
   title_ASC
@@ -100,6 +106,7 @@ type CommentPreviousValues {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
+  publishedAt: DateTime!
   content: String!
   title: String
 }
@@ -135,6 +142,14 @@ input CommentScalarWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
+  publishedAt: DateTime
+  publishedAt_not: DateTime
+  publishedAt_in: [DateTime!]
+  publishedAt_not_in: [DateTime!]
+  publishedAt_lt: DateTime
+  publishedAt_lte: DateTime
+  publishedAt_gt: DateTime
+  publishedAt_gte: DateTime
   content: String
   content_not: String
   content_in: [String!]
@@ -187,6 +202,7 @@ input CommentSubscriptionWhereInput {
 }
 
 input CommentUpdateInput {
+  publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
   post: PostUpdateOneRequiredWithoutCommentsInput
@@ -195,11 +211,13 @@ input CommentUpdateInput {
 }
 
 input CommentUpdateManyDataInput {
+  publishedAt: DateTime
   content: String
   title: String
 }
 
 input CommentUpdateManyMutationInput {
+  publishedAt: DateTime
   content: String
   title: String
 }
@@ -229,6 +247,7 @@ input CommentUpdateOneRequiredWithoutRepliesInput {
 }
 
 input CommentUpdateWithoutPostDataInput {
+  publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
   replies: ReplyUpdateManyWithoutCommentInput
@@ -236,6 +255,7 @@ input CommentUpdateWithoutPostDataInput {
 }
 
 input CommentUpdateWithoutRepliesDataInput {
+  publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
   post: PostUpdateOneRequiredWithoutCommentsInput
@@ -289,6 +309,14 @@ input CommentWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
+  publishedAt: DateTime
+  publishedAt_not: DateTime
+  publishedAt_in: [DateTime!]
+  publishedAt_not_in: [DateTime!]
+  publishedAt_lt: DateTime
+  publishedAt_lte: DateTime
+  publishedAt_gt: DateTime
+  publishedAt_gte: DateTime
   author: UserWhereInput
   content: String
   content_not: String
@@ -703,6 +731,7 @@ type Post {
   createdAt: DateTime!
   updatedAt: DateTime!
   published: Boolean!
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String
@@ -720,6 +749,7 @@ type PostConnection {
 input PostCreateInput {
   id: ID
   published: Boolean
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String
@@ -746,6 +776,7 @@ input PostCreateOneWithoutNotificationsInput {
 input PostCreateWithoutAuthorInput {
   id: ID
   published: Boolean
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String
@@ -756,6 +787,7 @@ input PostCreateWithoutAuthorInput {
 input PostCreateWithoutCommentsInput {
   id: ID
   published: Boolean
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String
@@ -766,6 +798,7 @@ input PostCreateWithoutCommentsInput {
 input PostCreateWithoutNotificationsInput {
   id: ID
   published: Boolean
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String
@@ -787,6 +820,8 @@ enum PostOrderByInput {
   updatedAt_DESC
   published_ASC
   published_DESC
+  publishedAt_ASC
+  publishedAt_DESC
   title_ASC
   title_DESC
   content_ASC
@@ -800,6 +835,7 @@ type PostPreviousValues {
   createdAt: DateTime!
   updatedAt: DateTime!
   published: Boolean!
+  publishedAt: DateTime!
   title: String
   content: String!
   imagePath: String
@@ -838,6 +874,14 @@ input PostScalarWhereInput {
   updatedAt_gte: DateTime
   published: Boolean
   published_not: Boolean
+  publishedAt: DateTime
+  publishedAt_not: DateTime
+  publishedAt_in: [DateTime!]
+  publishedAt_not_in: [DateTime!]
+  publishedAt_lt: DateTime
+  publishedAt_lte: DateTime
+  publishedAt_gt: DateTime
+  publishedAt_gte: DateTime
   title: String
   title_not: String
   title_in: [String!]
@@ -905,6 +949,7 @@ input PostSubscriptionWhereInput {
 
 input PostUpdateInput {
   published: Boolean
+  publishedAt: DateTime
   title: String
   content: String
   imagePath: String
@@ -915,6 +960,7 @@ input PostUpdateInput {
 
 input PostUpdateManyDataInput {
   published: Boolean
+  publishedAt: DateTime
   title: String
   content: String
   imagePath: String
@@ -922,6 +968,7 @@ input PostUpdateManyDataInput {
 
 input PostUpdateManyMutationInput {
   published: Boolean
+  publishedAt: DateTime
   title: String
   content: String
   imagePath: String
@@ -960,6 +1007,7 @@ input PostUpdateOneRequiredWithoutNotificationsInput {
 
 input PostUpdateWithoutAuthorDataInput {
   published: Boolean
+  publishedAt: DateTime
   title: String
   content: String
   imagePath: String
@@ -969,6 +1017,7 @@ input PostUpdateWithoutAuthorDataInput {
 
 input PostUpdateWithoutCommentsDataInput {
   published: Boolean
+  publishedAt: DateTime
   title: String
   content: String
   imagePath: String
@@ -978,6 +1027,7 @@ input PostUpdateWithoutCommentsDataInput {
 
 input PostUpdateWithoutNotificationsDataInput {
   published: Boolean
+  publishedAt: DateTime
   title: String
   content: String
   imagePath: String
@@ -1039,6 +1089,14 @@ input PostWhereInput {
   updatedAt_gte: DateTime
   published: Boolean
   published_not: Boolean
+  publishedAt: DateTime
+  publishedAt_not: DateTime
+  publishedAt_in: [DateTime!]
+  publishedAt_not_in: [DateTime!]
+  publishedAt_lt: DateTime
+  publishedAt_lte: DateTime
+  publishedAt_gt: DateTime
+  publishedAt_gte: DateTime
   title: String
   title_not: String
   title_in: [String!]
@@ -1120,6 +1178,7 @@ type Reply {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
+  publishedAt: DateTime!
   author: User!
   content: String!
   comment: Comment!
@@ -1135,6 +1194,7 @@ type ReplyConnection {
 
 input ReplyCreateInput {
   id: ID
+  publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
   comment: CommentCreateOneWithoutRepliesInput!
@@ -1154,6 +1214,7 @@ input ReplyCreateOneWithoutNotificationsInput {
 
 input ReplyCreateWithoutCommentInput {
   id: ID
+  publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
   link: String
@@ -1162,6 +1223,7 @@ input ReplyCreateWithoutCommentInput {
 
 input ReplyCreateWithoutNotificationsInput {
   id: ID
+  publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
   comment: CommentCreateOneWithoutRepliesInput!
@@ -1180,6 +1242,8 @@ enum ReplyOrderByInput {
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  publishedAt_ASC
+  publishedAt_DESC
   content_ASC
   content_DESC
   link_ASC
@@ -1190,6 +1254,7 @@ type ReplyPreviousValues {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
+  publishedAt: DateTime!
   content: String!
   link: String
 }
@@ -1225,6 +1290,14 @@ input ReplyScalarWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
+  publishedAt: DateTime
+  publishedAt_not: DateTime
+  publishedAt_in: [DateTime!]
+  publishedAt_not_in: [DateTime!]
+  publishedAt_lt: DateTime
+  publishedAt_lte: DateTime
+  publishedAt_gt: DateTime
+  publishedAt_gte: DateTime
   content: String
   content_not: String
   content_in: [String!]
@@ -1277,6 +1350,7 @@ input ReplySubscriptionWhereInput {
 }
 
 input ReplyUpdateInput {
+  publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
   comment: CommentUpdateOneRequiredWithoutRepliesInput
@@ -1285,11 +1359,13 @@ input ReplyUpdateInput {
 }
 
 input ReplyUpdateManyDataInput {
+  publishedAt: DateTime
   content: String
   link: String
 }
 
 input ReplyUpdateManyMutationInput {
+  publishedAt: DateTime
   content: String
   link: String
 }
@@ -1321,6 +1397,7 @@ input ReplyUpdateOneWithoutNotificationsInput {
 }
 
 input ReplyUpdateWithoutCommentDataInput {
+  publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
   link: String
@@ -1328,6 +1405,7 @@ input ReplyUpdateWithoutCommentDataInput {
 }
 
 input ReplyUpdateWithoutNotificationsDataInput {
+  publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
   comment: CommentUpdateOneRequiredWithoutRepliesInput
@@ -1381,6 +1459,14 @@ input ReplyWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
+  publishedAt: DateTime
+  publishedAt_not: DateTime
+  publishedAt_in: [DateTime!]
+  publishedAt_not_in: [DateTime!]
+  publishedAt_lt: DateTime
+  publishedAt_lte: DateTime
+  publishedAt_gt: DateTime
+  publishedAt_gte: DateTime
   author: UserWhereInput
   content: String
   content_not: String

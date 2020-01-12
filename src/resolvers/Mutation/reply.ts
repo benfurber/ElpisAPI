@@ -1,18 +1,24 @@
-import { Context, getUserId, findUrlInContent } from "../../utils";
+import { Context, dateNow, getUserId, findUrlInContent } from "../../utils";
+
 import { notification } from "./notification";
 
 export const reply = {
-  async createReply(parent, { content, id }, ctx: Context, info) {
+  async createReply(parent, args, ctx: Context, info) {
+    const { content, id } = args;
+
     const userId = getUserId(ctx);
     const author = { connect: { id: userId } };
     const comment = { connect: { id } };
     const link = findUrlInContent(content) || null;
 
+    const publishedAt = args.publishedAt || dateNow();
+
     const reply = await ctx.prisma.createReply({
-      content,
       author,
       comment,
-      link
+      content,
+      link,
+      publishedAt
     });
 
     await createNotification({ reply, id }, ctx);

@@ -1,4 +1,5 @@
-import { getUserId, Context } from "../../utils";
+import { dateNow, getUserId, Context } from "../../utils";
+
 import { notification } from "./notification";
 
 export const post = {
@@ -6,12 +7,15 @@ export const post = {
     const { title, content, imagePath } = args;
     const published = args.published || true;
 
+    const publishedAt = args.publishedAt || dateNow();
+
     const userId = getUserId(ctx);
     const post = await ctx.prisma.createPost({
       title,
       content,
       imagePath,
       published,
+      publishedAt,
       author: {
         connect: { id: userId }
       }
