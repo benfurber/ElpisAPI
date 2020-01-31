@@ -39,7 +39,12 @@ type Mutation {
   linkUserProfilePicture(avatarPath: URL!): User!
   login(email: String!, password: String!): AuthPayload!
   publish(id: ID!): Post!
-  signup(email: String!, password: String!, name: String!): AuthPayload!
+  signup(
+    email: String!
+    password: String!
+    name: String!
+    avatarPath: URL
+  ): AuthPayload!
   updatePassword(password: String!): User!
 }
 
