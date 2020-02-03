@@ -9,7 +9,4 @@ phases:
       - yarn install
 
 artifacts:
-  files:
-    - prod-build.zip
-  base-directory: "SourceArti/ElpisAPI"
   discard-paths: yes
