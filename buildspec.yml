@@ -10,5 +10,5 @@ phases:
 
 artifacts:
   files:
-    - build*/**
+    - SourceArti/prod-build.zip
   discard-paths: yes
