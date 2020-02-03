@@ -10,5 +10,6 @@ phases:
 
 artifacts:
   files:
-    - SourceArti/prod-build.zip
+    - prod-build.zip
+  base-directory: "SourceArti/ElpisAPI"
   discard-paths: yes
