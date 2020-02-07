@@ -6,7 +6,8 @@
     "debug": "dotenv -- nodemon -e ts,graphql -x ts-node --inspect src/index.ts",
     "build": "rimraf dist && tsc",
     "seed": "ts-node src/utils/seed.ts",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "token": "prisma token"
   },
   "dependencies": {
     "bcryptjs": "2.4.3",
