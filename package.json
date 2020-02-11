@@ -5,7 +5,7 @@
     "dev": "dotenv -- nodemon -e ts,graphql -x ts-node src/index.ts",
     "debug": "dotenv -- nodemon -e ts,graphql -x ts-node --inspect src/index.ts",
     "build": "rimraf dist && tsc",
-    "production": "npm install prisma -g && prisma token && nodemon -e ts,graphql -x ts-node src/index.ts",
+    "production": "prisma token && nodemon -e ts,graphql -x ts-node src/index.ts",
     "seed": "ts-node src/utils/seed.ts",
     "test": "jest --watchAll"
   },
