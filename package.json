@@ -27,6 +27,7 @@
     "node-fetch": "^2.6.0",
     "nodemon": "1.19.1",
     "onesignal-node": "^2.1.1",
+    "prisma": "1.34.1",
     "prisma-client-lib": "^1.34.1",
     "ts-node": "7.0.1",
     "typescript": "3.2.2"
@@ -37,7 +38,6 @@
     "@types/node": "10.14.12",
     "dotenv-cli": "1.4.0",
     "jest": "^24.8.0",
-    "prisma": "1.34.1",
     "rimraf": "2.6.3",
     "ts-jest": "^24.0.2"
   },
