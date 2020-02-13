@@ -12,4 +12,7 @@ const server = new GraphQLServer({
     prisma
   })
 });
-server.start(() => console.log(`Server is running on http://localhost:4000`));
+server.start(() => {
+  console.log(process.env);
+  console.log(`Server is running on http://localhost:4000`);
+});
