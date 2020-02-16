@@ -13,7 +13,6 @@ const server = new GraphQLServer({
   })
 });
 server.start(() => {
-  console.log(`Secret: ${process.env.PRISMA_SECRET}`);
   console.log(`Token: ${process.env.PRISMA_TOKEN}`);
   console.log(`Server is running on http://localhost:4000`);
 });
