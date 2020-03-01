@@ -4,7 +4,7 @@ import { notification } from "./notification";
 
 export const reply = {
   async createReply(parent, args, ctx: Context, info) {
-    const { content, id } = args;
+    const { id, imagePath, content } = args;
 
     const userId = getUserId(ctx);
     const author = { connect: { id: userId } };
@@ -17,6 +17,7 @@ export const reply = {
       author,
       comment,
       content,
+      imagePath,
       link,
       publishedAt
     });

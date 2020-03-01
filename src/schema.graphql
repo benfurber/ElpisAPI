@@ -32,7 +32,12 @@ type Mutation {
     imagePath: URL
     publishedAt: DateTime
   ): Post!
-  createReply(content: String!, id: ID!, publishedAt: DateTime): Reply!
+  createReply(
+    content: String!
+    id: ID!
+    imagePath: URL
+    publishedAt: DateTime
+  ): Reply!
   deleteComment(id: ID!): Comment!
   deletePost(id: ID!): Post!
   deleteReply(id: ID!): Reply!
@@ -99,6 +104,7 @@ type Reply {
   publishedAt: DateTime!
   content: String!
   comment: Comment!
+  imagePath: URL
   link: URL
 }
 
