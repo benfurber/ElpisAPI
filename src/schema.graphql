@@ -51,6 +51,7 @@ type Mutation {
     avatarPath: URL
   ): AuthPayload!
   updatePassword(password: String!): User!
+  updateReply(content: String, id: ID!, imagePath: URL): Reply!
 }
 
 type Subscription {

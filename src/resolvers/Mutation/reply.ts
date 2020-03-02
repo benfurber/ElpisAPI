@@ -37,6 +37,31 @@ export const reply = {
     }
 
     return ctx.prisma.deleteReply({ id });
+  },
+
+  async updateReply(parent, args, ctx: Context, info) {
+    const { content, id, imagePath } = args;
+    const userId = getUserId(ctx);
+    const replyExists = await ctx.prisma.$exists.reply({
+      id,
+      author: { id: userId }
+    });
+
+    if (!replyExists) {
+      throw new Error(`Reply not found or you're not the author`);
+    }
+
+    const link = findUrlInContent(content) || null;
+
+    const updatedReply = await ctx.prisma.updateReply({
+      data: {
+        content,
+        imagePath,
+        link
+      },
+      where: { id }
+    });
+    return updatedReply;
   }
 };
 
