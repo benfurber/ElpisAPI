@@ -45,6 +45,7 @@ export const reply = {
     const updatedReply = await ctx.prisma.updateReply({
       data: {
         content,
+        edited: true,
         imagePath,
         link
       },

@@ -1182,6 +1182,7 @@ type Reply {
   author: User!
   content: String!
   comment: Comment!
+  edited: Boolean!
   imagePath: String
   link: String
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
@@ -1199,6 +1200,7 @@ input ReplyCreateInput {
   author: UserCreateOneInput!
   content: String!
   comment: CommentCreateOneWithoutRepliesInput!
+  edited: Boolean
   imagePath: String
   link: String
   notifications: NotificationCreateManyWithoutReplyInput
@@ -1219,6 +1221,7 @@ input ReplyCreateWithoutCommentInput {
   publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
+  edited: Boolean
   imagePath: String
   link: String
   notifications: NotificationCreateManyWithoutReplyInput
@@ -1230,6 +1233,7 @@ input ReplyCreateWithoutNotificationsInput {
   author: UserCreateOneInput!
   content: String!
   comment: CommentCreateOneWithoutRepliesInput!
+  edited: Boolean
   imagePath: String
   link: String
 }
@@ -1250,6 +1254,8 @@ enum ReplyOrderByInput {
   publishedAt_DESC
   content_ASC
   content_DESC
+  edited_ASC
+  edited_DESC
   imagePath_ASC
   imagePath_DESC
   link_ASC
@@ -1262,6 +1268,7 @@ type ReplyPreviousValues {
   updatedAt: DateTime!
   publishedAt: DateTime!
   content: String!
+  edited: Boolean!
   imagePath: String
   link: String
 }
@@ -1319,6 +1326,8 @@ input ReplyScalarWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  edited: Boolean
+  edited_not: Boolean
   imagePath: String
   imagePath_not: String
   imagePath_in: [String!]
@@ -1375,6 +1384,7 @@ input ReplyUpdateInput {
   author: UserUpdateOneRequiredInput
   content: String
   comment: CommentUpdateOneRequiredWithoutRepliesInput
+  edited: Boolean
   imagePath: String
   link: String
   notifications: NotificationUpdateManyWithoutReplyInput
@@ -1383,6 +1393,7 @@ input ReplyUpdateInput {
 input ReplyUpdateManyDataInput {
   publishedAt: DateTime
   content: String
+  edited: Boolean
   imagePath: String
   link: String
 }
@@ -1390,6 +1401,7 @@ input ReplyUpdateManyDataInput {
 input ReplyUpdateManyMutationInput {
   publishedAt: DateTime
   content: String
+  edited: Boolean
   imagePath: String
   link: String
 }
@@ -1424,6 +1436,7 @@ input ReplyUpdateWithoutCommentDataInput {
   publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
+  edited: Boolean
   imagePath: String
   link: String
   notifications: NotificationUpdateManyWithoutReplyInput
@@ -1434,6 +1447,7 @@ input ReplyUpdateWithoutNotificationsDataInput {
   author: UserUpdateOneRequiredInput
   content: String
   comment: CommentUpdateOneRequiredWithoutRepliesInput
+  edited: Boolean
   imagePath: String
   link: String
 }
@@ -1509,6 +1523,8 @@ input ReplyWhereInput {
   content_ends_with: String
   content_not_ends_with: String
   comment: CommentWhereInput
+  edited: Boolean
+  edited_not: Boolean
   imagePath: String
   imagePath_not: String
   imagePath_in: [String!]

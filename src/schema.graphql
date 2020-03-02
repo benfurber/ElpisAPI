@@ -101,10 +101,10 @@ type Comment {
 type Reply {
   id: ID!
   author: User!
-  createdAt: DateTime!
   publishedAt: DateTime!
   content: String!
   comment: Comment!
+  edited: Boolean
   imagePath: URL
   link: URL
 }

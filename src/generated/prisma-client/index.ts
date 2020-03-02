@@ -316,6 +316,8 @@ export type ReplyOrderByInput =
   | "publishedAt_DESC"
   | "content_ASC"
   | "content_DESC"
+  | "edited_ASC"
+  | "edited_DESC"
   | "imagePath_ASC"
   | "imagePath_DESC"
   | "link_ASC"
@@ -622,6 +624,8 @@ export interface ReplyWhereInput {
   content_ends_with?: Maybe<String>;
   content_not_ends_with?: Maybe<String>;
   comment?: Maybe<CommentWhereInput>;
+  edited?: Maybe<Boolean>;
+  edited_not?: Maybe<Boolean>;
   imagePath?: Maybe<String>;
   imagePath_not?: Maybe<String>;
   imagePath_in?: Maybe<String[] | String>;
@@ -822,6 +826,7 @@ export interface ReplyCreateWithoutCommentInput {
   publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
+  edited?: Maybe<Boolean>;
   imagePath?: Maybe<String>;
   link?: Maybe<String>;
   notifications?: Maybe<NotificationCreateManyWithoutReplyInput>;
@@ -918,6 +923,7 @@ export interface ReplyCreateWithoutNotificationsInput {
   author: UserCreateOneInput;
   content: String;
   comment: CommentCreateOneWithoutRepliesInput;
+  edited?: Maybe<Boolean>;
   imagePath?: Maybe<String>;
   link?: Maybe<String>;
 }
@@ -1097,6 +1103,7 @@ export interface ReplyUpdateWithoutCommentDataInput {
   publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
+  edited?: Maybe<Boolean>;
   imagePath?: Maybe<String>;
   link?: Maybe<String>;
   notifications?: Maybe<NotificationUpdateManyWithoutReplyInput>;
@@ -1252,6 +1259,7 @@ export interface ReplyUpdateWithoutNotificationsDataInput {
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   comment?: Maybe<CommentUpdateOneRequiredWithoutRepliesInput>;
+  edited?: Maybe<Boolean>;
   imagePath?: Maybe<String>;
   link?: Maybe<String>;
 }
@@ -1485,6 +1493,8 @@ export interface ReplyScalarWhereInput {
   content_not_starts_with?: Maybe<String>;
   content_ends_with?: Maybe<String>;
   content_not_ends_with?: Maybe<String>;
+  edited?: Maybe<Boolean>;
+  edited_not?: Maybe<Boolean>;
   imagePath?: Maybe<String>;
   imagePath_not?: Maybe<String>;
   imagePath_in?: Maybe<String[] | String>;
@@ -1526,6 +1536,7 @@ export interface ReplyUpdateManyWithWhereNestedInput {
 export interface ReplyUpdateManyDataInput {
   publishedAt?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
+  edited?: Maybe<Boolean>;
   imagePath?: Maybe<String>;
   link?: Maybe<String>;
 }
@@ -1796,6 +1807,7 @@ export interface ReplyCreateInput {
   author: UserCreateOneInput;
   content: String;
   comment: CommentCreateOneWithoutRepliesInput;
+  edited?: Maybe<Boolean>;
   imagePath?: Maybe<String>;
   link?: Maybe<String>;
   notifications?: Maybe<NotificationCreateManyWithoutReplyInput>;
@@ -1806,6 +1818,7 @@ export interface ReplyUpdateInput {
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
   comment?: Maybe<CommentUpdateOneRequiredWithoutRepliesInput>;
+  edited?: Maybe<Boolean>;
   imagePath?: Maybe<String>;
   link?: Maybe<String>;
   notifications?: Maybe<NotificationUpdateManyWithoutReplyInput>;
@@ -1814,6 +1827,7 @@ export interface ReplyUpdateInput {
 export interface ReplyUpdateManyMutationInput {
   publishedAt?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
+  edited?: Maybe<Boolean>;
   imagePath?: Maybe<String>;
   link?: Maybe<String>;
 }
@@ -2222,6 +2236,7 @@ export interface Reply {
   updatedAt: DateTimeOutput;
   publishedAt: DateTimeOutput;
   content: String;
+  edited: Boolean;
   imagePath?: String;
   link?: String;
 }
@@ -2234,6 +2249,7 @@ export interface ReplyPromise extends Promise<Reply>, Fragmentable {
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
   comment: <T = CommentPromise>() => T;
+  edited: () => Promise<Boolean>;
   imagePath: () => Promise<String>;
   link: () => Promise<String>;
   notifications: <T = FragmentableArray<Notification>>(args?: {
@@ -2257,6 +2273,7 @@ export interface ReplySubscription
   author: <T = UserSubscription>() => T;
   content: () => Promise<AsyncIterator<String>>;
   comment: <T = CommentSubscription>() => T;
+  edited: () => Promise<AsyncIterator<Boolean>>;
   imagePath: () => Promise<AsyncIterator<String>>;
   link: () => Promise<AsyncIterator<String>>;
   notifications: <T = Promise<AsyncIterator<NotificationSubscription>>>(args?: {
@@ -2280,6 +2297,7 @@ export interface ReplyNullablePromise
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
   comment: <T = CommentPromise>() => T;
+  edited: () => Promise<Boolean>;
   imagePath: () => Promise<String>;
   link: () => Promise<String>;
   notifications: <T = FragmentableArray<Notification>>(args?: {
@@ -2803,6 +2821,7 @@ export interface ReplyPreviousValues {
   updatedAt: DateTimeOutput;
   publishedAt: DateTimeOutput;
   content: String;
+  edited: Boolean;
   imagePath?: String;
   link?: String;
 }
@@ -2815,6 +2834,7 @@ export interface ReplyPreviousValuesPromise
   updatedAt: () => Promise<DateTimeOutput>;
   publishedAt: () => Promise<DateTimeOutput>;
   content: () => Promise<String>;
+  edited: () => Promise<Boolean>;
   imagePath: () => Promise<String>;
   link: () => Promise<String>;
 }
@@ -2827,6 +2847,7 @@ export interface ReplyPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   content: () => Promise<AsyncIterator<String>>;
+  edited: () => Promise<AsyncIterator<Boolean>>;
   imagePath: () => Promise<AsyncIterator<String>>;
   link: () => Promise<AsyncIterator<String>>;
 }
