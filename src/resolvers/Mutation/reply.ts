@@ -27,12 +27,7 @@ export const reply = {
   },
 
   async deleteReply(parent, { id }, ctx: Context, info) {
-    const userId = getUserId(ctx);
-    const replyExists = await ctx.prisma.$exists.reply({
-      id,
-      author: { id: userId }
-    });
-    if (!replyExists) {
+    if (!doesReplyExist({ id }, ctx)) {
       throw new Error(`Reply not found or you're not the author`);
     }
 
@@ -40,17 +35,11 @@ export const reply = {
   },
 
   async updateReply(parent, args, ctx: Context, info) {
-    const { content, id, imagePath } = args;
-    const userId = getUserId(ctx);
-    const replyExists = await ctx.prisma.$exists.reply({
-      id,
-      author: { id: userId }
-    });
-
-    if (!replyExists) {
+    if (!doesReplyExist(args, ctx)) {
       throw new Error(`Reply not found or you're not the author`);
     }
 
+    const { content, id, imagePath } = args;
     const link = findUrlInContent(content) || null;
 
     const updatedReply = await ctx.prisma.updateReply({
@@ -64,6 +53,16 @@ export const reply = {
     return updatedReply;
   }
 };
+
+async function doesReplyExist(args, ctx: Context) {
+  const userId = getUserId(ctx);
+  const replyExists = await ctx.prisma.$exists.reply({
+    id: args.id,
+    author: { id: userId }
+  });
+
+  return replyExists;
+}
 
 async function createNotification({ reply, id }, ctx) {
   const postId = await ctx.prisma
