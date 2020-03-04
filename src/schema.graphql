@@ -106,6 +106,7 @@ type Reply {
   comment: Comment!
   edited: Boolean
   imagePath: URL
+  isAuthorCurrentUser: Boolean
   link: URL
 }
 
