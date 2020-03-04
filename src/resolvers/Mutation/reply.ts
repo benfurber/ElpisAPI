@@ -30,8 +30,8 @@ export const reply = {
     if (!doesReplyExist({ id }, ctx)) {
       throw new Error(`Reply not found or you're not the author`);
     }
-
-    return ctx.prisma.deleteReply({ id });
+    const deletedReply = await ctx.prisma.deleteReply({ id });
+    return deletedReply;
   },
 
   async updateReply(parent, args, ctx: Context, info) {
