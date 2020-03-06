@@ -92,6 +92,7 @@ type Comment {
   createdAt: DateTime!
   publishedAt: DateTime!
   content: String!
+  edited: Boolean
   post: Post!
   replies: [Reply!]!
   totalReplies: Int

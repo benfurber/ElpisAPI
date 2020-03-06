@@ -33,6 +33,7 @@ type Comment {
   publishedAt: DateTime!
   author: User!
   content: String!
+  edited: Boolean!
   post: Post!
   replies(where: ReplyWhereInput, orderBy: ReplyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reply!]
   title: String
@@ -49,6 +50,7 @@ input CommentCreateInput {
   publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
+  edited: Boolean
   post: PostCreateOneWithoutCommentsInput!
   replies: ReplyCreateManyWithoutCommentInput
   title: String
@@ -69,6 +71,7 @@ input CommentCreateWithoutPostInput {
   publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
+  edited: Boolean
   replies: ReplyCreateManyWithoutCommentInput
   title: String
 }
@@ -78,6 +81,7 @@ input CommentCreateWithoutRepliesInput {
   publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
+  edited: Boolean
   post: PostCreateOneWithoutCommentsInput!
   title: String
 }
@@ -98,6 +102,8 @@ enum CommentOrderByInput {
   publishedAt_DESC
   content_ASC
   content_DESC
+  edited_ASC
+  edited_DESC
   title_ASC
   title_DESC
 }
@@ -108,6 +114,7 @@ type CommentPreviousValues {
   updatedAt: DateTime!
   publishedAt: DateTime!
   content: String!
+  edited: Boolean!
   title: String
 }
 
@@ -164,6 +171,8 @@ input CommentScalarWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  edited: Boolean
+  edited_not: Boolean
   title: String
   title_not: String
   title_in: [String!]
@@ -205,6 +214,7 @@ input CommentUpdateInput {
   publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
+  edited: Boolean
   post: PostUpdateOneRequiredWithoutCommentsInput
   replies: ReplyUpdateManyWithoutCommentInput
   title: String
@@ -213,12 +223,14 @@ input CommentUpdateInput {
 input CommentUpdateManyDataInput {
   publishedAt: DateTime
   content: String
+  edited: Boolean
   title: String
 }
 
 input CommentUpdateManyMutationInput {
   publishedAt: DateTime
   content: String
+  edited: Boolean
   title: String
 }
 
@@ -250,6 +262,7 @@ input CommentUpdateWithoutPostDataInput {
   publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
+  edited: Boolean
   replies: ReplyUpdateManyWithoutCommentInput
   title: String
 }
@@ -258,6 +271,7 @@ input CommentUpdateWithoutRepliesDataInput {
   publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
+  edited: Boolean
   post: PostUpdateOneRequiredWithoutCommentsInput
   title: String
 }
@@ -332,6 +346,8 @@ input CommentWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  edited: Boolean
+  edited_not: Boolean
   post: PostWhereInput
   replies_every: ReplyWhereInput
   replies_some: ReplyWhereInput

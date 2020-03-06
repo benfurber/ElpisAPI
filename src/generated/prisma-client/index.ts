@@ -292,6 +292,8 @@ export type CommentOrderByInput =
   | "publishedAt_DESC"
   | "content_ASC"
   | "content_DESC"
+  | "edited_ASC"
+  | "edited_DESC"
   | "title_ASC"
   | "title_DESC";
 
@@ -716,6 +718,8 @@ export interface CommentWhereInput {
   content_not_starts_with?: Maybe<String>;
   content_ends_with?: Maybe<String>;
   content_not_ends_with?: Maybe<String>;
+  edited?: Maybe<Boolean>;
+  edited_not?: Maybe<Boolean>;
   post?: Maybe<PostWhereInput>;
   replies_every?: Maybe<ReplyWhereInput>;
   replies_some?: Maybe<ReplyWhereInput>;
@@ -761,6 +765,7 @@ export interface CommentCreateInput {
   publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
+  edited?: Maybe<Boolean>;
   post: PostCreateOneWithoutCommentsInput;
   replies?: Maybe<ReplyCreateManyWithoutCommentInput>;
   title?: Maybe<String>;
@@ -810,6 +815,7 @@ export interface CommentCreateWithoutPostInput {
   publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
+  edited?: Maybe<Boolean>;
   replies?: Maybe<ReplyCreateManyWithoutCommentInput>;
   title?: Maybe<String>;
 }
@@ -938,6 +944,7 @@ export interface CommentCreateWithoutRepliesInput {
   publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
+  edited?: Maybe<Boolean>;
   post: PostCreateOneWithoutCommentsInput;
   title?: Maybe<String>;
 }
@@ -979,6 +986,7 @@ export interface CommentUpdateInput {
   publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
+  edited?: Maybe<Boolean>;
   post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
   replies?: Maybe<ReplyUpdateManyWithoutCommentInput>;
   title?: Maybe<String>;
@@ -1068,6 +1076,7 @@ export interface CommentUpdateWithoutPostDataInput {
   publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
+  edited?: Maybe<Boolean>;
   replies?: Maybe<ReplyUpdateManyWithoutCommentInput>;
   title?: Maybe<String>;
 }
@@ -1275,6 +1284,7 @@ export interface CommentUpdateWithoutRepliesDataInput {
   publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
+  edited?: Maybe<Boolean>;
   post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
   title?: Maybe<String>;
 }
@@ -1600,6 +1610,8 @@ export interface CommentScalarWhereInput {
   content_not_starts_with?: Maybe<String>;
   content_ends_with?: Maybe<String>;
   content_not_ends_with?: Maybe<String>;
+  edited?: Maybe<Boolean>;
+  edited_not?: Maybe<Boolean>;
   title?: Maybe<String>;
   title_not?: Maybe<String>;
   title_in?: Maybe<String[] | String>;
@@ -1627,6 +1639,7 @@ export interface CommentUpdateManyWithWhereNestedInput {
 export interface CommentUpdateManyDataInput {
   publishedAt?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
+  edited?: Maybe<Boolean>;
   title?: Maybe<String>;
 }
 
@@ -1745,6 +1758,7 @@ export interface UserUpsertNestedInput {
 export interface CommentUpdateManyMutationInput {
   publishedAt?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
+  edited?: Maybe<Boolean>;
   title?: Maybe<String>;
 }
 
@@ -1921,6 +1935,7 @@ export interface Comment {
   updatedAt: DateTimeOutput;
   publishedAt: DateTimeOutput;
   content: String;
+  edited: Boolean;
   title?: String;
 }
 
@@ -1931,6 +1946,7 @@ export interface CommentPromise extends Promise<Comment>, Fragmentable {
   publishedAt: () => Promise<DateTimeOutput>;
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
+  edited: () => Promise<Boolean>;
   post: <T = PostPromise>() => T;
   replies: <T = FragmentableArray<Reply>>(args?: {
     where?: ReplyWhereInput;
@@ -1953,6 +1969,7 @@ export interface CommentSubscription
   publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   author: <T = UserSubscription>() => T;
   content: () => Promise<AsyncIterator<String>>;
+  edited: () => Promise<AsyncIterator<Boolean>>;
   post: <T = PostSubscription>() => T;
   replies: <T = Promise<AsyncIterator<ReplySubscription>>>(args?: {
     where?: ReplyWhereInput;
@@ -1975,6 +1992,7 @@ export interface CommentNullablePromise
   publishedAt: () => Promise<DateTimeOutput>;
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
+  edited: () => Promise<Boolean>;
   post: <T = PostPromise>() => T;
   replies: <T = FragmentableArray<Reply>>(args?: {
     where?: ReplyWhereInput;
@@ -2653,6 +2671,7 @@ export interface CommentPreviousValues {
   updatedAt: DateTimeOutput;
   publishedAt: DateTimeOutput;
   content: String;
+  edited: Boolean;
   title?: String;
 }
 
@@ -2664,6 +2683,7 @@ export interface CommentPreviousValuesPromise
   updatedAt: () => Promise<DateTimeOutput>;
   publishedAt: () => Promise<DateTimeOutput>;
   content: () => Promise<String>;
+  edited: () => Promise<Boolean>;
   title: () => Promise<String>;
 }
 
@@ -2675,6 +2695,7 @@ export interface CommentPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   content: () => Promise<AsyncIterator<String>>;
+  edited: () => Promise<AsyncIterator<Boolean>>;
   title: () => Promise<AsyncIterator<String>>;
 }
 
