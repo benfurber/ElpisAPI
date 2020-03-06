@@ -50,6 +50,7 @@ type Mutation {
     name: String!
     avatarPath: URL
   ): AuthPayload!
+  updateComment(content: String, id: ID!, title: String): Comment!
   updatePassword(password: String!): User!
   updateReply(content: String, id: ID!, imagePath: URL): Reply!
 }

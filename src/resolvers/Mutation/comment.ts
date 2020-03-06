@@ -1,5 +1,7 @@
 import { dateNow, getUserId, Context } from "../../utils";
 
+const commentDoesNotExistLabel = `Comment not found or you're not the author`;
+
 export const comment = {
   async createComment(parent, args, ctx: Context, info) {
     const { content, id, title } = args;
@@ -19,16 +21,40 @@ export const comment = {
     return comment;
   },
 
-  async deleteComment(parent, { id }, ctx: Context, info) {
-    const userId = getUserId(ctx);
-    const commentExists = await ctx.prisma.$exists.comment({
-      id,
-      author: { id: userId }
-    });
-    if (!commentExists) {
-      throw new Error(`Comment not found or you're not the author`);
+  async deleteComment(parent, args, ctx: Context, info) {
+    if (!doesCommentExist(args, ctx)) {
+      throw new Error(commentDoesNotExistLabel);
     }
 
-    return ctx.prisma.deleteComment({ id });
+    const deletedComment = await ctx.prisma.deleteComment({ id: args.id });
+    return deletedComment;
+  },
+
+  async updateComment(parent, args, ctx: Context, info) {
+    if (!doesCommentExist(args, ctx)) {
+      throw new Error(commentDoesNotExistLabel);
+    }
+
+    const { content, id, title } = args;
+
+    const updatedComment = await ctx.prisma.updateComment({
+      data: {
+        content,
+        edited: true,
+        title
+      },
+      where: { id }
+    });
+    return updatedComment;
   }
 };
+
+async function doesCommentExist(args, ctx: Context) {
+  const userId = getUserId(ctx);
+  const commentExists = await ctx.prisma.$exists.comment({
+    id: args.id,
+    author: { id: userId }
+  });
+
+  return commentExists;
+}
