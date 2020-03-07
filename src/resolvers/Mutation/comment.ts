@@ -22,11 +22,15 @@ export const comment = {
   },
 
   async deleteComment(parent, args, ctx: Context, info) {
+    const { id } = args;
+
     if (!doesCommentExist(args, ctx)) {
       throw new Error(commentDoesNotExistLabel);
     }
 
-    const deletedComment = await ctx.prisma.deleteComment({ id: args.id });
+    await ctx.prisma.deleteManyReplies({ comment: { id } });
+
+    const deletedComment = await ctx.prisma.deleteComment({ id });
     return deletedComment;
   },
 
