@@ -2,7 +2,7 @@ scalar DateTime
 scalar URL
 
 type Query {
-  feed: [Post!]!
+  feed(first: Int, skip: Int): [Post!]!
   drafts: [Post!]!
   post(id: ID!): Post
   comment(id: ID!): Comment

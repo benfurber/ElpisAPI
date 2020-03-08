@@ -4,8 +4,10 @@ export const Query = {
   feed(parent, args, ctx: Context) {
     const where = { published: true };
     const orderBy = "updatedAt_DESC";
+    const first = args.first || 10;
+    const skip = args.skip || 0;
 
-    return ctx.prisma.posts({ orderBy, where });
+    return ctx.prisma.posts({ first, orderBy, skip, where });
   },
 
   drafts(parent, args, ctx: Context) {
