@@ -2,13 +2,14 @@ scalar DateTime
 scalar URL
 
 type Query {
-  feed(first: Int, skip: Int): [Post!]!
-  drafts: [Post!]!
-  post(id: ID!): Post
   comment(id: ID!): Comment
-  reply(id: ID!): Reply
-  me: User
+  drafts: [Post!]!
   link(url: URL): Link
+  feed(first: Int, skip: Int): [Post!]!
+  post(id: ID!): Post
+  me: User
+  reply(id: ID!): Reply
+  user(id: ID!): User
 }
 
 type Mutation {
