@@ -66,14 +66,16 @@ type AuthPayload {
 }
 
 type User {
-  id: ID!
-  email: String!
-  name: String!
   avatarPath: URL
+  email: String!
+  id: ID!
+  name: String!
+  notifications: [Notification]!
   posts: [Post!]!
   onboarded: Boolean!
+  totalReplies: Int
+  totalTopics: Int
   unreadNotifications: Int!
-  notifications: [Notification]!
 }
 
 type Post {
