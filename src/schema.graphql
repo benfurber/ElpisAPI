@@ -3,6 +3,7 @@ scalar URL
 
 type Query {
   comment(id: ID!): Comment
+  community(id: ID!): Community
   drafts: [Post!]!
   link(url: URL): Link
   feed(first: Int, skip: Int): [Post!]!
@@ -21,6 +22,7 @@ type Mutation {
     title: String
     publishedAt: DateTime
   ): Comment!
+  createCommunity(avatarPath: URL, name: String!): Community!
   createNotification(
     postId: String!
     replyId: String
@@ -28,10 +30,11 @@ type Mutation {
   ): Notification!
   createNotifications(postId: String!, commentId: String): [Notification]!
   createPost(
-    title: String
     content: String!
+    id: ID!
     imagePath: URL
     publishedAt: DateTime
+    title: String
   ): Post!
   createReply(
     content: String!
@@ -52,6 +55,7 @@ type Mutation {
     avatarPath: URL
   ): AuthPayload!
   updateComment(content: String, id: ID!, title: String): Comment!
+  updateCommunity(avatarPath: URL, id: ID!, name: String): Community!
   updatePassword(password: String!): User!
   updateReply(content: String, id: ID!, imagePath: URL): Reply!
 }
@@ -67,11 +71,11 @@ type AuthPayload {
 
 type User {
   avatarPath: URL
+  communities: [Community]!
   email: String!
   id: ID!
   name: String!
   notifications: [Notification]!
-  posts: [Post!]!
   onboarded: Boolean!
   totalReplies: Int
   totalTopics: Int
@@ -80,7 +84,7 @@ type User {
 
 type Post {
   id: ID!
-  author: User!
+  author: Community!
   createdAt: DateTime!
   title: String!
   content: String!
@@ -102,6 +106,14 @@ type Comment {
   replies: [Reply!]!
   totalReplies: Int
   title: String
+}
+
+type Community {
+  admins: [User!]!
+  avatarPath: URL
+  id: ID!
+  name: String!
+  posts: [Post]!
 }
 
 type Reply {
