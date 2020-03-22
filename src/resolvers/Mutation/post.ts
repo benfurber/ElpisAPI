@@ -1,24 +1,22 @@
-import { dateNow, getUserId, Context } from "../../utils";
+import { dateNow, Context } from "../../utils";
 
 import { notification } from "./notification";
 
 export const post = {
   async createPost(parent, args, ctx: Context, info) {
-    const { title, content, imagePath } = args;
-    const published = args.published || true;
+    const { content, id, imagePath, title } = args;
 
+    const author = { connect: { id } };
+    const published = args.published || true;
     const publishedAt = args.publishedAt || dateNow();
 
-    const userId = getUserId(ctx);
     const post = await ctx.prisma.createPost({
       title,
       content,
       imagePath,
       published,
       publishedAt,
-      author: {
-        connect: { id: userId }
-      }
+      author
     });
 
     if (published) {
@@ -29,11 +27,10 @@ export const post = {
     return post;
   },
 
-  async publish(parent, { id }, ctx: Context, info) {
-    const userId = getUserId(ctx);
+  async publish(parent, { communityId, id }, ctx: Context, info) {
     const postExists = await ctx.prisma.$exists.post({
       id,
-      author: { id: userId }
+      author: { id: communityId }
     });
 
     if (!postExists) {
@@ -49,11 +46,10 @@ export const post = {
     return updatedPost;
   },
 
-  async deletePost(parent, { id }, ctx: Context, info) {
-    const userId = getUserId(ctx);
+  async deletePost(parent, { communityId, id }, ctx: Context, info) {
     const postExists = await ctx.prisma.$exists.post({
       id,
-      author: { id: userId }
+      author: { id: communityId }
     });
     if (!postExists) {
       throw new Error(`Post not found or you're not the author`);
