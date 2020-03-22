@@ -1,13 +1,12 @@
 import { Context, getUserId, fetchMetaData } from "../utils";
 
 export const Query = {
-  feed(parent, args, ctx: Context) {
-    const where = { published: true };
-    const orderBy = "updatedAt_DESC";
-    const first = args.first || 10;
-    const skip = args.skip || 0;
+  comment(parent, { id }, ctx: Context) {
+    return ctx.prisma.comment({ id });
+  },
 
-    return ctx.prisma.posts({ first, orderBy, skip, where });
+  community(parent, { id }, ctx: Context) {
+    return ctx.prisma.community({ id });
   },
 
   drafts(parent, args, ctx: Context) {
@@ -23,21 +22,26 @@ export const Query = {
     return ctx.prisma.posts({ where });
   },
 
-  comment(parent, { id }, ctx: Context) {
-    return ctx.prisma.comment({ id });
+  feed(parent, args, ctx: Context) {
+    const where = { published: true };
+    const orderBy = "updatedAt_DESC";
+    const first = args.first || 10;
+    const skip = args.skip || 0;
+
+    return ctx.prisma.posts({ first, orderBy, skip, where });
   },
 
   async link(parent, { url }, ctx: Context) {
     return await fetchMetaData(url);
   },
 
-  post(parent, { id }, ctx: Context) {
-    return ctx.prisma.post({ id });
-  },
-
   me(parent, args, ctx: Context) {
     const id = getUserId(ctx);
     return ctx.prisma.user({ id });
+  },
+
+  post(parent, { id }, ctx: Context) {
+    return ctx.prisma.post({ id });
   },
 
   reply(parent, { id }, ctx: Context) {
