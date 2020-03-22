@@ -7,7 +7,7 @@ type Post {
   title: String
   content: String!
   imagePath: String
-  author: User! @relation(name: "PostsForUser", onDelete: SET_NULL)
+  author: Community! @relation(name: "PostsForCommunity", onDelete: SET_NULL)
   comments: [Comment]! @relations(name: "CommentsForPost", onDelete: CASCADE)
   notifications: [Notification!]! @relation(name: "NotificationsForPost", onDelete: CASCADE)
 }
@@ -18,7 +18,7 @@ type User {
   password: String!
   name: String!
   avatarPath: String
-  posts: [Post!]! @relation(name: "PostsForUser", onDelete: CASCADE)
+  communities: [Community]! @relation(name: "AdminsForCommunity", onDelete: SET_NULL)
   onboarded: Boolean! @default(value: false)
   notifications: [Notification]! @relation(name: "NotificationsForUser", onDelete: CASCADE)
 }
@@ -34,6 +34,14 @@ type Comment {
   post: Post! @relations(name: "CommentsForPost", onDelete: SET_NULL)
   replies: [Reply]! @relations(name: "RepliesForComment", onDelete: CASCADE)
   title: String
+}
+
+type Community {
+  admins: [User!]! @relation(name: "AdminsForCommunity", onDelete: SET_NULL)
+  avatarPath: String
+  id: ID! @id
+  name: String!
+  posts: [Post!]! @relation(name: "PostsForCommunity", onDelete: CASCADE)
 }
 
 type Reply {

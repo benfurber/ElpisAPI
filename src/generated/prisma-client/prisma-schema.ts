@@ -6,6 +6,10 @@ export const typeDefs = /* GraphQL */ `type AggregateComment {
   count: Int!
 }
 
+type AggregateCommunity {
+  count: Int!
+}
+
 type AggregateNotification {
   count: Int!
 }
@@ -375,6 +379,265 @@ input CommentWhereUniqueInput {
   id: ID
 }
 
+type Community {
+  admins(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  avatarPath: String
+  id: ID!
+  name: String!
+  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+}
+
+type CommunityConnection {
+  pageInfo: PageInfo!
+  edges: [CommunityEdge]!
+  aggregate: AggregateCommunity!
+}
+
+input CommunityCreateInput {
+  admins: UserCreateManyWithoutCommunitiesInput
+  avatarPath: String
+  id: ID
+  name: String!
+  posts: PostCreateManyWithoutAuthorInput
+}
+
+input CommunityCreateManyWithoutAdminsInput {
+  create: [CommunityCreateWithoutAdminsInput!]
+  connect: [CommunityWhereUniqueInput!]
+}
+
+input CommunityCreateOneWithoutPostsInput {
+  create: CommunityCreateWithoutPostsInput
+  connect: CommunityWhereUniqueInput
+}
+
+input CommunityCreateWithoutAdminsInput {
+  avatarPath: String
+  id: ID
+  name: String!
+  posts: PostCreateManyWithoutAuthorInput
+}
+
+input CommunityCreateWithoutPostsInput {
+  admins: UserCreateManyWithoutCommunitiesInput
+  avatarPath: String
+  id: ID
+  name: String!
+}
+
+type CommunityEdge {
+  node: Community!
+  cursor: String!
+}
+
+enum CommunityOrderByInput {
+  avatarPath_ASC
+  avatarPath_DESC
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type CommunityPreviousValues {
+  avatarPath: String
+  id: ID!
+  name: String!
+}
+
+input CommunityScalarWhereInput {
+  avatarPath: String
+  avatarPath_not: String
+  avatarPath_in: [String!]
+  avatarPath_not_in: [String!]
+  avatarPath_lt: String
+  avatarPath_lte: String
+  avatarPath_gt: String
+  avatarPath_gte: String
+  avatarPath_contains: String
+  avatarPath_not_contains: String
+  avatarPath_starts_with: String
+  avatarPath_not_starts_with: String
+  avatarPath_ends_with: String
+  avatarPath_not_ends_with: String
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [CommunityScalarWhereInput!]
+  OR: [CommunityScalarWhereInput!]
+  NOT: [CommunityScalarWhereInput!]
+}
+
+type CommunitySubscriptionPayload {
+  mutation: MutationType!
+  node: Community
+  updatedFields: [String!]
+  previousValues: CommunityPreviousValues
+}
+
+input CommunitySubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CommunityWhereInput
+  AND: [CommunitySubscriptionWhereInput!]
+  OR: [CommunitySubscriptionWhereInput!]
+  NOT: [CommunitySubscriptionWhereInput!]
+}
+
+input CommunityUpdateInput {
+  admins: UserUpdateManyWithoutCommunitiesInput
+  avatarPath: String
+  name: String
+  posts: PostUpdateManyWithoutAuthorInput
+}
+
+input CommunityUpdateManyDataInput {
+  avatarPath: String
+  name: String
+}
+
+input CommunityUpdateManyMutationInput {
+  avatarPath: String
+  name: String
+}
+
+input CommunityUpdateManyWithoutAdminsInput {
+  create: [CommunityCreateWithoutAdminsInput!]
+  delete: [CommunityWhereUniqueInput!]
+  connect: [CommunityWhereUniqueInput!]
+  set: [CommunityWhereUniqueInput!]
+  disconnect: [CommunityWhereUniqueInput!]
+  update: [CommunityUpdateWithWhereUniqueWithoutAdminsInput!]
+  upsert: [CommunityUpsertWithWhereUniqueWithoutAdminsInput!]
+  deleteMany: [CommunityScalarWhereInput!]
+  updateMany: [CommunityUpdateManyWithWhereNestedInput!]
+}
+
+input CommunityUpdateManyWithWhereNestedInput {
+  where: CommunityScalarWhereInput!
+  data: CommunityUpdateManyDataInput!
+}
+
+input CommunityUpdateOneRequiredWithoutPostsInput {
+  create: CommunityCreateWithoutPostsInput
+  update: CommunityUpdateWithoutPostsDataInput
+  upsert: CommunityUpsertWithoutPostsInput
+  connect: CommunityWhereUniqueInput
+}
+
+input CommunityUpdateWithoutAdminsDataInput {
+  avatarPath: String
+  name: String
+  posts: PostUpdateManyWithoutAuthorInput
+}
+
+input CommunityUpdateWithoutPostsDataInput {
+  admins: UserUpdateManyWithoutCommunitiesInput
+  avatarPath: String
+  name: String
+}
+
+input CommunityUpdateWithWhereUniqueWithoutAdminsInput {
+  where: CommunityWhereUniqueInput!
+  data: CommunityUpdateWithoutAdminsDataInput!
+}
+
+input CommunityUpsertWithoutPostsInput {
+  update: CommunityUpdateWithoutPostsDataInput!
+  create: CommunityCreateWithoutPostsInput!
+}
+
+input CommunityUpsertWithWhereUniqueWithoutAdminsInput {
+  where: CommunityWhereUniqueInput!
+  update: CommunityUpdateWithoutAdminsDataInput!
+  create: CommunityCreateWithoutAdminsInput!
+}
+
+input CommunityWhereInput {
+  admins_every: UserWhereInput
+  admins_some: UserWhereInput
+  admins_none: UserWhereInput
+  avatarPath: String
+  avatarPath_not: String
+  avatarPath_in: [String!]
+  avatarPath_not_in: [String!]
+  avatarPath_lt: String
+  avatarPath_lte: String
+  avatarPath_gt: String
+  avatarPath_gte: String
+  avatarPath_contains: String
+  avatarPath_not_contains: String
+  avatarPath_starts_with: String
+  avatarPath_not_starts_with: String
+  avatarPath_ends_with: String
+  avatarPath_not_ends_with: String
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  posts_every: PostWhereInput
+  posts_some: PostWhereInput
+  posts_none: PostWhereInput
+  AND: [CommunityWhereInput!]
+  OR: [CommunityWhereInput!]
+  NOT: [CommunityWhereInput!]
+}
+
+input CommunityWhereUniqueInput {
+  id: ID
+}
+
 scalar DateTime
 
 scalar Long
@@ -386,6 +649,12 @@ type Mutation {
   upsertComment(where: CommentWhereUniqueInput!, create: CommentCreateInput!, update: CommentUpdateInput!): Comment!
   deleteComment(where: CommentWhereUniqueInput!): Comment
   deleteManyComments(where: CommentWhereInput): BatchPayload!
+  createCommunity(data: CommunityCreateInput!): Community!
+  updateCommunity(data: CommunityUpdateInput!, where: CommunityWhereUniqueInput!): Community
+  updateManyCommunities(data: CommunityUpdateManyMutationInput!, where: CommunityWhereInput): BatchPayload!
+  upsertCommunity(where: CommunityWhereUniqueInput!, create: CommunityCreateInput!, update: CommunityUpdateInput!): Community!
+  deleteCommunity(where: CommunityWhereUniqueInput!): Community
+  deleteManyCommunities(where: CommunityWhereInput): BatchPayload!
   createNotification(data: NotificationCreateInput!): Notification!
   updateNotification(data: NotificationUpdateInput!, where: NotificationWhereUniqueInput!): Notification
   updateManyNotifications(data: NotificationUpdateManyMutationInput!, where: NotificationWhereInput): BatchPayload!
@@ -751,7 +1020,7 @@ type Post {
   title: String
   content: String!
   imagePath: String
-  author: User!
+  author: Community!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
 }
@@ -769,7 +1038,7 @@ input PostCreateInput {
   title: String
   content: String!
   imagePath: String
-  author: UserCreateOneWithoutPostsInput!
+  author: CommunityCreateOneWithoutPostsInput!
   comments: CommentCreateManyWithoutPostInput
   notifications: NotificationCreateManyWithoutPostInput
 }
@@ -807,7 +1076,7 @@ input PostCreateWithoutCommentsInput {
   title: String
   content: String!
   imagePath: String
-  author: UserCreateOneWithoutPostsInput!
+  author: CommunityCreateOneWithoutPostsInput!
   notifications: NotificationCreateManyWithoutPostInput
 }
 
@@ -818,7 +1087,7 @@ input PostCreateWithoutNotificationsInput {
   title: String
   content: String!
   imagePath: String
-  author: UserCreateOneWithoutPostsInput!
+  author: CommunityCreateOneWithoutPostsInput!
   comments: CommentCreateManyWithoutPostInput
 }
 
@@ -969,7 +1238,7 @@ input PostUpdateInput {
   title: String
   content: String
   imagePath: String
-  author: UserUpdateOneRequiredWithoutPostsInput
+  author: CommunityUpdateOneRequiredWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
   notifications: NotificationUpdateManyWithoutPostInput
 }
@@ -1037,7 +1306,7 @@ input PostUpdateWithoutCommentsDataInput {
   title: String
   content: String
   imagePath: String
-  author: UserUpdateOneRequiredWithoutPostsInput
+  author: CommunityUpdateOneRequiredWithoutPostsInput
   notifications: NotificationUpdateManyWithoutPostInput
 }
 
@@ -1047,7 +1316,7 @@ input PostUpdateWithoutNotificationsDataInput {
   title: String
   content: String
   imagePath: String
-  author: UserUpdateOneRequiredWithoutPostsInput
+  author: CommunityUpdateOneRequiredWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
 }
 
@@ -1155,7 +1424,7 @@ input PostWhereInput {
   imagePath_not_starts_with: String
   imagePath_ends_with: String
   imagePath_not_ends_with: String
-  author: UserWhereInput
+  author: CommunityWhereInput
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
   comments_none: CommentWhereInput
@@ -1175,6 +1444,9 @@ type Query {
   comment(where: CommentWhereUniqueInput!): Comment
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
   commentsConnection(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
+  community(where: CommunityWhereUniqueInput!): Community
+  communities(where: CommunityWhereInput, orderBy: CommunityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Community]!
+  communitiesConnection(where: CommunityWhereInput, orderBy: CommunityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommunityConnection!
   notification(where: NotificationWhereUniqueInput!): Notification
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification]!
   notificationsConnection(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NotificationConnection!
@@ -1583,6 +1855,7 @@ input ReplyWhereUniqueInput {
 
 type Subscription {
   comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
+  community(where: CommunitySubscriptionWhereInput): CommunitySubscriptionPayload
   notification(where: NotificationSubscriptionWhereInput): NotificationSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   reply(where: ReplySubscriptionWhereInput): ReplySubscriptionPayload
@@ -1595,7 +1868,7 @@ type User {
   password: String!
   name: String!
   avatarPath: String
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  communities(where: CommunityWhereInput, orderBy: CommunityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Community!]
   onboarded: Boolean!
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
 }
@@ -1612,9 +1885,14 @@ input UserCreateInput {
   password: String!
   name: String!
   avatarPath: String
-  posts: PostCreateManyWithoutAuthorInput
+  communities: CommunityCreateManyWithoutAdminsInput
   onboarded: Boolean
   notifications: NotificationCreateManyWithoutUserInput
+}
+
+input UserCreateManyWithoutCommunitiesInput {
+  create: [UserCreateWithoutCommunitiesInput!]
+  connect: [UserWhereUniqueInput!]
 }
 
 input UserCreateOneInput {
@@ -1627,9 +1905,14 @@ input UserCreateOneWithoutNotificationsInput {
   connect: UserWhereUniqueInput
 }
 
-input UserCreateOneWithoutPostsInput {
-  create: UserCreateWithoutPostsInput
-  connect: UserWhereUniqueInput
+input UserCreateWithoutCommunitiesInput {
+  id: ID
+  email: String!
+  password: String!
+  name: String!
+  avatarPath: String
+  onboarded: Boolean
+  notifications: NotificationCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutNotificationsInput {
@@ -1638,18 +1921,8 @@ input UserCreateWithoutNotificationsInput {
   password: String!
   name: String!
   avatarPath: String
-  posts: PostCreateManyWithoutAuthorInput
+  communities: CommunityCreateManyWithoutAdminsInput
   onboarded: Boolean
-}
-
-input UserCreateWithoutPostsInput {
-  id: ID
-  email: String!
-  password: String!
-  name: String!
-  avatarPath: String
-  onboarded: Boolean
-  notifications: NotificationCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -1681,6 +1954,84 @@ type UserPreviousValues {
   onboarded: Boolean!
 }
 
+input UserScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  avatarPath: String
+  avatarPath_not: String
+  avatarPath_in: [String!]
+  avatarPath_not_in: [String!]
+  avatarPath_lt: String
+  avatarPath_lte: String
+  avatarPath_gt: String
+  avatarPath_gte: String
+  avatarPath_contains: String
+  avatarPath_not_contains: String
+  avatarPath_starts_with: String
+  avatarPath_not_starts_with: String
+  avatarPath_ends_with: String
+  avatarPath_not_ends_with: String
+  onboarded: Boolean
+  onboarded_not: Boolean
+  AND: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  NOT: [UserScalarWhereInput!]
+}
+
 type UserSubscriptionPayload {
   mutation: MutationType!
   node: User
@@ -1704,7 +2055,7 @@ input UserUpdateDataInput {
   password: String
   name: String
   avatarPath: String
-  posts: PostUpdateManyWithoutAuthorInput
+  communities: CommunityUpdateManyWithoutAdminsInput
   onboarded: Boolean
   notifications: NotificationUpdateManyWithoutUserInput
 }
@@ -1714,9 +2065,17 @@ input UserUpdateInput {
   password: String
   name: String
   avatarPath: String
-  posts: PostUpdateManyWithoutAuthorInput
+  communities: CommunityUpdateManyWithoutAdminsInput
   onboarded: Boolean
   notifications: NotificationUpdateManyWithoutUserInput
+}
+
+input UserUpdateManyDataInput {
+  email: String
+  password: String
+  name: String
+  avatarPath: String
+  onboarded: Boolean
 }
 
 input UserUpdateManyMutationInput {
@@ -1725,6 +2084,23 @@ input UserUpdateManyMutationInput {
   name: String
   avatarPath: String
   onboarded: Boolean
+}
+
+input UserUpdateManyWithoutCommunitiesInput {
+  create: [UserCreateWithoutCommunitiesInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutCommunitiesInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutCommunitiesInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
+input UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput!
+  data: UserUpdateManyDataInput!
 }
 
 input UserUpdateOneRequiredInput {
@@ -1741,11 +2117,13 @@ input UserUpdateOneRequiredWithoutNotificationsInput {
   connect: UserWhereUniqueInput
 }
 
-input UserUpdateOneRequiredWithoutPostsInput {
-  create: UserCreateWithoutPostsInput
-  update: UserUpdateWithoutPostsDataInput
-  upsert: UserUpsertWithoutPostsInput
-  connect: UserWhereUniqueInput
+input UserUpdateWithoutCommunitiesDataInput {
+  email: String
+  password: String
+  name: String
+  avatarPath: String
+  onboarded: Boolean
+  notifications: NotificationUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutNotificationsDataInput {
@@ -1753,17 +2131,13 @@ input UserUpdateWithoutNotificationsDataInput {
   password: String
   name: String
   avatarPath: String
-  posts: PostUpdateManyWithoutAuthorInput
+  communities: CommunityUpdateManyWithoutAdminsInput
   onboarded: Boolean
 }
 
-input UserUpdateWithoutPostsDataInput {
-  email: String
-  password: String
-  name: String
-  avatarPath: String
-  onboarded: Boolean
-  notifications: NotificationUpdateManyWithoutUserInput
+input UserUpdateWithWhereUniqueWithoutCommunitiesInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutCommunitiesDataInput!
 }
 
 input UserUpsertNestedInput {
@@ -1776,9 +2150,10 @@ input UserUpsertWithoutNotificationsInput {
   create: UserCreateWithoutNotificationsInput!
 }
 
-input UserUpsertWithoutPostsInput {
-  update: UserUpdateWithoutPostsDataInput!
-  create: UserCreateWithoutPostsInput!
+input UserUpsertWithWhereUniqueWithoutCommunitiesInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutCommunitiesDataInput!
+  create: UserCreateWithoutCommunitiesInput!
 }
 
 input UserWhereInput {
@@ -1852,9 +2227,9 @@ input UserWhereInput {
   avatarPath_not_starts_with: String
   avatarPath_ends_with: String
   avatarPath_not_ends_with: String
-  posts_every: PostWhereInput
-  posts_some: PostWhereInput
-  posts_none: PostWhereInput
+  communities_every: CommunityWhereInput
+  communities_some: CommunityWhereInput
+  communities_none: CommunityWhereInput
   onboarded: Boolean
   onboarded_not: Boolean
   notifications_every: NotificationWhereInput

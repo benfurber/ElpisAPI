@@ -1,13 +1,22 @@
+import * as bcrypt from "bcryptjs";
 import * as moment from "moment";
 
 import { prisma } from "../src/generated/prisma-client";
-const { createComment, createPost, createReply, createUser } = prisma;
+const {
+  createComment,
+  createCommunity,
+  createPost,
+  createReply,
+  createUser
+} = prisma;
 
 async function main() {
-  const userEDM = await createUser({
+  const password = await bcrypt.hash("1234", 10);
+
+  const may = await createUser({
     email: "eumaynara@gmail.com",
-    name: "Empodere Duas Mulheres",
-    password: "31523455tws",
+    name: "May Fanucci",
+    password,
     avatarPath:
       "https://elpis-profile-images.s3-sa-east-1.amazonaws.com/uploads/edm.jpg"
   });
@@ -15,7 +24,7 @@ async function main() {
   const maria = await createUser({
     email: "maria@elpis-not-real.com",
     name: "Maria Luiza Sanchez",
-    password: "12hr43sd",
+    password,
     avatarPath:
       "https://elpis-profile-images.s3-sa-east-1.amazonaws.com/uploads/120120-1.jpg"
   });
@@ -23,9 +32,16 @@ async function main() {
   const rosana = await createUser({
     email: "rosana@elpis-not-real.com",
     name: "Rosana Mello",
-    password: "84yigydfssdf",
+    password,
     avatarPath:
       "https://elpis-profile-images.s3-sa-east-1.amazonaws.com/uploads/120120-2.jpg"
+  });
+
+  const userEDM = await createCommunity({
+    admins: { connect: { id: may.id } },
+    avatarPath:
+      "https://elpis-profile-images.s3-sa-east-1.amazonaws.com/uploads/120120-1.jpg",
+    name: "Empodere Duas Mulheres"
   });
 
   const author = { connect: { id: userEDM.id } };
