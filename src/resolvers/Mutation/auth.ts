@@ -1,6 +1,6 @@
 import * as bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
-import { Context, getUserId } from "../../utils";
+import { Context } from "../../utils";
 
 export const auth = {
   async login(parent, { email, password }, ctx: Context) {
