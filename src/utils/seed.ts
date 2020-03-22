@@ -68,12 +68,14 @@ async function createPost(variables, token) {
     mutation CreatePost(
       $title: String
       $content: String!
+      $id: ID!
       $imagePath: URL
       $publishedAt: DateTime
     ) {
       createPost(
         title: $title
         content: $content
+        id: $id
         imagePath: $imagePath
         publishedAt: $publishedAt
       ) {
@@ -109,6 +111,18 @@ async function createComment(variables, token) {
   return result.createComment;
 }
 
+async function createCommunity(variables, token) {
+  const CREATE_COMMUNITY = gql`
+    mutation CreateCommunity($name: String!, $avatarPath: URL) {
+      createCommunity(avatarPath: $avatarPath, name: $name) {
+        id
+      }
+    }
+  `;
+  const result = await apiCall(CREATE_COMMUNITY, variables, token);
+  return result.createCommunity;
+}
+
 async function createReply(variables, token) {
   const CREAT_REPLY = gql`
     mutation CreateReply($content: String!, $id: ID!, $publishedAt: DateTime) {
@@ -136,9 +150,9 @@ function time(number, unit, from = undefined) {
 
 async function seed() {
   // Create main user
-  const userEDM = await createUser({
+  const userMay = await createUser({
     email: "eumaynara@gmail.com",
-    name: "Empodere Duas Mulheres",
+    name: "May",
     password: randomPassword(),
     avatarPath:
       "https://elpis-profile-images.s3-sa-east-1.amazonaws.com/uploads/edm.jpg",
@@ -547,6 +561,16 @@ async function seed() {
       "https://elpis-profile-images.s3-sa-east-1.amazonaws.com/uploads/120120-28.jpg"
   });
 
+  // Create Community
+  const EDM = await createCommunity(
+    {
+      name: "EMD",
+      avatarPath:
+        "https://elpis-profile-images.s3-sa-east-1.amazonaws.com/uploads/edm.jpg"
+    },
+    userMay
+  );
+
   // Create Post One
   const postOne = await createPost(
     {
@@ -554,11 +578,12 @@ async function seed() {
         'Quando o conceito de "meninas amadurecem mais rápido" é usado só para favorecer meninos e homens',
       content:
         "Também serve para a sociedade normalizar comportamentos infantis vindo de homens de 35 anos, por exemplo",
+      id: EDM.id,
       imagePath:
         "https://elpis-content-images.s3-sa-east-1.amazonaws.com/uploads/070120-1.jpg",
       publishedAt: time(5, "days")
     },
-    userEDM
+    userMay
   );
 
   await createComment(
@@ -630,11 +655,12 @@ async function seed() {
       title: "Poster VENDENDO TAPA NA CARA",
       content:
         "* +5,5 MILHÕES de crianças brasileiras não tem o nome do pai no registro (Conselho Nacional da Justiça);\n* 56,9% das mães solos estão abaixo da linha da pobreza (Síntese de Indicadores Sociais - IBGE)\n* 11,6 MILHÕES de famílias brasileiras são compostas por mães solos e seus filhos (IBGE)\n* 750 MIL paulistas de 0 a 30 anos não têm o nome do pai no registro (Ministério Público de SP)\n* EM 10 ANOS Brasil ganha mais de 1 milhão de famílias de mães solos (IBGE)\n* 83,8% dos menores de 4 anos são cuidados por mulheres (Pnad).",
+      id: EDM.id,
       imagePath:
         "https://elpis-content-images.s3-sa-east-1.amazonaws.com/uploads/070120-2.jpg",
       publishedAt: time(4, "days")
     },
-    userEDM
+    userMay
   );
 
   const postTwoCommentOne = await createComment(
@@ -770,11 +796,12 @@ async function seed() {
       title: 'O padrão estético e o tal "autocuidado"',
       content:
         "Sobre um sistema que condena mulheres que não estão seguindo as regras do padrão estético",
+      id: EDM.id,
       imagePath:
         "https://elpis-content-images.s3-sa-east-1.amazonaws.com/uploads/070120-3.jpg",
       publishedAt: time(3, "days")
     },
-    userEDM
+    userMay
   );
 
   const postThreeCommentOne = await createComment(
@@ -848,11 +875,12 @@ async function seed() {
       title: "Keanu Reeves assume primeira namorada depois de 20 anos",
       content:
         "A depreciação da mulher nos comentários (por outras mulheres) só porque ela não pinta o cabelo. Deixem as mulheres envelhecerem em paz!",
+      id: EDM.id,
       imagePath:
         "https://elpis-content-images.s3-sa-east-1.amazonaws.com/uploads/070120-4.jpg",
       publishedAt: time(2, "days")
     },
-    userEDM
+    userMay
   );
 
   const postFourCommentOne = await createComment(
@@ -1061,11 +1089,12 @@ async function seed() {
       title: "Você é mais do que SÓ um corpo",
       content:
         'Lembrando que comer saudável ou não é diferente de comer com culpa. A culpa pode ser aplicada tanto para quem come saudável quanto para o "não-saudável". O foco da postagem é para falar que você é mais do que um corpo e que a sua culpa não ajuda em nada - pelo contrário, te deixa mais infeliz e frustrada consigo mesma.',
+      id: EDM.id,
       imagePath:
         "https://elpis-content-images.s3-sa-east-1.amazonaws.com/uploads/070120-5.jpg",
       publishedAt: time(1, "days")
     },
-    userEDM
+    userMay
   );
 
   const postFiveCommentOne = await createComment(
@@ -1086,7 +1115,7 @@ async function seed() {
         "Comer saudável ou não é totalmente diferente de comer com culpa.",
       publishedAt: time(4, "minutes", postFiveCommentOne.publishedAt)
     },
-    userEDM
+    userMay
   );
 
   await createReply(
@@ -1188,11 +1217,12 @@ async function seed() {
       title:
         "Discutindo com homens quando eles tentam te provar que você está errada",
       content: "E aí, lá vou eu explicar que entendi sim, apenas discordo.",
+      id: EDM.id,
       imagePath:
         "https://elpis-content-images.s3-sa-east-1.amazonaws.com/uploads/070120-6.jpg",
       publishedAt: time(1, "minute")
     },
-    userEDM
+    userMay
   );
 
   const postSixCommentOne = await createComment(
