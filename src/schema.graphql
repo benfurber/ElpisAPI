@@ -98,6 +98,7 @@ type Comment {
   id: ID!
   author: User!
   createdAt: DateTime!
+  discussionLevel: Int!
   publishedAt: DateTime!
   content: String!
   edited: Boolean

@@ -5,16 +5,18 @@ const commentDoesNotExistLabel = `Comment not found or you're not the author`;
 export const comment = {
   async createComment(parent, args, ctx: Context, info) {
     const { content, id, title } = args;
+    const userId = getUserId(ctx);
 
+    const author = { connect: { id: userId } };
+    const discussionLevel = args.discussionLevel || 0;
+    const post = { connect: { id } };
     const publishedAt = args.publishedAt || dateNow();
 
-    const userId = getUserId(ctx);
     const comment = await ctx.prisma.createComment({
-      author: {
-        connect: { id: userId }
-      },
+      author,
       content,
-      post: { connect: { id } },
+      discussionLevel,
+      post,
       publishedAt,
       title
     });
@@ -39,11 +41,12 @@ export const comment = {
       throw new Error(commentDoesNotExistLabel);
     }
 
-    const { content, id, title } = args;
+    const { content, discussionLevel, id, title } = args;
 
     const updatedComment = await ctx.prisma.updateComment({
       data: {
         content,
+        discussionLevel,
         edited: true,
         title
       },
