@@ -31,16 +31,17 @@ type BatchPayload {
 }
 
 type Comment {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  publishedAt: DateTime!
   author: User!
   content: String!
+  createdAt: DateTime!
+  discussionLevel: Int!
   edited: Boolean!
+  id: ID!
   post: Post!
+  publishedAt: DateTime!
   replies(where: ReplyWhereInput, orderBy: ReplyOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reply!]
   title: String
+  updatedAt: DateTime!
 }
 
 type CommentConnection {
@@ -50,12 +51,13 @@ type CommentConnection {
 }
 
 input CommentCreateInput {
-  id: ID
-  publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
+  discussionLevel: Int
   edited: Boolean
+  id: ID
   post: PostCreateOneWithoutCommentsInput!
+  publishedAt: DateTime!
   replies: ReplyCreateManyWithoutCommentInput
   title: String
 }
@@ -71,22 +73,24 @@ input CommentCreateOneWithoutRepliesInput {
 }
 
 input CommentCreateWithoutPostInput {
-  id: ID
-  publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
+  discussionLevel: Int
   edited: Boolean
+  id: ID
+  publishedAt: DateTime!
   replies: ReplyCreateManyWithoutCommentInput
   title: String
 }
 
 input CommentCreateWithoutRepliesInput {
-  id: ID
-  publishedAt: DateTime!
   author: UserCreateOneInput!
   content: String!
+  discussionLevel: Int
   edited: Boolean
+  id: ID
   post: PostCreateOneWithoutCommentsInput!
+  publishedAt: DateTime!
   title: String
 }
 
@@ -96,71 +100,36 @@ type CommentEdge {
 }
 
 enum CommentOrderByInput {
-  id_ASC
-  id_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  publishedAt_ASC
-  publishedAt_DESC
   content_ASC
   content_DESC
+  createdAt_ASC
+  createdAt_DESC
+  discussionLevel_ASC
+  discussionLevel_DESC
   edited_ASC
   edited_DESC
+  id_ASC
+  id_DESC
+  publishedAt_ASC
+  publishedAt_DESC
   title_ASC
   title_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type CommentPreviousValues {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  publishedAt: DateTime!
   content: String!
+  createdAt: DateTime!
+  discussionLevel: Int!
   edited: Boolean!
+  id: ID!
+  publishedAt: DateTime!
   title: String
+  updatedAt: DateTime!
 }
 
 input CommentScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
-  publishedAt: DateTime
-  publishedAt_not: DateTime
-  publishedAt_in: [DateTime!]
-  publishedAt_not_in: [DateTime!]
-  publishedAt_lt: DateTime
-  publishedAt_lte: DateTime
-  publishedAt_gt: DateTime
-  publishedAt_gte: DateTime
   content: String
   content_not: String
   content_in: [String!]
@@ -175,8 +144,46 @@ input CommentScalarWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  discussionLevel: Int
+  discussionLevel_not: Int
+  discussionLevel_in: [Int!]
+  discussionLevel_not_in: [Int!]
+  discussionLevel_lt: Int
+  discussionLevel_lte: Int
+  discussionLevel_gt: Int
+  discussionLevel_gte: Int
   edited: Boolean
   edited_not: Boolean
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  publishedAt: DateTime
+  publishedAt_not: DateTime
+  publishedAt_in: [DateTime!]
+  publishedAt_not_in: [DateTime!]
+  publishedAt_lt: DateTime
+  publishedAt_lte: DateTime
+  publishedAt_gt: DateTime
+  publishedAt_gte: DateTime
   title: String
   title_not: String
   title_in: [String!]
@@ -191,6 +198,14 @@ input CommentScalarWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   AND: [CommentScalarWhereInput!]
   OR: [CommentScalarWhereInput!]
   NOT: [CommentScalarWhereInput!]
@@ -215,26 +230,29 @@ input CommentSubscriptionWhereInput {
 }
 
 input CommentUpdateInput {
-  publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
+  discussionLevel: Int
   edited: Boolean
   post: PostUpdateOneRequiredWithoutCommentsInput
+  publishedAt: DateTime
   replies: ReplyUpdateManyWithoutCommentInput
   title: String
 }
 
 input CommentUpdateManyDataInput {
-  publishedAt: DateTime
   content: String
+  discussionLevel: Int
   edited: Boolean
+  publishedAt: DateTime
   title: String
 }
 
 input CommentUpdateManyMutationInput {
-  publishedAt: DateTime
   content: String
+  discussionLevel: Int
   edited: Boolean
+  publishedAt: DateTime
   title: String
 }
 
@@ -263,20 +281,22 @@ input CommentUpdateOneRequiredWithoutRepliesInput {
 }
 
 input CommentUpdateWithoutPostDataInput {
-  publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
+  discussionLevel: Int
   edited: Boolean
+  publishedAt: DateTime
   replies: ReplyUpdateManyWithoutCommentInput
   title: String
 }
 
 input CommentUpdateWithoutRepliesDataInput {
-  publishedAt: DateTime
   author: UserUpdateOneRequiredInput
   content: String
+  discussionLevel: Int
   edited: Boolean
   post: PostUpdateOneRequiredWithoutCommentsInput
+  publishedAt: DateTime
   title: String
 }
 
@@ -297,44 +317,6 @@ input CommentUpsertWithWhereUniqueWithoutPostInput {
 }
 
 input CommentWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
-  publishedAt: DateTime
-  publishedAt_not: DateTime
-  publishedAt_in: [DateTime!]
-  publishedAt_not_in: [DateTime!]
-  publishedAt_lt: DateTime
-  publishedAt_lte: DateTime
-  publishedAt_gt: DateTime
-  publishedAt_gte: DateTime
   author: UserWhereInput
   content: String
   content_not: String
@@ -350,9 +332,47 @@ input CommentWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  discussionLevel: Int
+  discussionLevel_not: Int
+  discussionLevel_in: [Int!]
+  discussionLevel_not_in: [Int!]
+  discussionLevel_lt: Int
+  discussionLevel_lte: Int
+  discussionLevel_gt: Int
+  discussionLevel_gte: Int
   edited: Boolean
   edited_not: Boolean
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
   post: PostWhereInput
+  publishedAt: DateTime
+  publishedAt_not: DateTime
+  publishedAt_in: [DateTime!]
+  publishedAt_not_in: [DateTime!]
+  publishedAt_lt: DateTime
+  publishedAt_lte: DateTime
+  publishedAt_gt: DateTime
+  publishedAt_gte: DateTime
   replies_every: ReplyWhereInput
   replies_some: ReplyWhereInput
   replies_none: ReplyWhereInput
@@ -370,6 +390,14 @@ input CommentWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   AND: [CommentWhereInput!]
   OR: [CommentWhereInput!]
   NOT: [CommentWhereInput!]

@@ -343,20 +343,22 @@ export type PostOrderByInput =
   | "imagePath_DESC";
 
 export type CommentOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC"
-  | "publishedAt_ASC"
-  | "publishedAt_DESC"
   | "content_ASC"
   | "content_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "discussionLevel_ASC"
+  | "discussionLevel_DESC"
   | "edited_ASC"
   | "edited_DESC"
+  | "id_ASC"
+  | "id_DESC"
+  | "publishedAt_ASC"
+  | "publishedAt_DESC"
   | "title_ASC"
-  | "title_DESC";
+  | "title_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type NotificationOrderByInput =
   | "id_ASC"
@@ -673,44 +675,6 @@ export interface PostWhereInput {
 }
 
 export interface CommentWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  publishedAt?: Maybe<DateTimeInput>;
-  publishedAt_not?: Maybe<DateTimeInput>;
-  publishedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  publishedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  publishedAt_lt?: Maybe<DateTimeInput>;
-  publishedAt_lte?: Maybe<DateTimeInput>;
-  publishedAt_gt?: Maybe<DateTimeInput>;
-  publishedAt_gte?: Maybe<DateTimeInput>;
   author?: Maybe<UserWhereInput>;
   content?: Maybe<String>;
   content_not?: Maybe<String>;
@@ -726,9 +690,47 @@ export interface CommentWhereInput {
   content_not_starts_with?: Maybe<String>;
   content_ends_with?: Maybe<String>;
   content_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  discussionLevel?: Maybe<Int>;
+  discussionLevel_not?: Maybe<Int>;
+  discussionLevel_in?: Maybe<Int[] | Int>;
+  discussionLevel_not_in?: Maybe<Int[] | Int>;
+  discussionLevel_lt?: Maybe<Int>;
+  discussionLevel_lte?: Maybe<Int>;
+  discussionLevel_gt?: Maybe<Int>;
+  discussionLevel_gte?: Maybe<Int>;
   edited?: Maybe<Boolean>;
   edited_not?: Maybe<Boolean>;
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
   post?: Maybe<PostWhereInput>;
+  publishedAt?: Maybe<DateTimeInput>;
+  publishedAt_not?: Maybe<DateTimeInput>;
+  publishedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_lt?: Maybe<DateTimeInput>;
+  publishedAt_lte?: Maybe<DateTimeInput>;
+  publishedAt_gt?: Maybe<DateTimeInput>;
+  publishedAt_gte?: Maybe<DateTimeInput>;
   replies_every?: Maybe<ReplyWhereInput>;
   replies_some?: Maybe<ReplyWhereInput>;
   replies_none?: Maybe<ReplyWhereInput>;
@@ -746,6 +748,14 @@ export interface CommentWhereInput {
   title_not_starts_with?: Maybe<String>;
   title_ends_with?: Maybe<String>;
   title_not_ends_with?: Maybe<String>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<CommentWhereInput[] | CommentWhereInput>;
   OR?: Maybe<CommentWhereInput[] | CommentWhereInput>;
   NOT?: Maybe<CommentWhereInput[] | CommentWhereInput>;
@@ -866,12 +876,13 @@ export type UserWhereUniqueInput = AtLeastOne<{
 }>;
 
 export interface CommentCreateInput {
-  id?: Maybe<ID_Input>;
-  publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
+  discussionLevel?: Maybe<Int>;
   edited?: Maybe<Boolean>;
+  id?: Maybe<ID_Input>;
   post: PostCreateOneWithoutCommentsInput;
+  publishedAt: DateTimeInput;
   replies?: Maybe<ReplyCreateManyWithoutCommentInput>;
   title?: Maybe<String>;
 }
@@ -930,11 +941,12 @@ export interface CommentCreateManyWithoutPostInput {
 }
 
 export interface CommentCreateWithoutPostInput {
-  id?: Maybe<ID_Input>;
-  publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
+  discussionLevel?: Maybe<Int>;
   edited?: Maybe<Boolean>;
+  id?: Maybe<ID_Input>;
+  publishedAt: DateTimeInput;
   replies?: Maybe<ReplyCreateManyWithoutCommentInput>;
   title?: Maybe<String>;
 }
@@ -1073,12 +1085,13 @@ export interface CommentCreateOneWithoutRepliesInput {
 }
 
 export interface CommentCreateWithoutRepliesInput {
-  id?: Maybe<ID_Input>;
-  publishedAt: DateTimeInput;
   author: UserCreateOneInput;
   content: String;
+  discussionLevel?: Maybe<Int>;
   edited?: Maybe<Boolean>;
+  id?: Maybe<ID_Input>;
   post: PostCreateOneWithoutCommentsInput;
+  publishedAt: DateTimeInput;
   title?: Maybe<String>;
 }
 
@@ -1116,11 +1129,12 @@ export interface NotificationCreateWithoutPostInput {
 }
 
 export interface CommentUpdateInput {
-  publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
+  discussionLevel?: Maybe<Int>;
   edited?: Maybe<Boolean>;
   post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
+  publishedAt?: Maybe<DateTimeInput>;
   replies?: Maybe<ReplyUpdateManyWithoutCommentInput>;
   title?: Maybe<String>;
 }
@@ -1240,10 +1254,11 @@ export interface CommentUpdateWithWhereUniqueWithoutPostInput {
 }
 
 export interface CommentUpdateWithoutPostDataInput {
-  publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
+  discussionLevel?: Maybe<Int>;
   edited?: Maybe<Boolean>;
+  publishedAt?: Maybe<DateTimeInput>;
   replies?: Maybe<ReplyUpdateManyWithoutCommentInput>;
   title?: Maybe<String>;
 }
@@ -1481,11 +1496,12 @@ export interface CommentUpdateOneRequiredWithoutRepliesInput {
 }
 
 export interface CommentUpdateWithoutRepliesDataInput {
-  publishedAt?: Maybe<DateTimeInput>;
   author?: Maybe<UserUpdateOneRequiredInput>;
   content?: Maybe<String>;
+  discussionLevel?: Maybe<Int>;
   edited?: Maybe<Boolean>;
   post?: Maybe<PostUpdateOneRequiredWithoutCommentsInput>;
+  publishedAt?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
 }
 
@@ -1855,44 +1871,6 @@ export interface CommentUpsertWithWhereUniqueWithoutPostInput {
 }
 
 export interface CommentScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
-  publishedAt?: Maybe<DateTimeInput>;
-  publishedAt_not?: Maybe<DateTimeInput>;
-  publishedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  publishedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  publishedAt_lt?: Maybe<DateTimeInput>;
-  publishedAt_lte?: Maybe<DateTimeInput>;
-  publishedAt_gt?: Maybe<DateTimeInput>;
-  publishedAt_gte?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
   content_not?: Maybe<String>;
   content_in?: Maybe<String[] | String>;
@@ -1907,8 +1885,46 @@ export interface CommentScalarWhereInput {
   content_not_starts_with?: Maybe<String>;
   content_ends_with?: Maybe<String>;
   content_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  discussionLevel?: Maybe<Int>;
+  discussionLevel_not?: Maybe<Int>;
+  discussionLevel_in?: Maybe<Int[] | Int>;
+  discussionLevel_not_in?: Maybe<Int[] | Int>;
+  discussionLevel_lt?: Maybe<Int>;
+  discussionLevel_lte?: Maybe<Int>;
+  discussionLevel_gt?: Maybe<Int>;
+  discussionLevel_gte?: Maybe<Int>;
   edited?: Maybe<Boolean>;
   edited_not?: Maybe<Boolean>;
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  publishedAt?: Maybe<DateTimeInput>;
+  publishedAt_not?: Maybe<DateTimeInput>;
+  publishedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  publishedAt_lt?: Maybe<DateTimeInput>;
+  publishedAt_lte?: Maybe<DateTimeInput>;
+  publishedAt_gt?: Maybe<DateTimeInput>;
+  publishedAt_gte?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
   title_not?: Maybe<String>;
   title_in?: Maybe<String[] | String>;
@@ -1923,6 +1939,14 @@ export interface CommentScalarWhereInput {
   title_not_starts_with?: Maybe<String>;
   title_ends_with?: Maybe<String>;
   title_not_ends_with?: Maybe<String>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
   OR?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
   NOT?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
@@ -1934,9 +1958,10 @@ export interface CommentUpdateManyWithWhereNestedInput {
 }
 
 export interface CommentUpdateManyDataInput {
-  publishedAt?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
+  discussionLevel?: Maybe<Int>;
   edited?: Maybe<Boolean>;
+  publishedAt?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
 }
 
@@ -2117,9 +2142,10 @@ export interface UserUpsertNestedInput {
 }
 
 export interface CommentUpdateManyMutationInput {
-  publishedAt?: Maybe<DateTimeInput>;
   content?: Maybe<String>;
+  discussionLevel?: Maybe<Int>;
   edited?: Maybe<Boolean>;
+  publishedAt?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
 }
 
@@ -2328,24 +2354,25 @@ export interface NodeNode {
 }
 
 export interface Comment {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  publishedAt: DateTimeOutput;
   content: String;
+  createdAt: DateTimeOutput;
+  discussionLevel: Int;
   edited: Boolean;
+  id: ID_Output;
+  publishedAt: DateTimeOutput;
   title?: String;
+  updatedAt: DateTimeOutput;
 }
 
 export interface CommentPromise extends Promise<Comment>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  publishedAt: () => Promise<DateTimeOutput>;
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  discussionLevel: () => Promise<Int>;
   edited: () => Promise<Boolean>;
+  id: () => Promise<ID_Output>;
   post: <T = PostPromise>() => T;
+  publishedAt: () => Promise<DateTimeOutput>;
   replies: <T = FragmentableArray<Reply>>(args?: {
     where?: ReplyWhereInput;
     orderBy?: ReplyOrderByInput;
@@ -2356,19 +2383,20 @@ export interface CommentPromise extends Promise<Comment>, Fragmentable {
     last?: Int;
   }) => T;
   title: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface CommentSubscription
   extends Promise<AsyncIterator<Comment>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   author: <T = UserSubscription>() => T;
   content: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  discussionLevel: () => Promise<AsyncIterator<Int>>;
   edited: () => Promise<AsyncIterator<Boolean>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
   post: <T = PostSubscription>() => T;
+  publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   replies: <T = Promise<AsyncIterator<ReplySubscription>>>(args?: {
     where?: ReplyWhereInput;
     orderBy?: ReplyOrderByInput;
@@ -2379,19 +2407,20 @@ export interface CommentSubscription
     last?: Int;
   }) => T;
   title: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface CommentNullablePromise
   extends Promise<Comment | null>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  publishedAt: () => Promise<DateTimeOutput>;
   author: <T = UserPromise>() => T;
   content: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  discussionLevel: () => Promise<Int>;
   edited: () => Promise<Boolean>;
+  id: () => Promise<ID_Output>;
   post: <T = PostPromise>() => T;
+  publishedAt: () => Promise<DateTimeOutput>;
   replies: <T = FragmentableArray<Reply>>(args?: {
     where?: ReplyWhereInput;
     orderBy?: ReplyOrderByInput;
@@ -2402,6 +2431,7 @@ export interface CommentNullablePromise
     last?: Int;
   }) => T;
   title: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface User {
@@ -3202,37 +3232,40 @@ export interface CommentSubscriptionPayloadSubscription
 }
 
 export interface CommentPreviousValues {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  publishedAt: DateTimeOutput;
   content: String;
+  createdAt: DateTimeOutput;
+  discussionLevel: Int;
   edited: Boolean;
+  id: ID_Output;
+  publishedAt: DateTimeOutput;
   title?: String;
+  updatedAt: DateTimeOutput;
 }
 
 export interface CommentPreviousValuesPromise
   extends Promise<CommentPreviousValues>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  publishedAt: () => Promise<DateTimeOutput>;
   content: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  discussionLevel: () => Promise<Int>;
   edited: () => Promise<Boolean>;
+  id: () => Promise<ID_Output>;
+  publishedAt: () => Promise<DateTimeOutput>;
   title: () => Promise<String>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface CommentPreviousValuesSubscription
   extends Promise<AsyncIterator<CommentPreviousValues>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   content: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  discussionLevel: () => Promise<AsyncIterator<Int>>;
   edited: () => Promise<AsyncIterator<Boolean>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  publishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   title: () => Promise<AsyncIterator<String>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface CommunitySubscriptionPayload {
@@ -3519,16 +3552,6 @@ export type ID_Input = string | number;
 export type ID_Output = string;
 
 /*
-DateTime scalar input type, allowing Date
-*/
-export type DateTimeInput = Date | string;
-
-/*
-DateTime scalar output type, which is always a string
-*/
-export type DateTimeOutput = string;
-
-/*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
 export type String = string;
@@ -3537,6 +3560,16 @@ export type String = string;
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
+
+/*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.

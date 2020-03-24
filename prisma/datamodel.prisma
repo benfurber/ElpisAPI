@@ -24,16 +24,17 @@ type User {
 }
 
 type Comment {
-  id: ID! @id
-  createdAt: DateTime! @createdAt
-  updatedAt: DateTime! @updatedAt
-  publishedAt: DateTime!
   author: User!
   content: String!
+  createdAt: DateTime! @createdAt
+  discussionLevel: Int! @default(value: 0)
   edited: Boolean! @default(value: false)
+  id: ID! @id
   post: Post! @relations(name: "CommentsForPost", onDelete: SET_NULL)
+  publishedAt: DateTime!
   replies: [Reply]! @relations(name: "RepliesForComment", onDelete: CASCADE)
   title: String
+  updatedAt: DateTime! @updatedAt
 }
 
 type Community {
