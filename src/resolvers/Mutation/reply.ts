@@ -22,7 +22,10 @@ export const reply = {
       publishedAt
     });
 
-    await createNotification({ reply, id }, ctx);
+    if (!replyingToSelf(userId, reply, ctx)) {
+      await createNotification({ reply, id }, ctx);
+    }
+
     return reply;
   },
 
@@ -80,4 +83,9 @@ async function createNotification({ reply, id }, ctx) {
     ctx,
     null
   );
+}
+
+async function replyingToSelf(userId: string, reply, ctx: Context) {
+  const commentAuthor = await ctx.prisma.reply({ id: reply.id }).author();
+  return userId === commentAuthor.id;
 }
