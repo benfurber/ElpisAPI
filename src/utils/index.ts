@@ -5,4 +5,5 @@ export { fetchMetaData } from "./fetch-meta-data";
 export { findUrlInContent } from "./find-url-in-content";
 export { generateString } from "./generate-string";
 export { getUserId } from "./get-user-id";
+export { hashPassword } from "./hash-password";
 export { notificationService } from "./notification-service";
