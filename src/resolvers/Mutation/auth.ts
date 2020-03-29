@@ -1,6 +1,12 @@
 import * as bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
-import { Context } from "../../utils";
+
+import {
+  Context,
+  emailService,
+  generateString,
+  hashPassword
+} from "../../utils";
 
 export const auth = {
   async login(parent, { email, password }, ctx: Context) {
@@ -28,5 +34,25 @@ export const auth = {
       token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
       user
     };
+  },
+
+  async requestPasswordReset(parent, args, ctx: Context) {
+    const email = args.email.toLowerCase();
+
+    let user = await ctx.prisma.user({ email });
+    if (!user) {
+      throw new Error(`No such user found for email: ${email}`);
+    }
+
+    const passwordRequest = generateString();
+
+    user = await ctx.prisma.updateUser({
+      data: { passwordRequest },
+      where: { id: user.id }
+    });
+
+    await emailService.sendPasswordReset(user);
+
+    return user;
   }
 };

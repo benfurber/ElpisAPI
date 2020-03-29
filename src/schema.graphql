@@ -48,6 +48,7 @@ type Mutation {
   linkUserProfilePicture(avatarPath: URL!): User!
   login(email: String!, password: String!): AuthPayload!
   publish(id: ID!): Post!
+  requestPasswordReset(email: String!): User!
   signup(
     email: String!
     password: String!
