@@ -21,6 +21,7 @@ type User {
   communities: [Community]! @relation(name: "AdminsForCommunity", onDelete: SET_NULL)
   onboarded: Boolean! @default(value: false)
   notifications: [Notification]! @relation(name: "NotificationsForUser", onDelete: CASCADE)
+  passwordRequest: String
 }
 
 type Comment {
