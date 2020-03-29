@@ -26,6 +26,32 @@ export const auth = {
     };
   },
 
+  async resetPassword(parent, args, ctx: Context) {
+    const { id, passwordRequest } = args;
+
+    const user = await ctx.prisma.user({ id });
+    if (!user || user.passwordRequest !== passwordRequest) {
+      throw new Error(
+        `Password not changed: No such user or password request token invalid`
+      );
+    }
+
+    const password = await hashPassword(args.password);
+    await ctx.prisma.updateUser({
+      data: { password, passwordRequest: null },
+      where: { id }
+    });
+
+    return await auth.login(
+      parent,
+      {
+        email: user.email,
+        password: args.password
+      },
+      ctx
+    );
+  },
+
   async signup(parent, args, ctx: Context) {
     const password = await bcrypt.hash(args.password, 10);
     const user = await ctx.prisma.createUser({ ...args, password });
