@@ -48,6 +48,12 @@ type Mutation {
   linkUserProfilePicture(avatarPath: URL!): User!
   login(email: String!, password: String!): AuthPayload!
   publish(id: ID!): Post!
+  requestPasswordReset(email: String!): User!
+  resetPassword(
+    id: ID!
+    passwordRequest: String!
+    password: String!
+  ): AuthPayload!
   signup(
     email: String!
     password: String!
@@ -77,6 +83,7 @@ type User {
   name: String!
   notifications: [Notification]!
   onboarded: Boolean!
+  passwordRequest: String
   totalReplies: Int
   totalTopics: Int
   unreadNotifications: Int!
