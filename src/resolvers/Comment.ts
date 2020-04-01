@@ -10,6 +10,9 @@ export const Comment = {
 
     return userId === author.id;
   },
+  post: ({ id }, args, ctx: Context) => {
+    return ctx.prisma.comment({ id }).post();
+  },
   replies: ({ id }, args, ctx: Context) => {
     return ctx.prisma.replies({ where: { comment: { id } } });
   },
