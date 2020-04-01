@@ -32,7 +32,7 @@ class PushNotification {
       return this.format({
         content,
         heading: `${name} ${leftAComment}`,
-        postId: id,
+        link: `reply/${contentId}`,
         userId
       });
     }
@@ -42,14 +42,14 @@ class PushNotification {
     return this.format({
       content: title,
       heading: `${name} ${published}`,
-      postId: contentId,
+      link: `post/${contentId}`,
       userId
     });
   }
 
-  format({ content, heading, postId, userId }): NotificationDetails {
+  format({ content, heading, link, userId }): NotificationDetails {
     return {
-      app_url: `elpis://notification/post/${postId}`,
+      app_url: `elpis://notification/${link}`,
       contents: {
         en: content
       },
