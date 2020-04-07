@@ -38,6 +38,12 @@ type Comment {
   updatedAt: DateTime! @updatedAt
 }
 
+type Conversation {
+  id: ID! @id
+  messages: [Message]!
+  participants: [User!]!
+}
+
 type Community {
   admins: [User!]! @relation(name: "AdminsForCommunity", onDelete: SET_NULL)
   avatarPath: String
@@ -68,4 +74,13 @@ type Notification {
   reply: Reply @relations(name: "NotificationsForReply", onDelete: SET_NULL)
   newNotification: Boolean! @default(value: true)
   type: String!
+}
+
+type Message {
+  author: User!
+  content: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  conversation: Conversation!
+  id: ID! @id
 }
