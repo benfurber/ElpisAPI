@@ -4,7 +4,9 @@ import { Mutation } from "./Mutation";
 
 import { Comment } from "./Comment";
 import { Community } from "./Community";
+import { Conversation } from "./Conversation";
 import { Link } from "./Link";
+import { Message } from "./Message";
 import { Notification } from "./Notification";
 import { Post } from "./Post";
 import { User } from "./User";
@@ -16,9 +18,11 @@ export default {
   Subscription,
   Comment,
   Community,
-  Notification,
+  Conversation,
   Link,
+  Message,
+  Notification,
   Post,
   Reply,
-  User
+  User,
 };

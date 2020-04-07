@@ -9,14 +9,18 @@ export const Query = {
     return ctx.prisma.community({ id });
   },
 
+  conversation(parent, { id }, ctx: Context) {
+    return ctx.prisma.conversation({ id });
+  },
+
   drafts(parent, args, ctx: Context) {
     const id = getUserId(ctx);
 
     const where = {
       published: false,
       author: {
-        id
-      }
+        id,
+      },
     };
 
     return ctx.prisma.posts({ where });
@@ -40,6 +44,10 @@ export const Query = {
     return ctx.prisma.user({ id });
   },
 
+  message(parent, { id }, ctx: Context) {
+    return ctx.prisma.message({ id });
+  },
+
   post(parent, { id }, ctx: Context) {
     return ctx.prisma.post({ id });
   },
@@ -50,5 +58,5 @@ export const Query = {
 
   user(parent, { id }, ctx: Context) {
     return ctx.prisma.user({ id });
-  }
+  },
 };
