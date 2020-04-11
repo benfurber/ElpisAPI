@@ -41,7 +41,7 @@ type Comment {
 
 type Conversation {
   id: ID! @id
-  messages: [Message]!
+  messages: [Message]! @relation(name: "MessagesForConversation")
   participants: [User!]! @relation(name: "UsersForConversation")
 }
 
@@ -82,6 +82,6 @@ type Message {
   content: String!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
-  conversation: Conversation!
+  conversation: Conversation! @relation(name: "MessagesForConversation", onDelete: SET_NULL)
   id: ID! @id
 }

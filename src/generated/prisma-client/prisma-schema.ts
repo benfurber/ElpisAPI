@@ -689,7 +689,12 @@ type ConversationConnection {
 input ConversationCreateInput {
   id: ID
   messages: MessageCreateManyWithoutConversationInput
-  participants: UserCreateManyInput
+  participants: UserCreateManyWithoutConversationsInput
+}
+
+input ConversationCreateManyWithoutParticipantsInput {
+  create: [ConversationCreateWithoutParticipantsInput!]
+  connect: [ConversationWhereUniqueInput!]
 }
 
 input ConversationCreateOneWithoutMessagesInput {
@@ -699,7 +704,12 @@ input ConversationCreateOneWithoutMessagesInput {
 
 input ConversationCreateWithoutMessagesInput {
   id: ID
-  participants: UserCreateManyInput
+  participants: UserCreateManyWithoutConversationsInput
+}
+
+input ConversationCreateWithoutParticipantsInput {
+  id: ID
+  messages: MessageCreateManyWithoutConversationInput
 }
 
 type ConversationEdge {
@@ -714,6 +724,26 @@ enum ConversationOrderByInput {
 
 type ConversationPreviousValues {
   id: ID!
+}
+
+input ConversationScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  AND: [ConversationScalarWhereInput!]
+  OR: [ConversationScalarWhereInput!]
+  NOT: [ConversationScalarWhereInput!]
 }
 
 type ConversationSubscriptionPayload {
@@ -736,7 +766,18 @@ input ConversationSubscriptionWhereInput {
 
 input ConversationUpdateInput {
   messages: MessageUpdateManyWithoutConversationInput
-  participants: UserUpdateManyInput
+  participants: UserUpdateManyWithoutConversationsInput
+}
+
+input ConversationUpdateManyWithoutParticipantsInput {
+  create: [ConversationCreateWithoutParticipantsInput!]
+  delete: [ConversationWhereUniqueInput!]
+  connect: [ConversationWhereUniqueInput!]
+  set: [ConversationWhereUniqueInput!]
+  disconnect: [ConversationWhereUniqueInput!]
+  update: [ConversationUpdateWithWhereUniqueWithoutParticipantsInput!]
+  upsert: [ConversationUpsertWithWhereUniqueWithoutParticipantsInput!]
+  deleteMany: [ConversationScalarWhereInput!]
 }
 
 input ConversationUpdateOneRequiredWithoutMessagesInput {
@@ -747,12 +788,27 @@ input ConversationUpdateOneRequiredWithoutMessagesInput {
 }
 
 input ConversationUpdateWithoutMessagesDataInput {
-  participants: UserUpdateManyInput
+  participants: UserUpdateManyWithoutConversationsInput
+}
+
+input ConversationUpdateWithoutParticipantsDataInput {
+  messages: MessageUpdateManyWithoutConversationInput
+}
+
+input ConversationUpdateWithWhereUniqueWithoutParticipantsInput {
+  where: ConversationWhereUniqueInput!
+  data: ConversationUpdateWithoutParticipantsDataInput!
 }
 
 input ConversationUpsertWithoutMessagesInput {
   update: ConversationUpdateWithoutMessagesDataInput!
   create: ConversationCreateWithoutMessagesInput!
+}
+
+input ConversationUpsertWithWhereUniqueWithoutParticipantsInput {
+  where: ConversationWhereUniqueInput!
+  update: ConversationUpdateWithoutParticipantsDataInput!
+  create: ConversationCreateWithoutParticipantsInput!
 }
 
 input ConversationWhereInput {
@@ -2262,6 +2318,7 @@ type User {
   name: String!
   avatarPath: String
   communities(where: CommunityWhereInput, orderBy: CommunityOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Community!]
+  conversations(where: ConversationWhereInput, orderBy: ConversationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Conversation!]
   onboarded: Boolean!
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
   passwordRequest: String
@@ -2280,18 +2337,19 @@ input UserCreateInput {
   name: String!
   avatarPath: String
   communities: CommunityCreateManyWithoutAdminsInput
+  conversations: ConversationCreateManyWithoutParticipantsInput
   onboarded: Boolean
   notifications: NotificationCreateManyWithoutUserInput
   passwordRequest: String
 }
 
-input UserCreateManyInput {
-  create: [UserCreateInput!]
+input UserCreateManyWithoutCommunitiesInput {
+  create: [UserCreateWithoutCommunitiesInput!]
   connect: [UserWhereUniqueInput!]
 }
 
-input UserCreateManyWithoutCommunitiesInput {
-  create: [UserCreateWithoutCommunitiesInput!]
+input UserCreateManyWithoutConversationsInput {
+  create: [UserCreateWithoutConversationsInput!]
   connect: [UserWhereUniqueInput!]
 }
 
@@ -2311,6 +2369,19 @@ input UserCreateWithoutCommunitiesInput {
   password: String!
   name: String!
   avatarPath: String
+  conversations: ConversationCreateManyWithoutParticipantsInput
+  onboarded: Boolean
+  notifications: NotificationCreateManyWithoutUserInput
+  passwordRequest: String
+}
+
+input UserCreateWithoutConversationsInput {
+  id: ID
+  email: String!
+  password: String!
+  name: String!
+  avatarPath: String
+  communities: CommunityCreateManyWithoutAdminsInput
   onboarded: Boolean
   notifications: NotificationCreateManyWithoutUserInput
   passwordRequest: String
@@ -2323,6 +2394,7 @@ input UserCreateWithoutNotificationsInput {
   name: String!
   avatarPath: String
   communities: CommunityCreateManyWithoutAdminsInput
+  conversations: ConversationCreateManyWithoutParticipantsInput
   onboarded: Boolean
   passwordRequest: String
 }
@@ -2475,6 +2547,7 @@ input UserUpdateDataInput {
   name: String
   avatarPath: String
   communities: CommunityUpdateManyWithoutAdminsInput
+  conversations: ConversationUpdateManyWithoutParticipantsInput
   onboarded: Boolean
   notifications: NotificationUpdateManyWithoutUserInput
   passwordRequest: String
@@ -2486,6 +2559,7 @@ input UserUpdateInput {
   name: String
   avatarPath: String
   communities: CommunityUpdateManyWithoutAdminsInput
+  conversations: ConversationUpdateManyWithoutParticipantsInput
   onboarded: Boolean
   notifications: NotificationUpdateManyWithoutUserInput
   passwordRequest: String
@@ -2498,18 +2572,6 @@ input UserUpdateManyDataInput {
   avatarPath: String
   onboarded: Boolean
   passwordRequest: String
-}
-
-input UserUpdateManyInput {
-  create: [UserCreateInput!]
-  update: [UserUpdateWithWhereUniqueNestedInput!]
-  upsert: [UserUpsertWithWhereUniqueNestedInput!]
-  delete: [UserWhereUniqueInput!]
-  connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
-  disconnect: [UserWhereUniqueInput!]
-  deleteMany: [UserScalarWhereInput!]
-  updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
 
 input UserUpdateManyMutationInput {
@@ -2529,6 +2591,18 @@ input UserUpdateManyWithoutCommunitiesInput {
   disconnect: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutCommunitiesInput!]
   upsert: [UserUpsertWithWhereUniqueWithoutCommunitiesInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
+input UserUpdateManyWithoutConversationsInput {
+  create: [UserCreateWithoutConversationsInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutConversationsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutConversationsInput!]
   deleteMany: [UserScalarWhereInput!]
   updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
@@ -2557,6 +2631,18 @@ input UserUpdateWithoutCommunitiesDataInput {
   password: String
   name: String
   avatarPath: String
+  conversations: ConversationUpdateManyWithoutParticipantsInput
+  onboarded: Boolean
+  notifications: NotificationUpdateManyWithoutUserInput
+  passwordRequest: String
+}
+
+input UserUpdateWithoutConversationsDataInput {
+  email: String
+  password: String
+  name: String
+  avatarPath: String
+  communities: CommunityUpdateManyWithoutAdminsInput
   onboarded: Boolean
   notifications: NotificationUpdateManyWithoutUserInput
   passwordRequest: String
@@ -2568,18 +2654,19 @@ input UserUpdateWithoutNotificationsDataInput {
   name: String
   avatarPath: String
   communities: CommunityUpdateManyWithoutAdminsInput
+  conversations: ConversationUpdateManyWithoutParticipantsInput
   onboarded: Boolean
   passwordRequest: String
-}
-
-input UserUpdateWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput!
-  data: UserUpdateDataInput!
 }
 
 input UserUpdateWithWhereUniqueWithoutCommunitiesInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutCommunitiesDataInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutConversationsInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutConversationsDataInput!
 }
 
 input UserUpsertNestedInput {
@@ -2592,16 +2679,16 @@ input UserUpsertWithoutNotificationsInput {
   create: UserCreateWithoutNotificationsInput!
 }
 
-input UserUpsertWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput!
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
-}
-
 input UserUpsertWithWhereUniqueWithoutCommunitiesInput {
   where: UserWhereUniqueInput!
   update: UserUpdateWithoutCommunitiesDataInput!
   create: UserCreateWithoutCommunitiesInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutConversationsInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutConversationsDataInput!
+  create: UserCreateWithoutConversationsInput!
 }
 
 input UserWhereInput {
@@ -2678,6 +2765,9 @@ input UserWhereInput {
   communities_every: CommunityWhereInput
   communities_some: CommunityWhereInput
   communities_none: CommunityWhereInput
+  conversations_every: ConversationWhereInput
+  conversations_some: ConversationWhereInput
+  conversations_none: ConversationWhereInput
   onboarded: Boolean
   onboarded_not: Boolean
   notifications_every: NotificationWhereInput

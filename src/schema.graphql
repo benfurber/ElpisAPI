@@ -1,5 +1,6 @@
 scalar DateTime
 scalar URL
+scalar MutationType
 
 type Query {
   comment(id: ID!): Comment
@@ -72,6 +73,7 @@ type Mutation {
 
 type Subscription {
   feedSubscription: Post
+  conversationSubscription(id: ID!): MessageSubscriptionPayload
 }
 
 type AuthPayload {
@@ -137,7 +139,13 @@ type Message {
   author: User!
   content: String!
   conversation: Conversation!
+  createdAt: DateTime!
   id: ID!
+}
+
+type MessageSubscriptionPayload {
+  mutation: MutationType
+  node: Message
 }
 
 type NotificationContent {
