@@ -79,20 +79,6 @@ type AuthPayload {
   user: User!
 }
 
-type User {
-  avatarPath: URL
-  communities: [Community]!
-  email: String!
-  id: ID!
-  name: String!
-  notifications: [Notification]!
-  onboarded: Boolean!
-  passwordRequest: String
-  totalReplies: Int
-  totalTopics: Int
-  unreadNotifications: Int!
-}
-
 type Post {
   id: ID!
   author: Community!
@@ -131,6 +117,7 @@ type Community {
 type Conversation {
   id: ID!
   messages: [Message]!
+  remainingParticipants: [User!]!
   participants: [User!]!
 }
 
@@ -176,4 +163,19 @@ type Link {
   publisher: String
   title: String!
   url: URL!
+}
+
+type User {
+  avatarPath: URL
+  communities: [Community]!
+  conversations: [Conversation]!
+  email: String!
+  id: ID!
+  name: String!
+  notifications: [Notification]!
+  onboarded: Boolean!
+  passwordRequest: String
+  totalReplies: Int
+  totalTopics: Int
+  unreadNotifications: Int!
 }

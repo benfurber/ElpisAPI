@@ -1,6 +1,9 @@
 import { Context } from "../utils";
 
 export const User = {
+  conversations: ({ id }, args, ctx: Context) => {
+    return ctx.prisma.conversations({ where: { participants_some: { id } } });
+  },
   notifications: ({ id }, args, ctx: Context) => {
     return ctx.prisma.user({ id }).notifications({ orderBy: "createdAt_DESC" });
   },
@@ -17,5 +20,5 @@ export const User = {
       .user({ id })
       .notifications({ where: { newNotification: true } });
     return total.length;
-  }
+  },
 };

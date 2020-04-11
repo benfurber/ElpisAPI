@@ -19,6 +19,7 @@ type User {
   name: String!
   avatarPath: String
   communities: [Community]! @relation(name: "AdminsForCommunity", onDelete: SET_NULL)
+  conversations: [Conversation]! @relation(name: "UsersForConversation")
   onboarded: Boolean! @default(value: false)
   notifications: [Notification]! @relation(name: "NotificationsForUser", onDelete: CASCADE)
   passwordRequest: String
@@ -41,7 +42,7 @@ type Comment {
 type Conversation {
   id: ID! @id
   messages: [Message]!
-  participants: [User!]!
+  participants: [User!]! @relation(name: "UsersForConversation")
 }
 
 type Community {
