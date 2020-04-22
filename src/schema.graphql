@@ -11,6 +11,7 @@ type Query {
   link(url: URL): Link
   me: User
   message(id: ID!): Message
+  messageFeed(conversationId: ID!, last: Int, before: ID): Conversation
   post(id: ID!): Post
   reply(id: ID!): Reply
   user(id: ID!): User
@@ -118,9 +119,9 @@ type Community {
 
 type Conversation {
   id: ID!
-  messages: [Message]!
-  remainingParticipants: [User!]!
-  participants: [User!]!
+  messages: [Message]
+  remainingParticipants: [User!]
+  participants: [User!]
 }
 
 type Reply {

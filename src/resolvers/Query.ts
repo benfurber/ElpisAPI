@@ -48,6 +48,20 @@ export const Query = {
     return ctx.prisma.message({ id });
   },
 
+  async messageFeed(parent, args, ctx: Context) {
+    const { before, conversationId, last } = args;
+    const id = conversationId;
+
+    const conversation = await ctx.prisma.conversation({ id });
+    const messages = await ctx.prisma
+      .conversation({ id })
+      .messages({ before, last });
+    return {
+      ...conversation,
+      messages,
+    };
+  },
+
   post(parent, { id }, ctx: Context) {
     return ctx.prisma.post({ id });
   },
