@@ -1,4 +1,10 @@
-import { Context, getUserId, fetchMetaData } from "../utils";
+import {
+  Context,
+  conversationCreateByUserIds,
+  conversationFindByUserIds,
+  getUserId,
+  fetchMetaData,
+} from "../utils";
 
 export const Query = {
   comment(parent, { id }, ctx: Context) {
@@ -33,6 +39,14 @@ export const Query = {
     const skip = args.skip || 0;
 
     return ctx.prisma.posts({ first, orderBy, skip, where });
+  },
+
+  async findConversation(parent, { userIds }, ctx: Context) {
+    const conversation = await conversationFindByUserIds(userIds, ctx);
+
+    if (!conversation) return await conversationCreateByUserIds(userIds, ctx);
+
+    return conversation;
   },
 
   async link(parent, { url }, ctx: Context) {

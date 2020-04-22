@@ -1,5 +1,7 @@
 export { AuthError } from "./auth-error";
 export { Context } from "./context";
+export { conversationCreateByUserIds } from "./conversation-create-by-user-ids";
+export { conversationFindByUserIds } from "./conversation-find-by-user-ids";
 export { dateNow } from "./date-now";
 export { emailService } from "./email-service";
 export { fetchMetaData } from "./fetch-meta-data";

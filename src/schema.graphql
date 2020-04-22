@@ -8,6 +8,7 @@ type Query {
   conversation(id: ID!): Conversation
   drafts: [Post!]!
   feed(first: Int, skip: Int): [Post!]!
+  findConversation(userIds: [ID!]): Conversation!
   link(url: URL): Link
   me: User
   message(id: ID!): Message
